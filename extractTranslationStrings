@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#
+#  STEP 1:
+#  extract all Stud.IP message strings and merge them with the existing translations
+#
+
+LOCALE_RELATIVE_PATH="./locale/"
+TRANSLATIONFILES_RELAVITVE_PATHS="./"
+
+for language in en
+do
+	test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po.old"
+	> "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.UTF-8.pot"
+	find $TRANSLATIONFILES_RELAVITVE_PATHS \( -iname "*.php" -o -iname "*.ihtml" \) | xargs xgettext --from-code=ISO-8859-1  -j -n --language=PHP -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.UTF-8.pot"
+	msgconv --to-code=CP1252 "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.UTF-8.pot" -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.pot"
+	test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po.old" && msgmerge "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po.old" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.pot" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po"
+done

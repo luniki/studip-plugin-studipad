@@ -1,0 +1,9 @@
+#!/bin/sh
+
+LOCALE_RELATIVE_PATH="./locale"
+
+for language in en
+do
+	test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.mo" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.mo" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.mo.old"
+	msgfmt -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.po" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/studipad.mo"
+done

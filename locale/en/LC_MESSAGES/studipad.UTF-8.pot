@@ -1,0 +1,185 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-07 16:29+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: templates/studipad.php:31
+msgid "neu"
+msgstr ""
+
+#: templates/studipad.php:35
+msgid "&ouml;ffentlich"
+msgstr ""
+
+#: templates/studipad.php:40
+msgid "Schreibgesch&uuml;tzt"
+msgstr ""
+
+#: templates/studipad.php:45
+msgid "Das Pad ist mit einem Passwort versehen."
+msgstr ""
+
+#: templates/studipad.php:53
+msgid "letzte &Auml;nderung"
+msgstr ""
+
+#: templates/studipad.php:77
+msgid "Einstellungen"
+msgstr ""
+
+#: templates/studipad.php:95
+msgid "Funktionen"
+msgstr ""
+
+#: templates/studipad.php:104
+msgid "Kontrollelemente anzeigen"
+msgstr ""
+
+#: templates/studipad.php:109
+msgid "Farbsteuerelemente anzeigen"
+msgstr ""
+
+#: templates/studipad.php:114
+msgid "Import- Exportelemente ein- oder ausblenden"
+msgstr ""
+
+#: templates/studipad.php:119
+msgid "Chat anzeigen"
+msgstr ""
+
+#: templates/studipad.php:124
+msgid "Zeilennummern anzeigen"
+msgstr ""
+
+#: templates/studipad.php:142
+msgid "Schutz und Sichtbarkeit au&szlig;erhalb Stud.IP"
+msgstr ""
+
+#: templates/studipad.php:149
+msgid "Schreibrechte entziehen (Schreibschutz)"
+msgstr ""
+
+#: templates/studipad.php:156
+msgid "Passwort löschen"
+msgstr ""
+
+#: templates/studipad.php:160
+msgid "Passwort"
+msgstr ""
+
+#: templates/studipad.php:162
+msgid "zuweisen"
+msgstr ""
+
+#: templates/studipad.php:164
+msgid ""
+"Wenn ein Passwort gesetzt wird kann das Pad nur nach Eingabe des Passwortes "
+"verwendet werden."
+msgstr ""
+
+#: templates/studipad.php:171
+msgid "Ver&ouml;ffentlichung beenden"
+msgstr ""
+
+#: templates/studipad.php:173 templates/studipad.php:180
+msgid ""
+"&#214;ffentliche Pads k&#246;nnen ohne Stud.IP-Zugang von jedem verwendet "
+"werden."
+msgstr ""
+
+#: templates/studipad.php:178
+msgid "Pad veröffentlichen"
+msgstr ""
+
+#: templates/studipad.php:188
+msgid "speichern"
+msgstr ""
+
+#: templates/studipad.php:195
+msgid "Pad löschen"
+msgstr ""
+
+#: templates/studipad.php:215
+msgid "Name des neuen Pads"
+msgstr ""
+
+#: templates/studipad.php:216
+msgid "anlegen"
+msgstr ""
+
+#: StudIPadPlugin.class.php:98
+#, php-format
+msgid "%d Pad(s)"
+msgstr ""
+
+#: StudIPadPlugin.class.php:119
+#, php-format
+msgid "%d Pad(s), %d neue"
+msgstr ""
+
+#: StudIPadPlugin.class.php:231
+msgid "Dies sollte nie zu sehen sein.."
+msgstr ""
+
+#: StudIPadPlugin.class.php:264
+#, php-format
+msgid "Soll das Pad \"%s\" wirklich gel&ouml;scht werden?"
+msgstr ""
+
+#: StudIPadPlugin.class.php:301
+#, php-format
+msgid "Das Pad \"%s\" wurde gel&ouml;scht."
+msgstr ""
+
+#: StudIPadPlugin.class.php:323
+msgid "Passwort wurde gesetzt."
+msgstr ""
+
+#: StudIPadPlugin.class.php:360
+msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
+msgstr ""
+
+#: StudIPadPlugin.class.php:364
+msgid "Pad Namen d&uuml;rfen nur aus Buchstaben und Zahlen bestehen."
+msgstr ""
+
+#: StudIPadPlugin.class.php:378
+msgid "Das Pad konnte nicht angelegt werden."
+msgstr ""
+
+#: StudIPadPlugin.class.php:385
+msgid "StudIPad Group konnte nicht angelegt werden."
+msgstr ""
+
+#: StudIPadPlugin.class.php:409
+msgid "Zur Zeit sind keine Stud.IPads f&uuml;r diese Veranstaltung vorhanden."
+msgstr ""
+
+#: StudIPadPlugin.class.php:465
+msgid "StudIPad Client Setup Fehler"
+msgstr ""
+
+#: StudIPadPlugin.class.php:535
+#, php-format
+msgid ""
+"Die Einstellungen f&uuml;r das Pad \"%s\" konnten nicht gespeichert werden!"
+msgstr ""
+
+#: StudIPadPlugin.class.php:537
+#, php-format
+msgid "Die Einstellungen f&uuml;r das Pad \"%s\" wurden gespeichert!"
+msgstr ""

@@ -1,0 +1,5 @@
+pluginname=StudIPad
+pluginclassname=StudIPadPlugin
+origin=ZMML
+version=2.6
+studipMinVersion=2.5

@@ -1,0 +1,187 @@
+#: templates/studipad.php:31
+msgid "neu"
+msgstr "new"
+
+#: templates/studipad.php:35
+msgid "&ouml;ffentlich"
+msgstr "public"
+
+#: templates/studipad.php:40
+msgid "Schreibgesch&uuml;tzt"
+msgstr "read only"
+
+#: templates/studipad.php:45
+msgid "Das Pad ist mit einem Passwort versehen."
+msgstr "The Pad does have a password."
+
+#: templates/studipad.php:53
+#, fuzzy
+msgid "letzte &Auml;nderung"
+msgstr "last changes"
+
+#: templates/studipad.php:77
+msgid "Einstellungen"
+msgstr "Settings"
+
+#: templates/studipad.php:95
+msgid "Funktionen"
+msgstr "Functions"
+
+#: templates/studipad.php:104
+msgid "Kontrollelemente anzeigen"
+msgstr "Show control elements"
+
+#: templates/studipad.php:109
+msgid "Farbsteuerelemente anzeigen"
+msgstr "Show colorcontrols"
+
+#: templates/studipad.php:114
+msgid "Import- Exportelemente ein- oder ausblenden"
+msgstr "Show import/export"
+
+#: templates/studipad.php:119
+msgid "Chat anzeigen"
+msgstr "Show Chat"
+
+#: templates/studipad.php:124
+msgid "Zeilennummern anzeigen"
+msgstr "Show linenumbers"
+
+#: templates/studipad.php:142
+msgid "Schutz und Sichtbarkeit au&szlig;erhalb Stud.IP"
+msgstr "Protection and visibility outside of Stud.IP"
+
+#: templates/studipad.php:149
+msgid "Schreibrechte entziehen (Schreibschutz)"
+msgstr "Write Protection"
+
+#: templates/studipad.php:156
+#, fuzzy
+msgid "Passwort lschen"
+msgstr "delete Password"
+
+#: templates/studipad.php:160
+msgid "Passwort"
+msgstr "Password"
+
+#: templates/studipad.php:162
+msgid "zuweisen"
+msgstr "set"
+
+#: templates/studipad.php:164
+#, fuzzy
+msgid ""
+"Wenn ein Passwort gesetzt wird kann das Pad nur nach Eingabe des Passwortes "
+"verwendet werden."
+msgstr "If a password is set you need the password to use the pad."
+
+#: templates/studipad.php:171
+#, fuzzy
+msgid "Ver&ouml;ffentlichung beenden"
+msgstr "public"
+
+#: templates/studipad.php:173 templates/studipad.php:180
+msgid ""
+"&#214;ffentliche Pads k&#246;nnen ohne Stud.IP-Zugang von jedem verwendet "
+"werden."
+msgstr "Public Pads can be used by everyone."
+
+#: templates/studipad.php:178
+#, fuzzy
+msgid "Pad verffentlichen:"
+msgstr "set pad to public"
+
+#: templates/studipad.php:188
+msgid "speichern"
+msgstr "save"
+
+#: templates/studipad.php:195
+#, fuzzy
+msgid "Pad lschen"
+msgstr "delete Pad"
+
+#: templates/studipad.php:215
+msgid "Name des neuen Pads"
+msgstr "Name of the new Pad"
+
+#: templates/studipad.php:216
+msgid "anlegen"
+msgstr "create"
+
+#: StudIPadPlugin.class.php:98
+#, php-format
+msgid "%d Pad(s)"
+msgstr "%d Pad(s)"
+
+#: StudIPadPlugin.class.php:119
+#, fuzzy, php-format
+msgid "%d Pad(s), %d neue"
+msgstr "%d Pad(s), %d new"
+
+#: StudIPadPlugin.class.php:231
+#, fuzzy
+msgid "Dies sollte nie zu sehen sein.."
+msgstr "This should never happen"
+
+#: StudIPadPlugin.class.php:264
+#, php-format
+msgid "Soll das Pad \"%s\" wirklich gel&ouml;scht werden?"
+msgstr "Do you really want to delete the Pad \"%s\"?"
+
+#: StudIPadPlugin.class.php:301
+#, php-format
+msgid "Das Pad \"%s\" wurde gel&ouml;scht."
+msgstr "Pad \"%s\" deleted."
+
+#: StudIPadPlugin.class.php:323
+msgid "Passwort wurde gesetzt."
+msgstr "Password has been set."
+
+#: StudIPadPlugin.class.php:360
+msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
+msgstr "The Pads name can not be longer than 32 characters."
+
+#: StudIPadPlugin.class.php:364
+msgid "Pad Namen d&uuml;rfen nur aus Buchstaben und Zahlen bestehen."
+msgstr "The Pads name may only contain numbers and letters."
+
+#: StudIPadPlugin.class.php:378
+msgid "Das Pad konnte nicht angelegt werden."
+msgstr "Could not create the pad."
+
+#: StudIPadPlugin.class.php:385
+#, fuzzy
+msgid "StudIPad Group konnte nicht angelegt werden."
+msgstr "Could not create StudIPad Site."
+
+#: StudIPadPlugin.class.php:409
+msgid "Zur Zeit sind keine Stud.IPads f&uuml;r diese Veranstaltung vorhanden."
+msgstr "No Pads created for this course."
+
+#: StudIPadPlugin.class.php:465
+#, fuzzy
+msgid "StudIPad Client Setup Fehler"
+msgstr "EhterPad Client Setup Error"
+
+#: StudIPadPlugin.class.php:535
+#, php-format
+msgid ""
+"Die Einstellungen f&uuml;r das Pad \"%s\" konnten nicht gespeichert werden!"
+msgstr "The Settings for pad \"%s\" could not be saved!"
+
+#: StudIPadPlugin.class.php:537
+#, php-format
+msgid "Die Einstellungen f&uuml;r das Pad \"%s\" wurden gespeichert!"
+msgstr "The Settings for pad \"%s\" have been saved!"
+
+#~ msgid "Information"
+#~ msgstr "Information"
+
+#~ msgid "Kurzes Demo-Video: So funktioniert Etherpad"
+#~ msgstr "Short Demo-Video about Etherpad"
+
+#~ msgid "&Ouml;ffentlich"
+#~ msgstr "public"
+
+#~ msgid "Pad Name"
+#~ msgstr "Pad Name"
