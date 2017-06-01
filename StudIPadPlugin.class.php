@@ -230,11 +230,20 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                                 }
 
                                 if ($action == 'open') {
-                                    header('Content-Type: text/html; charset=ISO-8859-1'); // wenn man HTML ausgeben möchte...
-                                    header('Location: '.$padurl);
+                                    // TODO: This has to be part of
+                                    // the configuration
+                                    $STUDIPPAD_BASEURL = dirname(Config::get()->getValue('STUDIPAD_PADBASEURL'));
+                                    $template = $this->template_factory->open('redirect');
+                                    $template->set_layout($layout);
+                                    $template->url = sprintf(
+                                        '%s/auth_session?sessionID=%s&groupID=%s&padName=%s',
+                                        $STUDIPPAD_BASEURL,
+                                        $sessionID,
+                                        $epl_groupid,
+                                        $pad
+                                    );
 
-                                    ob_start(create_function('$buffer', 'return "";'));
-                                    $template->error = dgettext('studipad', 'Dies sollte nie zu sehen sein..');
+                                    $template->padurl = $padurl;
                                 }
                             }
                         }
