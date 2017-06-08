@@ -159,7 +159,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
      */
     public function show_action()
     {
-        error_log(print_r($_REQUEST, true));
+        // error_log(print_r($_REQUEST, true));
         $semid = $GLOBALS['SessSemName'][1];
         $uid = $GLOBALS['auth']->auth['uid'];
 
