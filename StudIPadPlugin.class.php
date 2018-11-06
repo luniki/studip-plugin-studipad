@@ -1,7 +1,7 @@
 <?php
 /**
-* @author               Oliver Oster <oster@zmml.uni-bremen.de>
-*/
+ * @author Oliver Oster <oster@zmml.uni-bremen.de>
+ */
 
 // +---------------------------------------------------------------------------+
 // This file is NOT part of Stud.IP
@@ -41,10 +41,10 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
         $this->template_factory = new Flexi_TemplateFactory($template_path);
 
         $navigation = new Navigation('StudIPad', PluginEngine::getURL($this, array(), 'show'));
-        $navigation->setImage($this->getPluginURL().'/images/icons/ep_white.png', array('title' => 'StudIPad'));
+        $navigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', ICON::ROLE_INACTIVE, ['title' => 'StudIPad']));
 
         if (method_exists($navigation, 'setActiveImage')) {
-            $navigation->setActiveImage($this->getPluginURL().'/images/icons/ep_black.png', array('title' => 'StudIPad'));
+            $navigation->setActiveImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', ICON::ROLE_ATTENTION, ['title' => 'StudIPad']));
         }
 
         if (Navigation::hasItem('/course') && $this->isActivated()) {
@@ -99,8 +99,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                     if ($num_pads) {
                         $icon_title = sprintf(dgettext('studipad', '%d Pad(s)'), $num_pads);
                         $icon_navigation = new Navigation('StudIPad Icon', PluginEngine::getURL($this, array(), 'show'));
-                        $icon_navigation->setImage($this->getPluginURL().'/images/icons/ep_grey.png', array('title' => $icon_title));
-
+                        $icon_navigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', ICON::ROLE_INACTIVE, ['title' => $icon_title]));
                         $new_count = 0;
 
                         foreach ($pads as $pad) {
@@ -119,7 +118,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
                         if ($new_count > 0) {
                             $icon_title = sprintf(dgettext('studipad', '%d Pad(s), %d neue'), $num_pads, $new_count);
-                            $icon_navigation->setImage($this->getPluginURL().'/images/icons/ep_red.png', array('title' => $icon_title));
+                            $icon_navigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit-new.svg', ICON::ROLE_ATTENTION, ['title' => $icon_title]));
                         }
                     }
                 }
@@ -151,7 +150,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
     public function getDisplayTitle()
     {
-        return $_SESSION['SessSemName']['header_line'].' - '.'StudIPad';
+        return \Context::getHeaderLine().' - '.'StudIPad';
     }
 
     /**
@@ -159,8 +158,8 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
      */
     public function show_action()
     {
-        // error_log(print_r($_REQUEST, true));
-        $semid = $GLOBALS['SessSemName'][1];
+        error_log(print_r($_REQUEST, true));
+        $semid = Request::option('cid');
         $uid = $GLOBALS['auth']->auth['uid'];
 
         $last_visit = object_get_visit($semid, 'sem', 'last');
@@ -197,7 +196,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                             $result = $this->getReadOnlyId($epl_groupid.'$'.$pad);
 
                             if (!$result[0]) {
-                                $template->error = $result[2];
+                                $template->error = '1: '.$result[2];
                             } else {
                                 $padCallId = $result[1];
                             }
@@ -229,9 +228,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                                     $template->padurl = $padurl;
                                 }
 
-                                if ($action == 'open') {
-                                    // TODO: This has to be part of
-                                    // the configuration
+                                if ('open' == $action) {
                                     $STUDIPPAD_BASEURL = dirname(Config::get()->getValue('STUDIPAD_PADBASEURL'));
                                     $template = $this->template_factory->open('redirect');
                                     $template->set_layout($layout);
@@ -249,31 +246,31 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                         }
                     }
 
-                    if ($action == 'set_public' && $padadmin) {
+                    if ('set_public' == $action && $padadmin) {
                         try {
                             $this->epl_client->setPublicStatus($epl_groupid.'$'.$pad, 'true');
                         } catch (Exception $e) {
-                            $template->error = $e->getMessage();
+                            $template->error = '2:'.$e->getMessage();
                         }
                     }
 
-                    if ($action == 'unset_public' && $padadmin) {
+                    if ('unset_public' == $action && $padadmin) {
                         try {
                             $this->epl_client->setPublicStatus($epl_groupid.'$'.$pad, 'false');
                         } catch (Exception $e) {
-                            $template->error = $e->getMessage();
+                            $template->error = '3:'.$e->getMessage();
                         }
                     }
 
-                    if ($action == 'unset_password' && $padadmin) {
+                    if ('unset_password' == $action && $padadmin) {
                         try {
                             $this->epl_client->setPassword($epl_groupid.'$'.$pad, null);
                         } catch (Exception $e) {
-                            $template->error = $e->getMessage();
+                            $template->error = '4:'.$e->getMessage();
                         }
                     }
 
-                    if ($action == 'delete' && $padadmin) {
+                    if ('delete' == $action && $padadmin) {
                         $pad_title = $pad;
 
                         $msg = sprintf(dgettext('studipad', 'Soll das Pad "%s" wirklich gel&ouml;scht werden?'), $pad_title);
@@ -281,7 +278,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                         $template->message = $msg;
                     }
 
-                    if ($action == 'confirm_delete' && $padadmin) {
+                    if ('confirm_delete' == $action && $padadmin) {
                         $pad_title = $pad;
                         $del_ok = true;
 
@@ -289,29 +286,9 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                             $this->epl_client->deletePad($epl_groupid.'$'.$pad);
                         } catch (Exception $e) {
                             $del_ok = false;
-                            $template->error = $e->getMessage();
+                            $template->error = '5:'.$e->getMessage();
                         }
 
-                        /*
-                            //INSERTED EL 05.12.2014
-                            if($del_ok) {
-                                $db = DBManager::get();
-
-                                $sql = "DELETE FROM plugin_StudIPad_controls
-                                    WHERE pad_id = :padid
-                                    LIMIT 1
-                                   ";
-
-                                $prepared = $db->prepare($sql);
-                                $result = $prepared->execute(array('padid' => $epl_groupid.'$'.$pad));
-
-                                if($result) {
-                                } else {
-                                $template->error = dgettext('studipad',"Beim L&ouml;schen in der Datenbank ist ein Fehler aufgetreten!<br />Bitte wenden Sie sich an Ihren Systemadministrator!");
-                                }
-                            }
-                            //INSERTED END
-                            */
                         if ($del_ok) {
                             $msg = sprintf(dgettext('studipad', 'Das Pad "%s" wurde gel&ouml;scht.'), $pad);
                             $template->message = $msg;
@@ -321,13 +298,13 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
                 if (Request::submitted('set_pad_password') && $padadmin) {
                     /* Durch Änderungen an der HSRM ist das umgangen! EL 04.12.2014
-                    foreach(Request::getArray('pad_password') as $pwpadid => $padidpw){
-                        if(strlen($padidpw)>0){
-                            $padpassword=$padidpw;
-                            $pwpadid=$pwpadid;
-                            break;
-                        }
-                    }*/
+                       foreach(Request::getArray('pad_password') as $pwpadid => $padidpw){
+                       if(strlen($padidpw)>0){
+                       $padpassword=$padidpw;
+                       $pwpadid=$pwpadid;
+                       break;
+                       }
+                       }*/
 
                     //INSERTED BY EL 04.12.2014
                     $padid = Request::get('padid');
@@ -339,7 +316,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                         $this->epl_client->setPassword($epl_groupid.'$'.$padid, $padpassword);
                     } catch (Exception $e) {
                         unset($template->msg);
-                        $template->error = $e->getMessage();
+                        $template->error = '6:'.$e->getMessage();
                     }
                 }
 
@@ -348,17 +325,17 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                     $padname = Request::get('padid');
                     $padid = $epl_groupid.'$'.$padname;
 
-                    if ($this->getControlSet($padid, 'showControls') == '0' && Request::get('showControls') == true) {
+                    if ('0' == $this->getControlSet($padid, 'showControls') && true == Request::get('showControls')) {
                         $controlset = '1;1;1;1;1';
                     } else {
                         $controlset = ((Request::get('showControls')) ? 1 : 0).';'.
-                              ((Request::get('showColorBlock')) ? 1 : 0).';'.
-                              ((Request::get('showImportExportBlock')) ? 1 : 0).';'.
-                              ((Request::get('showChat')) ? 1 : 0).';'.
-                              ((Request::get('showLineNumbers')) ? 1 : 0);
+                                    ((Request::get('showColorBlock')) ? 1 : 0).';'.
+                                    ((Request::get('showImportExportBlock')) ? 1 : 0).';'.
+                                    ((Request::get('showChat')) ? 1 : 0).';'.
+                                    ((Request::get('showLineNumbers')) ? 1 : 0);
                     }
 
-                    if (Request::get('ReadOnly') == '1') {
+                    if ('1' == Request::get('ReadOnly')) {
                         $readonly = 1;
                     } else {
                         $readonly = 0;
@@ -475,7 +452,8 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                     $template->tpads = $tpads;
                 }
             } catch (Exception $ex) {
-                $template->error = $ex->getMessage();
+                $template->error = '7:'.$ex->getMessage();
+                error_log(print_r($ex, true));
             }
         } else {
             $template->error = dgettext('studipad', 'StudIPad Client Setup Fehler');
@@ -502,8 +480,8 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
     {
         $db = DBManager::get();
 
-        $sql = "SELECT readonly 
-			FROM plugin_StudIPad_controls 
+        $sql = "SELECT readonly
+			FROM plugin_StudIPad_controls
 			WHERE pad_id = '$padid'";
 
         $result = $db->query($sql)->fetchColumn();
@@ -534,7 +512,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
         }
 
         $sql = "SELECT controls
-			FROM plugin_StudIPad_controls 
+			FROM plugin_StudIPad_controls
 			WHERE pad_id = '$padid'";
 
         $result = $db->query($sql)->fetchColumn();

@@ -1,7 +1,7 @@
 <?php
 /**
-* @author               Eric Laubmeyer <eric.laubmeyer@hs-rm.de>
-*/
+ * @author               Eric Laubmeyer <eric.laubmeyer@hs-rm.de>
+ */
 
 // +---------------------------------------------------------------------------+
 // This file is NOT part of Stud.IP
@@ -21,27 +21,28 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // +---------------------------------------------------------------------------+
 
-class StudipadControls extends DBMigration {
-       
-  function description() {
-    return 'added control table for Stud.IPad plugin';
-  }
+class StudipadControls extends Migration
+{
+    public function description()
+    {
+        return 'added control table for Stud.IPad plugin';
+    }
 
-  function up() {
-    $this->db->query("
+    public function up()
+    {
+        $conn = DBManager::get();
+        $conn->query('
   CREATE TABLE IF NOT EXISTS `plugin_StudIPad_controls` (
-    `pad_id` varchar(100) NOT NULL, 
-    `controls` varchar(20) NOT NULL, 
+    `pad_id` varchar(100) NOT NULL,
+    `controls` varchar(20) NOT NULL,
 	`readonly` tinyint(1) NOT NULL,
     PRIMARY KEY  (`pad_id`)
-) DEFAULT CHARSET=latin1");
-  }
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;');
+    }
 
-  function down() {
-      $this->db->query("DROP TABLE plugin_StudIPad_controls");
-  }
+    public function down()
+    {
+        $conn = DBManager::get();
+        $conn->query('DROP TABLE plugin_StudIPad_controls');
+    }
 }
-
-?>
-
-

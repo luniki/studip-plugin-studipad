@@ -21,28 +21,54 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // +---------------------------------------------------------------------------+
 include 'etherpad-lite-client.php';
-class StudipadConfig extends DBMigration {
-       
-  function description() {
-    return 'config entries for Stud.IPad plugin';
-  }
 
-  function up() {
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES ('27950286f8bdeb8e6facd400f80e56fc', '', 'STUDIPAD_APIKEY', '', 0, 'string', 'global', 'studipad', 0, 0, 0, 'API Key für etherpad lite', '', '')");
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES ('3d67adadf067d4a31da5d5ac8bdf7125', '', 'STUDIPAD_PADBASEURL', 'http://pad2.elearning.uni-bremen.de/p', 0, 'string', 'global', 'studipad', 0, 0, 0, 'Basis URL für etherpad lite Pads', '', '')");
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES ('4ba8cfb4e2842d8430e868ad81c97689', '', 'STUDIPAD_APIURL', 'http://pad2.elearning.uni-bremen.de/api', 0, 'string', 'global', 'studipad', 0, 0, 0, 'URL to Etherpad Lite API', '', '')");
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES ('4ee5195445a80556bf4eb24f805ea8be', '', 'STUDIPAD_INITEXT', 'Welcome to Stud.IPad!\r\n\r\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text.  This allows you to collaborate seamlessly on documents!\r\n', 0, 'string', 'global', 'studipad', 0, 0, 0, 'Default Text für neue Pads ', '', '')");
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES ('ad5b21a83a03aaf963a657a66fbe91f6', '', 'STUDIPAD_COOKIE_DOMAIN', '.elearning.uni-bremen.de', 0, 'string', 'global', 'studipad', 0, 0, 0, 'Domain für etherpad lite Session Cookies', '', '')");
-  }
+class StudipadConfig extends Migration
+{
+    public function description()
+    {
+        return 'config entries for Stud.IPad plugin';
+    }
 
-  function down() {
-      $this->db->query("DELETE FROM `config` WHERE `config_id`='27950286f8bdeb8e6facd400f80e56fc'");
-      $this->db->query("DELETE FROM `config` WHERE `config_id`='3d67adadf067d4a31da5d5ac8bdf7125'");
-      $this->db->query("DELETE FROM `config` WHERE `config_id`='4ba8cfb4e2842d8430e868ad81c97689'");
-      $this->db->query("DELETE FROM `config` WHERE `config_id`='4ee5195445a80556bf4eb24f805ea8be'");
-      $this->db->query("DELETE FROM `config` WHERE `config_id`='ad5b21a83a03aaf963a657a66fbe91f6'");
-  }
-		    
+    public function up()
+    {
+        Config::get()->create(
+            'STUDIPAD_APIKEY',
+            [
+                'description' => 'API Key fÃ¼r etherpad lite.'
+            ]
+        );
+        Config::get()->create(
+            'STUDIPAD_PADBASEURL',
+            [
+                'description' => 'Basis URL fÃ¼r etherpad lite Pads.'
+            ]
+        );
+        Config::get()->create(
+            'STUDIPAD_APIURL',
+            [
+                'description' => 'URL to Etherpad Lite API.'
+            ]
+        );
+        Config::get()->create(
+            'STUDIPAD_INITEXT',
+            [
+                'description' => "Welcome to Stud.IPad!\r\n\r\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text.  This allows you to collaborate seamlessly on documents!\r\n"
+            ]
+        );
+        Config::get()->create(
+            'STUDIPAD_COOKIE_DOMAIN',
+            [
+                'description' => 'Domain fÃ¼r etherpad lite Session Cookies.'
+            ]
+        );
+    }
+
+    public function down()
+    {
+        Config::get()->delete('STUDIPAD_APIKEY');
+        Config::get()->delete('STUDIPAD_PADBASEURL');
+        Config::get()->delete('STUDIPAD_APIURL');
+        Config::get()->delete('STUDIPAD_INITEXT');
+        Config::get()->delete('STUDIPAD_COOKIE_DOMAIN');
+    }
 }
-
-?>

@@ -1,5 +1,8 @@
 pluginname=StudIPad
 pluginclassname=StudIPadPlugin
 origin=ZMML
-version=2.6
-studipMinVersion=2.5
+version=2.11
+studipMinVersion=4.0
+category=Kommunikation und Zusammenarbeit
+description=Gemeinsam Texte erstellen und die Texterstellung koordinieren
+descriptionlong=Erstellen Sie gemeinsam ein Dokument und verfolgen Sie den Ablauf der Texterstellung. Dieses Plugin ist ein wertvoller Begleiter bei der Erstellung von Gruppenarbeiten.

@@ -3,121 +3,113 @@
  *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  *
- * **/
+ **/
 
- function customStart()
-{
-    /** Get Params from URL **/
-    var parameters = getUrlVars();
+function customStart() {
+  /** Get Params from URL **/
+  var parameters = getUrlVars();
 
-    if (parameters == "40000")
-	return;
+  if (parameters == "40000") return;
 
-    /** Set language via cookie **/
-    document.cookie = "language="+parameters["language"]+"; path=/";
+  /** Set language via cookie **/
+  document.cookie = "language=" + parameters["language"] + "; path=/";
 
+  /**  **/
+  $("li[data-key='bold']").addClass("bold");
+  $("li[data-key='italic']").addClass("italic");
+  $("li[data-key='underline']").addClass("underline");
+  $("li[data-key='strikethrough']").addClass("strikethrough");
+  $("li[data-key='insertorderedlist']").addClass("insertorderedlist");
+  $("li[data-key='insertunorderedlist']").addClass("insertunorderedlist");
+  $("li[data-key='indent']").addClass("indent");
+  $("li[data-key='outdent']").addClass("outdent");
+  $("li[data-key='undo']").addClass("undo");
+  $("li[data-key='redo']").addClass("redo");
+  $("li[data-key='clearauthorship']").addClass("clearauthorship");
+  $("li[data-key='import_export']").addClass("import_export");
+  $("li[data-key='showTimeSlider']").addClass("showTimeSlider");
+  $("li[data-key='savedRevision']").addClass("savedRevision");
+  $("li[data-key='embed']").addClass("embed");
+  $("li[data-key='settings']").addClass("settings");
+  $("#myusernameedit").prop("readonly", true);
 
-    /**  **/
-    $( "li[data-key='bold']" ).addClass("bold");
-    $( "li[data-key='italic']" ).addClass("italic");
-    $( "li[data-key='underline']" ).addClass("underline");
-    $( "li[data-key='strikethrough']" ).addClass("strikethrough");
-    $( "li[data-key='insertorderedlist']" ).addClass("insertorderedlist");
-    $( "li[data-key='insertunorderedlist']" ).addClass("insertunorderedlist");
-    $( "li[data-key='indent']" ).addClass("indent");
-    $( "li[data-key='outdent']" ).addClass("outdent");
-    $( "li[data-key='undo']" ).addClass("undo");
-    $( "li[data-key='redo']" ).addClass("redo");
-    $( "li[data-key='clearauthorship']" ).addClass("clearauthorship");
-    $( "li[data-key='import_export']" ).addClass("import_export");
-    $( "li[data-key='showTimeSlider']" ).addClass("showTimeSlider");
-    $( "li[data-key='savedRevision']" ).addClass("savedRevision");
-    $( "li[data-key='embed']" ).addClass("embed");
-    $( "li[data-key='settings']" ).addClass("settings");
-    $( "#myusernameedit" ).prop('readonly', true);
+  /** Get rid of error in view if language is german **/
+  $("#mycolorpickersave").css({ padding: "2px", "min-width": "70px" });
+  $("#mycolorpickercancel").css({ padding: "2px", "min-width": "70px" });
+  /** Always hide Button for embedLinks (direct Link in Ilias should be used instaed) **/
+  $(".embed").hide();
+  /** Hide Settings Button (Settings are made in Ilias with tab settings) **/
+  $(".settings").hide();
+  /** Hide export doku wiki (comment this out if this is wanted) **/
+  $("#exportdokuwikia").hide();
+  $(".import_export a").removeClass("grouped-left");
+  $(".showTimeSlider a")
+    .removeClass("grouped-middle")
+    .addClass("grouped-left");
+  $("li[data-key='import_export']").after(
+    "<li class='separator'></li><li class='separator'></li>"
+  );
 
+  if (parameters["showStyleBlock"] != "true") {
+    $(".bold").hide();
+    $(".italic").hide();
+    $(".underline").hide();
+    $(".strikethrough").hide();
+  }
+  if (parameters["showListBlock"] != "true") {
+    $(".insertorderedlist").hide();
+    $(".insertunorderedlist").hide();
+    $(".indent").hide();
+    $(".outdent").hide();
+  }
+  if (parameters["showRedoBlock"] != "true") {
+    $(".undo").hide();
+    $(".redo").hide();
+  }
+  if (parameters["showColorBlock"] != "true") {
+    $(".clearauthorship").hide();
+  }
+  if (parameters["showHeadingBlock"] != "true") {
+    $("#heading-selection").hide();
+  }
+  if (parameters["showImportExportBlock"] != "true") {
+    $(".import_export").hide();
+  }
+  if (parameters["showTimelineBlock"] != "true") {
+    $(".showTimeSlider").hide();
+    $(".savedRevision").hide();
+  }
 
-    /** Get rid of error in view if language is german **/
-    $("#mycolorpickersave").css({"padding":"2px","min-width":"70px"});
-    $("#mycolorpickercancel").css({"padding":"2px","min-width":"70px"});
-    /** Always hide Button for embedLinks (direct Link in Ilias should be used instaed) **/
-    $(".embed").hide();
-    /** Hide Settings Button (Settings are made in Ilias with tab settings) **/
-    $(".settings").hide();
-    /** Hide export doku wiki (comment this out if this is wanted) **/
-    $("#exportdokuwikia").hide();
-    $(".import_export a").removeClass("grouped-left");
-    $(".showTimeSlider a").removeClass("grouped-middle").addClass("grouped-left");
-    $("li[data-key='import_export']").after("<li class='separator'></li><li class='separator'></li>");
-
-    if(parameters["showStyleBlock"] != "true")
-    {
-        $(".bold").hide();
-        $(".italic").hide();
-        $(".underline").hide();
-        $(".strikethrough").hide();
-    }
-    if(parameters["showListBlock"] != "true")
-    {
-        $(".insertorderedlist").hide();
-        $(".insertunorderedlist").hide();
-        $(".indent").hide();
-        $(".outdent").hide();
-    }
-    if(parameters["showRedoBlock"] != "true")
-    {
-        $(".undo").hide();
-        $(".redo").hide();
-    }
-    if(parameters["showColorBlock"] != "true")
-    {
-        $(".clearauthorship").hide();
-    }
-    if(parameters["showHeadingBlock"] != "true")
-    {
-        $("#heading-selection").hide();
-    }
-    if(parameters["showImportExportBlock"] != "true")
-    {
-        $(".import_export").hide();
-    }
-    if(parameters["showTimelineBlock"] != "true")
-    {
-        $(".showTimeSlider").hide();
-        $(".savedRevision").hide();
-    }
-
-    if(parameters["studip"])
-    {
-	$(".bold").show();
-        $(".italic").show();
-        $(".underline").show();
-        $(".strikethrough").show();
-        $(".insertorderedlist").show();
-        $(".insertunorderedlist").show();
-        $(".indent").show();
-        $(".outdent").show();
-        $(".undo").show();
-        $(".redo").show();
-        $("#heading-selection").show();
-        $(".showTimeSlider").show();
-        $(".savedRevision").show();
-    }
+  if (parameters["studip"]) {
+    $(".bold").show();
+    $(".italic").show();
+    $(".underline").show();
+    $(".strikethrough").show();
+    $(".insertorderedlist").show();
+    $(".insertunorderedlist").show();
+    $(".indent").show();
+    $(".outdent").show();
+    $(".undo").show();
+    $(".redo").show();
+    $("#heading-selection").show();
+    $(".showTimeSlider").show();
+    $(".savedRevision").show();
+  }
 }
 
-function getUrlVars()
-{
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    
-    if (window.location.search == "")
-	return "40000";
-    
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
+function getUrlVars() {
+  var vars = [],
+    hash;
+  var hashes = window.location.href
+    .slice(window.location.href.indexOf("?") + 1)
+    .split("&");
+
+  if (window.location.search == "") return "40000";
+
+  for (var i = 0; i < hashes.length; i++) {
+    hash = hashes[i].split("=");
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+  }
+  return vars;
 }

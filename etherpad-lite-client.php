@@ -39,7 +39,7 @@ class EtherpadLiteClient
         $arguments['apikey'] = $this->apiKey;
         $arguments = http_build_query($arguments, '', '&');
         $url = $this->baseUrl.'/'.self::API_VERSION.'/'.$function;
-        if ($method !== 'POST') {
+        if ('POST' !== $method) {
             $url .= '?'.$arguments;
         }
         // use curl of it's available
@@ -47,17 +47,16 @@ class EtherpadLiteClient
             $c = curl_init($url);
             curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($c, CURLOPT_TIMEOUT, 20);
-            curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-            if ($method === 'POST') {
+            if ('POST' === $method) {
                 curl_setopt($c, CURLOPT_POST, true);
                 curl_setopt($c, CURLOPT_POSTFIELDS, $arguments);
             }
             $result = curl_exec($c);
             curl_close($c);
-            // fallback to plain php
+        // fallback to plain php
         } else {
             $params = array('http' => array('method' => $method, 'ignore_errors' => true, 'header' => 'Content-Type:application/x-www-form-urlencoded'));
-            if ($method === 'POST') {
+            if ('POST' === $method) {
                 $params['http']['content'] = $arguments;
             }
             $context = stream_context_create($params);
@@ -70,7 +69,7 @@ class EtherpadLiteClient
         }
 
         $result = json_decode($result);
-        if ($result === null) {
+        if (null === $result) {
             throw new UnexpectedValueException('JSON response could not be decoded');
         }
 
@@ -90,17 +89,17 @@ class EtherpadLiteClient
         }
 
         switch ($result->code) {
-        case self::CODE_OK:
-            return $result->data;
-        case self::CODE_INVALID_PARAMETERS:
-        case self::CODE_INVALID_API_KEY:
-            throw new InvalidArgumentException($result->message);
-        case self::CODE_INTERNAL_ERROR:
-            throw new RuntimeException($result->message);
-        case self::CODE_INVALID_FUNCTION:
-            throw new BadFunctionCallException($result->message);
-        default:
-            throw new RuntimeException('An unexpected error occurred whilst handling the response');
+            case self::CODE_OK:
+                return $result->data;
+            case self::CODE_INVALID_PARAMETERS:
+            case self::CODE_INVALID_API_KEY:
+                throw new InvalidArgumentException($result->message);
+            case self::CODE_INTERNAL_ERROR:
+                throw new RuntimeException($result->message);
+            case self::CODE_INVALID_FUNCTION:
+                throw new BadFunctionCallException($result->message);
+            default:
+                throw new RuntimeException('An unexpected error occurred whilst handling the response');
         }
     }
 

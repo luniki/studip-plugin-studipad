@@ -1,7 +1,7 @@
 <?php
 /**
-* @author               Oliver Oster <oster@zmml.uni-bremen.de>
-*/
+ * @author               Oliver Oster <oster@zmml.uni-bremen.de>
+ */
 
 // +---------------------------------------------------------------------------+
 // This file is NOT part of Stud.IP
@@ -21,20 +21,27 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // +---------------------------------------------------------------------------+
 include 'etherpad-lite-client.php';
-class StudipadControlsConfig extends DBMigration {
-       
-  function description() {
-    return 'config entries for Stud.IPad plugin';
-  }
+class StudipadControlsConfig extends Migration
+{
+    public function description()
+    {
+        return 'config entries for Stud.IPad plugin';
+    }
 
-  function up() {
-    $this->db->query("INSERT IGNORE INTO `config` (`config_id`, `parent_id`, `field`, `value`, `is_default`, `type`, `range`, `section`, `position`, `mkdate`, `chdate`, `description`, `comment`, `message_template`) VALUES (md5('STUDIPAD_CONTROLS_DEFAULT'), '', 'STUDIPAD_CONTROLS_DEFAULT', '1', 1, 'boolean', 'global', 'studipad', 0, 0, 0, 'Control Elemente in Pads initial alle aktivieren.', '', '')");
-  }
+    public function up()
+    {
+        Config::get()->create(
+            'STUDIPAD_CONTROLS_DEFAULT',
+            [
+                'description' => 'Control Elemente in Pads initial alle aktivieren.',
+                'type' => 'boolean',
+                'value' => 1,
+            ]
+        );
+    }
 
-  function down() {
-      $this->db->query("DELETE FROM `config` WHERE `config_id`=md5('STUDIPAD_CONTROLS_DEFAULT')");
-  }
-		    
+    public function down()
+    {
+        Config::get()->delete('STUDIPAD_CONTROLS_DEFAULT');
+    }
 }
-
-?>
