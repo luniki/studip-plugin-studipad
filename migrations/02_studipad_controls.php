@@ -35,7 +35,7 @@ class StudipadControls extends Migration
   CREATE TABLE IF NOT EXISTS `plugin_StudIPad_controls` (
     `pad_id` varchar(100) NOT NULL,
     `controls` varchar(20) NOT NULL,
-	`readonly` tinyint(1) NOT NULL,
+    `readonly` tinyint(1) NOT NULL,
     PRIMARY KEY  (`pad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;');
     }

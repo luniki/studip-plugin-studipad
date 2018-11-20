@@ -53,17 +53,10 @@ if (!isset($padurl)) {
                 } ?>
             </td>
 
-            <?php
-            if (!(isset($padadmin) && $padadmin)) {
-            ?>
+            <?php if (!(isset($padadmin) && $padadmin)) { ?>
                 <td></td>
-            <?php
-            }
-            /* Kein IFrame gewÃ¼nscht
-               <!-- <td align="right">
-               <a id="start<?= $padid ?>" href="<?= PluginEngine::getLink('studipadplugin',array('action' => 'openi' , 'pad' => $padid)) ?>" target="_self">
-               <?= makeButton('start', 'img', false, 'open_pad')?></a>
-               </td> --> */ ?>
+            <?php } ?>
+
             <td align="center">
                 <a id="start<?= $padid; ?>" href="<?= PluginEngine::getLink('studipadplugin', array('action' => 'open', 'pad' => $padid)); ?>">
                     <?= Icon::create(
