@@ -79,22 +79,6 @@ function customStart() {
     $(".showTimeSlider").hide();
     $(".savedRevision").hide();
   }
-
-  if (parameters["studip"]) {
-    $(".bold").show();
-    $(".italic").show();
-    $(".underline").show();
-    $(".strikethrough").show();
-    $(".insertorderedlist").show();
-    $(".insertunorderedlist").show();
-    $(".indent").show();
-    $(".outdent").show();
-    $(".undo").show();
-    $(".redo").show();
-    $("#heading-selection").show();
-    $(".showTimeSlider").show();
-    $(".savedRevision").show();
-  }
 }
 
 function getUrlVars() {

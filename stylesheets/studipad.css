@@ -1,3 +1,29 @@
 form.studipad-new-pad {
     margin-top: 3em;
 }
+
+.studipad-settings label.checkbox {
+    font-weight: 400 !important;
+
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1.25;
+    position: relative;
+}
+
+.studipad-settings label.checkbox input {
+    cursor: pointer;
+}
+
+.studipad-settings label.checkbox[disabled] {
+    color: var(--dark-gray-color-80);
+    cursor: not-allowed;
+}
+
+.studipad-new-content {
+    color: var(--red);
+}
+
+.studipad-pads-index td > a {
+    display: block;
+}

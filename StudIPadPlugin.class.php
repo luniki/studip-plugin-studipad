@@ -1,4 +1,5 @@
 <?php
+
 // +---------------------------------------------------------------------------+
 // This file is NOT part of Stud.IP
 // Copyright (C) 2011 Oliver Oster <oster@zmml.uni-bremen.de>
@@ -9,7 +10,6 @@
 
 // require composer autoloader
 require __DIR__.'/vendor/autoload.php';
-
 
 class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 {
@@ -78,7 +78,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
                 if ($numPads) {
                     $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
                     $iconNavigation = new Navigation('StudIPad Icon', PluginEngine::getURL($this, array(), ''));
-                    $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', ICON::ROLE_INACTIVE, ['title' => $iconTitle]));
+                    $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, ['title' => $iconTitle]));
                     $newCount = 0;
 
                     foreach ($pads as $pad) {
@@ -116,7 +116,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
         $icon = Icon::create(
             $this->getPluginURL().'/images/icons/EPedit.svg',
-            ICON::ROLE_INACTIVE,
+            \Icon::ROLE_INACTIVE,
             ['title' => 'StudIPad']
         );
         $navigation->setImage($icon);

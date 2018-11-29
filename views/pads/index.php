@@ -16,11 +16,11 @@ if (isset($message)) {
 }
 
 ?>
-<table class="default">
+<table class="default studipad-pads-index">
     <colgroup>
-        <col width="45%" />
-        <col width="30%" />
-        <col width="25%" />
+        <col width="50%" />
+        <col width="40%" />
+        <col width="10%" />
     </colgroup>
 
     <thead>
@@ -34,22 +34,26 @@ if (isset($message)) {
     <? foreach ($tpads as $padid => $pad) { ?>
         <tr>
             <td>
-                <span style="font-size:1em"><?= htmlReady($pad['title']) ?></span>
-                <? if ($pad['new']) { ?>
-                    <span style="color: red"><?= dgettext('studipad', 'neu') ?></span>
-                <? } ?>
+                <a href="<?= $controller->link_for('pads/open', $padid) ?>"
+                   target="_blank" rel="noreferrer noopener">
 
-                <? if ($pad['public']) { ?>
-                    (<?= dgettext('studipad', 'öffentlich') ?>)
-                <? } ?>
+                    <?= htmlReady($pad['title']) ?>
+                    <? if ($pad['new']) { ?>
+                        <span class="studipad-new-content"><?= dgettext('studipad', 'neu') ?></span>
+                    <? } ?>
 
-                <? if ($pad['readOnly']) { ?>
-                    (<?= dgettext('studipad', 'schreibgeschützt') ?>)
-                <? } ?>
+                    <? if ($pad['public']) { ?>
+                        (<?= dgettext('studipad', 'öffentlich') ?>)
+                    <? } ?>
 
-                <? if ($pad['hasPassword']) { ?>
-                    <?= Icon::create('lock-locked', Icon::ROLE_ATTENTION, ['title' => dgettext('studipad', 'Das Pad ist mit einem Passwort versehen.')]) ?>
-                <? } ?>
+                    <? if ($pad['readOnly']) { ?>
+                        (<?= dgettext('studipad', 'schreibgeschützt') ?>)
+                    <? } ?>
+
+                    <? if ($pad['hasPassword']) { ?>
+                        <?= Icon::create('lock-locked', Icon::ROLE_ATTENTION, ['title' => dgettext('studipad', 'Das Pad ist mit einem Passwort versehen.')]) ?>
+                    <? } ?>
+                </a>
             </td>
 
             <td>
@@ -59,18 +63,16 @@ if (isset($message)) {
             </td>
 
             <td class="actions">
-                <?= Studip\LinkButton::create(
-                    dgettext('studipad', 'Öffnen'),
-                    $controller->url_for('pads/open', $padid),
-                    [
-                        'target' => '_blank',
-                        'rel' => 'noreferrer noopener'
-                    ]
-                ) ?>
-
                 <? if ($padadmin) { ?>
                     <?=
                     \ActionMenu::get()
+                               ->addLink(
+                                   $controller->url_for('pads/open', $padid),
+                                   dgettext('studipad', 'Öffnen'),
+                                   Icon::create('link-extern'),
+                                   ['data-dialog' => '']
+                               )
+
                                ->addLink(
                                    $controller->url_for('pads/settings', $padid),
                                    dgettext('studipad', 'Einstellungen'),
@@ -78,7 +80,7 @@ if (isset($message)) {
                                    ['data-dialog' => '']
                                )
 
-                               ->condition(!$pad['readOnly'])
+                               ->condition(false && !$pad['readOnly'])
                                ->addLink(
                                    $controller->url_for('pads/export_pdf', $padid),
                                    dgettext('studipad', 'Export als PDF'),

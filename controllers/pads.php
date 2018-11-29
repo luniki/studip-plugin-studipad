@@ -91,8 +91,7 @@ class PadsController extends StudipController
     {
         $eplGroupId = $this->requireGroup();
         $padCallId = $eplGroupId.'$'.$pad;
-        $url = $this->redirectToEtherpad($pad).'&studip=true'.$this->getHtmlControlString($padCallId);
-        var_dump($url);
+        $url = $this->redirectToEtherpad($pad).$this->getHtmlControlString($padCallId);
         $this->redirect($url);
     }
 
@@ -305,29 +304,22 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    public function snapshot_action($padid)
+    public function snapshot_action($pad)
     {
         $this->requireTutor();
+        $pad = $this->requirePad($pad);
 
-        if (!$taskId = \CronjobTask::findOneByFilename(\StudIPadPlugin::SNAPSHOTTER)->task_id) {
-            $this->flash['error'] = dgettext('studipad', 'Es konnte kein Snapshot des Pads erstellt werden.');
-        } else {
-            \CronjobScheduler::scheduleOnce(
-                $taskId,
-                strtotime('+5 seconds'),
-                \CronjobSchedule::PRIORITY_NORMAL,
-                [
-                    'userid' => $this->getCurrentUser()->id,
-                    'cid' => \Context::getId(),
-                    'pad' => $padid,
-                ]
-            )->activate();
+        $fileRef = $this->storeSnapshot($this->getCurrentUser(), \Context::get(), $pad);
 
-            $this->flash['message'] = dgettext(
+        $url = URLHelper::getLink(sprintf('dispatch.php/course/files/index/%s#fileref_%s', $fileRef->folder_id, $fileRef->id), ['cid' => \Context::getId()], true);
+
+        $this->flash['message'] = sprintf(
+            dgettext(
                 'studipad',
-                'Der aktuelle Inhalt des Pads wird in einigen Sekunden gesichert.'
-            );
-        }
+                'Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href="%s">im Dateibereich</a> gesichert.'
+            ),
+            $url
+        );
 
         $this->redirect('');
     }
@@ -621,5 +613,68 @@ class PadsController extends StudipController
             $eplSid->sessionID,
             $this->getPadCallId($eplGroupId, $pad)
         );
+    }
+
+    protected function storeSnapshot(\User $user, \Course $course, $pad)
+    {
+        try {
+            $eplGroupId = $this->requireGroup();
+
+            return $this->saveAsPDF(
+                $user,
+                $course,
+                $pad,
+                $this->client->getHTML($eplGroupId.'$'.$pad)->html
+            );
+        } catch (Exception $ex) {
+            $this->flash['error'] = $ex->getMessage();
+
+            return $this->redirect('');
+        }
+    }
+
+    private function saveAsPDF(\User $user, \Course $course, $pad, $html)
+    {
+        if (!$folder = \Folder::findTopFolder($course->id)) {
+            throw new \RuntimeException('Could not find top folder.');
+        }
+
+        $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad, date('c')));
+        if (!$file = \File::create(['user_id' => $user->id, 'mime_type' => 'application/pdf', 'name' => $filename, 'storage' => 'disk'])) {
+            throw new \RuntimeException('Could not store file.');
+        }
+
+        if (!$fileRef = \FileRef::create(['file_id' => $file->id, 'folder_id' => $folder->id, 'user_id' => $user->id, 'name' => $file->name])) {
+            throw new \RuntimeException('Could not store file ref.');
+        }
+
+        $tmp = $this->createPDF($course, $pad, $html);
+        $stored = $file->connectWithDataFile($tmp);
+        @unlink($tmp);
+        if (!$stored) {
+            throw new \RuntimeException('Could not store PDF.');
+        }
+
+        $file->size = filesize($file->getPath());
+        $file->store();
+
+        return $fileRef;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    private function createPDF(\Course $course, $pad, $html)
+    {
+        $doc = new \ExportPDF();
+        $doc->setHeaderTitle('Etherpad-Dokument: '.$pad);
+        $doc->setHeaderSubtitle($course->getFullname().' – StudIPad');
+        $doc->addPage();
+        $doc->writeHTML($html);
+
+        $tmpPath = tempnam($GLOBALS['TMP_PATH'], 'studipad');
+        $doc->Output($tmpPath, 'F');
+
+        return $tmpPath;
     }
 }

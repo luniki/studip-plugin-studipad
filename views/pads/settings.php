@@ -1,23 +1,4 @@
-<style>
-label.checkbox {
-    font-weight: 400 !important;
-
-    cursor: pointer;
-    display: inline-block;
-    line-height: 1.25;
-    position: relative;
-}
-label.checkbox input {
-    cursor: pointer;
-}
-
-label.checkbox[disabled] {
-    color: var(--dark-gray-color-80);
-    cursor: not-allowed;
-}
-</style>
-
-<form class="default" action="<?= $controller->url_for('pads/store_settings', $padid) ?>" method="POST">
+<form class="default studipad-settings" action="<?= $controller->url_for('pads/store_settings', $padid) ?>" method="POST">
     <fieldset>
         <legend><?= dgettext('studipad', 'Etherpad Toolbar') ?></legend>
 
