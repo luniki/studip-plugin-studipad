@@ -3,20 +3,22 @@
         <legend><?= dgettext('studipad', 'Etherpad Toolbar') ?></legend>
 
         <label class="checkbox">
-            <input type="checkbox" name="showControls" value="true"<?= $pad['showControls'] ? ' checked' : '' ?>>
+            <input type="checkbox" name="showControls" value="true" data-activates=".subcontrol"
+                   <?= $pad['showControls'] ? ' checked' : '' ?>>
             <?= dgettext('studipad', 'Kontrollelemente anzeigen') ?>
         </label>
 
         <? $disabled = $pad['showControls'] ? '' : ' disabled ' ?>
 
         <label class="checkbox"<?= $disabled?>>
-            <input type="checkbox" name="showColorBlock" value="true"
-                   <?= ($pad['showColorBlock'] && $pad['showControls']) ? 'checked' : '' ?><?= $disabled?>>
+            <input type="checkbox" name="showColorBlock" value="true" class="subcontrol"
+                   <?= ($pad['showColorBlock'] && $pad['showControls']) ? 'checked' : '' ?>
+                   <?= $disabled?>>
             <?= dgettext('studipad', 'Farbsteuerelemente anzeigen') ?>
         </label>
 
-        <label class="checkbox"<?= $disabled ?>>
-            <input type="checkbox" name="showImportExportBlock" value="true"
+        <label class="checkbox "<?= $disabled ?>>
+            <input type="checkbox" name="showImportExportBlock" value="true" class="subcontrol"
                    <?= ($pad['showImportExportBlock'] && $pad['showControls']) ? ' checked' : '' ?>
                    <?= $disabled ?>>
             <?= dgettext('studipad', 'Import-/Exportelemente ein- oder ausblenden') ?>

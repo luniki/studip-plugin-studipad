@@ -20,7 +20,6 @@ class PadsController extends StudipController
             throw new \AccessDeniedException();
         }
 
-        $this->flash = Trails_Flash::instance();
         $this->set_layout(
             $GLOBALS['template_factory']->open(\Request::isXhr() ? 'layouts/dialog' : 'layouts/base')
         );
@@ -109,13 +108,13 @@ class PadsController extends StudipController
             $pads = $grouppads->padIDs;
             $tpads = $this->getPads(\Context::getId(), $eplGroupId, $pads);
         } catch (\Exception $e) {
-            $this->flash['error'] = $e->getMessage();
+            \PageLayout::postError($e->getMessage());
 
             return $this->redirect('');
         }
 
         if (!isset($tpads[$padid])) {
-            $this->flash['error'] = 'Dieses Pad konnte nicht gefunden werden.';
+            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
 
             return $this->redirect('');
         }
@@ -138,8 +137,8 @@ class PadsController extends StudipController
             $controls[$key] = \Request::get($key) ? 1 : 0;
         }
         $this->setControls($padid, $controls);
+        \PageLayout::postInfo(dgettext('studipad', 'Einstellungen gespeichert.'));
 
-        $this->flash['message'] = dgettext('studipad', 'Einstellungen gespeichert.');
         $this->redirect('');
     }
 
@@ -163,9 +162,9 @@ class PadsController extends StudipController
         try {
             $padpassword = \Request::get('pad_password');
             $this->client->setPassword($eplGroupId.'$'.$padid, $padpassword);
-            $this->flash['message'] = dgettext('studipad', 'Passwort gesetzt.');
+            \PageLayout::postInfo(dgettext('studipad', 'Passwort gesetzt.'));
         } catch (Exception $e) {
-            $this->flash['error'] = dgettext('studipad', 'Das Passwort des Pads konnte nicht gesetzt werden.');
+            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht gesetzt werden.'));
         }
 
         $this->redirect('');
@@ -181,9 +180,9 @@ class PadsController extends StudipController
 
         try {
             $this->client->setPassword($eplGroupId.'$'.$padid, null);
-            $this->flash['message'] = dgettext('studipad', 'Passwort entfernt.');
+            \PageLayout::postInfo(dgettext('studipad', 'Passwort entfernt.'));
         } catch (Exception $e) {
-            $this->flash['error'] = dgettext('studipad', 'Das Passwort des Pads konnte nicht entfernt werden.');
+            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht entfernt werden.'));
         }
 
         $this->redirect('');
@@ -198,7 +197,7 @@ class PadsController extends StudipController
         $eplGroupId = $this->requireGroup();
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 1);
-        $this->flash['message'] = dgettext('studipad', 'Schreibschutz aktiviert.');
+        \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz aktiviert.'));
         $this->redirect('');
     }
 
@@ -211,7 +210,7 @@ class PadsController extends StudipController
         $eplGroupId = $this->requireGroup();
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 0);
-        $this->flash['message'] = dgettext('studipad', 'Schreibschutz deaktiviert.');
+        \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz deaktiviert.'));
         $this->redirect('');
     }
 
@@ -225,9 +224,9 @@ class PadsController extends StudipController
 
         try {
             $this->client->setPublicStatus($eplGroupId.'$'.$padid, 'true');
-            $this->flash['message'] = dgettext('studipad', 'Veröffentlicht.');
+            \PageLayout::postInfo(dgettext('studipad', 'Veröffentlicht.'));
         } catch (Exception $e) {
-            $this->flash['error'] = dgettext('studipad', 'Pad konnte nicht veröffentlicht werden.');
+            \PageLayout::postError(dgettext('studipad', 'Pad konnte nicht veröffentlicht werden.'));
         }
 
         $this->redirect('');
@@ -243,9 +242,9 @@ class PadsController extends StudipController
 
         try {
             $this->client->setPublicStatus($eplGroupId.'$'.$padid, 'false');
-            $this->flash['message'] = dgettext('studipad', 'Veröffentlichung aufgehoben.');
+            \PageLayout::postInfo(dgettext('studipad', 'Veröffentlichung aufgehoben.'));
         } catch (Exception $e) {
-            $this->flash['error'] = dgettext('studipad', 'Veröffentlichung des Pads konnte nicht aufgehoben werden.');
+            \PageLayout::postError(dgettext('studipad', 'Veröffentlichung des Pads konnte nicht aufgehoben werden.'));
         }
 
         $this->redirect('');
@@ -261,22 +260,22 @@ class PadsController extends StudipController
 
         $name = trim(\Request::get('new_pad_name', ''));
         if ('' === $name || mb_strlen($name) > 32) {
-            $this->flash['error'] = dgettext(
-                'studipad',
-                'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.'
-            );
+            \PageLayout::postError(dgettext(
+                                       'studipad',
+                                       'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.'
+                                   ));
         } elseif (!preg_match('/^[A-Za-z0-9_-]+$/', $name)) {
-            $this->flash['error'] = dgettext(
-                'studipad',
-                'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
-            );
+            \PageLayout::postError(dgettext(
+                                       'studipad',
+                                       'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
+                                   ));
         } else {
             try {
                 $result = $this->client->createGroupPad($eplGroupId, $name, \Config::get()->getValue('STUDIPAD_INITEXT'));
                 $this->createControls($result->padID);
-                $this->flash['message'] = dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.');
+                \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.'));
             } catch (\Exception $e) {
-                $this->flash['error'] = dgettext('studipad', 'Das Pad konnte nicht angelegt werden.');
+                \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
             }
         }
 
@@ -293,9 +292,9 @@ class PadsController extends StudipController
 
         try {
             $this->client->deletePad($eplGroupId.'$'.$padid);
-            $this->flash['message'] = dgettext('studipad', 'Das Pad wurde gelöscht.');
+            \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde gelöscht.'));
         } catch (Exception $e) {
-            $this->flash['error'] = dgettext('studipad', 'Das Pad konnte nicht gelöscht werden.');
+            \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht gelöscht werden.'));
         }
 
         $this->redirect('');
@@ -313,12 +312,14 @@ class PadsController extends StudipController
 
         $url = URLHelper::getLink(sprintf('dispatch.php/course/files/index/%s#fileref_%s', $fileRef->folder_id, $fileRef->id), ['cid' => \Context::getId()], true);
 
-        $this->flash['message'] = sprintf(
-            dgettext(
-                'studipad',
-                'Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href="%s">im Dateibereich</a> gesichert.'
-            ),
-            $url
+        \PageLayout::postInfo(
+            sprintf(
+                dgettext(
+                    'studipad',
+                    'Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href="%s">im Dateibereich</a> gesichert.'
+                ),
+                $url
+            )
         );
 
         $this->redirect('');
@@ -341,6 +342,13 @@ class PadsController extends StudipController
 
                 $getPublicStatus = $this->client->getPublicStatus($padid);
                 $tpads[$pad]['public'] = isset($getPublicStatus) ? $getPublicStatus->publicStatus : false;
+                $tpads[$pad]['publicUrl'] = isset($getPublicStatus)
+                                          ? $this->shorten(
+                                              \Config::get()->getValue('STUDIPAD_PADBASEURL').
+                                              '/'.
+                                              $this->getPadCallId($eplGroupId, $pad)
+                                          )
+                                          : false;
 
                 $isPasswordProtected = $this->client->isPasswordProtected($padid);
                 $tpads[$pad]['hasPassword'] = isset($isPasswordProtected)
@@ -595,7 +603,7 @@ class PadsController extends StudipController
         $eplGroupId = $this->requireGroup();
 
         if (!preg_match('|^[A-Za-z0-9_-]+$|i', $pad)) {
-            $this->flash['error'] = 'Dieses Pad existiert nicht.';
+            \PageLayout::postError(dgettext('studipad', 'Dieses Pad existiert nicht.'));
 
             return $this->redirect('');
         }
@@ -627,7 +635,7 @@ class PadsController extends StudipController
                 $this->client->getHTML($eplGroupId.'$'.$pad)->html
             );
         } catch (Exception $ex) {
-            $this->flash['error'] = $ex->getMessage();
+            \PageLayout::postError($ex->getMessage());
 
             return $this->redirect('');
         }
@@ -639,7 +647,7 @@ class PadsController extends StudipController
             throw new \RuntimeException('Could not find top folder.');
         }
 
-        $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad, date('c')));
+        $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad, date('Y-m-d-H-m-s')));
         if (!$file = \File::create(['user_id' => $user->id, 'mime_type' => 'application/pdf', 'name' => $filename, 'storage' => 'disk'])) {
             throw new \RuntimeException('Could not store file.');
         }
@@ -668,7 +676,7 @@ class PadsController extends StudipController
     {
         $doc = new \ExportPDF();
         $doc->setHeaderTitle('Etherpad-Dokument: '.$pad);
-        $doc->setHeaderSubtitle($course->getFullname().' – StudIPad');
+        $doc->setHeaderSubtitle($GLOBALS['UNI_NAME_CLEAN'].' » '.$course->getFullname().' » Pad');
         $doc->addPage();
         $doc->writeHTML($html);
 
@@ -676,5 +684,24 @@ class PadsController extends StudipController
         $doc->Output($tmpPath, 'F');
 
         return $tmpPath;
+    }
+
+    private function shorten($url)
+    {
+        $cache = \StudipCacheFactory::getCache();
+        $cacheKey = 'pad/basicshortener/'.md5($url);
+
+        $result = unserialize($cache->read($cacheKey));
+        if (!$result) {
+            $apiUrl = 'https://vt.uos.de/shorten.php?longurl='.urlencode($url);
+            $curlHandle = \curl_init($apiUrl);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($curlHandle, CURLOPT_TIMEOUT, 5);
+            $result = curl_exec($curlHandle);
+            $cache->write($cacheKey, serialize($result));
+        }
+
+        return $result;
     }
 }

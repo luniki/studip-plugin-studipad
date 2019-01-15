@@ -13,8 +13,6 @@ require __DIR__.'/vendor/autoload.php';
 
 class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 {
-    const SNAPSHOTTER = 'public/plugins_packages/ZMML/StudIPadPlugin/cronjobs/SnapshotPad.php';
-
     /**
      * plugin template factory.
      */
@@ -77,7 +75,7 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
                 if ($numPads) {
                     $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
-                    $iconNavigation = new Navigation('StudIPad Icon', PluginEngine::getURL($this, array(), ''));
+                    $iconNavigation = new Navigation('Pad', PluginEngine::getURL($this, [], ''));
                     $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, ['title' => $iconTitle]));
                     $newCount = 0;
 
@@ -109,23 +107,18 @@ class StudIPadPlugin extends StudipPlugin implements StandardPlugin
 
     public function getTabNavigation($courseId)
     {
-        $navigation = new Navigation(
-            'StudIPad',
-            $url = PluginEngine::getURL($this, [], '')
-        );
+        $url = PluginEngine::getURL($this, ['cid' => $courseId], '', true);
+        $navigation = new Navigation('Pad', $url);
 
         $icon = Icon::create(
             $this->getPluginURL().'/images/icons/EPedit.svg',
             \Icon::ROLE_INACTIVE,
-            ['title' => 'StudIPad']
+            ['title' => 'Pad']
         );
         $navigation->setImage($icon);
         $navigation->setActiveImage($icon->copyWithRole(ICON::ROLE_ATTENTION));
 
-        $navigation->addSubNavigation(
-            'index',
-            new Navigation(dgettext('studipad', 'Übersicht'), $url)
-        );
+        $navigation->addSubNavigation('index', new Navigation(_('Übersicht'), $url));
 
         return ['studipad' => $navigation];
     }

@@ -1,31 +1,15 @@
-<?
-if (isset($flash['error'])) {
-    echo MessageBox::error($flash['error']);
-}
-
-if (isset($flash['message'])) {
-    echo MessageBox::info($flash['message']);
-}
-
-if (isset($error)) {
-    echo MessageBox::error($error);
-}
-
-if (isset($message)) {
-    echo MessageBox::info($message);
-}
-
-?>
 <table class="default studipad-pads-index">
     <colgroup>
         <col width="50%" />
-        <col width="40%" />
+        <col width="30%" />
+        <col width="10%" />
         <col width="10%" />
     </colgroup>
 
     <thead>
         <tr>
             <th><?= dgettext('studipad', 'Name des Pads') ?></th>
+            <th><?= dgettext('studipad', 'öffentliche URL') ?></th>
             <th><?= dgettext('studipad', 'letzte Änderung') ?></th>
             <th class="actions"><?= dgettext('studipad', 'Aktionen') ?></th>
         </tr>
@@ -42,10 +26,6 @@ if (isset($message)) {
                         <span class="studipad-new-content"><?= dgettext('studipad', 'neu') ?></span>
                     <? } ?>
 
-                    <? if ($pad['public']) { ?>
-                        (<?= dgettext('studipad', 'öffentlich') ?>)
-                    <? } ?>
-
                     <? if ($pad['readOnly']) { ?>
                         (<?= dgettext('studipad', 'schreibgeschützt') ?>)
                     <? } ?>
@@ -54,6 +34,16 @@ if (isset($message)) {
                         <?= Icon::create('lock-locked', Icon::ROLE_ATTENTION, ['title' => dgettext('studipad', 'Das Pad ist mit einem Passwort versehen.')]) ?>
                     <? } ?>
                 </a>
+            </td>
+
+            <td>
+                <? if ($pad['public']) { ?>
+                    <a href="<?= htmlReady($pad['publicUrl']) ?>">
+                        <?= htmlReady($pad['publicUrl']) ?>
+                    </a>
+                <? } else { ?>
+                    —
+                <? } ?>
             </td>
 
             <td>
