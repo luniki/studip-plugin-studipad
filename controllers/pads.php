@@ -382,7 +382,7 @@ class PadsController extends StudipController
 
     protected function setDefaultPageTitle()
     {
-        \PageLayout::setTitle(Context::getHeaderLine().' - StudIPad');
+        \PageLayout::setTitle(Context::getHeaderLine().' - Pad');
     }
 
     //////// OLD STUFF
