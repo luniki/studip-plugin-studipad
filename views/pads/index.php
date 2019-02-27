@@ -18,8 +18,7 @@
     <? foreach ($tpads as $padid => $pad) { ?>
         <tr>
             <td>
-                <a href="<?= $controller->link_for('pads/open', $padid) ?>"
-                   target="_blank" rel="noreferrer noopener">
+                <a href="<?= $controller->link_for('pads/iframe', $padid) ?>">
 
                     <?= htmlReady($pad['title']) ?>
                     <? if ($pad['new']) { ?>

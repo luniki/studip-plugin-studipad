@@ -97,6 +97,17 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
+    public function iframe_action($pad)
+    {
+        if (\Navigation::hasItem('/course/studipad/index')) {
+            \Navigation::activateItem('/course/studipad/index');
+        }
+        $this->pad = $pad;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     */
     public function settings_action($padid)
     {
         $this->requireTutor();
