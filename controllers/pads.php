@@ -97,12 +97,125 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    public function iframe_action($pad)
+    public function iframe_action($padid)
     {
-        if (\Navigation::hasItem('/course/studipad/index')) {
-            \Navigation::activateItem('/course/studipad/index');
+        try {
+            $cid = \Context::getId();
+            $pad = $this->getPad($cid, $padid);
+        } catch (\Exception $e) {
+            \PageLayout::postError($e->getMessage());
+
+            return $this->redirect('');
         }
+
+        if (!isset($pad)) {
+            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
+
+            return $this->redirect('');
+        }
+
+        $this->padid = $padid;
         $this->pad = $pad;
+
+        if (\Navigation::hasItem('/course/studipad')) {
+            \Navigation::activateItem('/course/studipad');
+        }
+
+        $title = \Context::getHeaderLine().' - Pad: '.$padid;
+        if ($pad['readOnly']) {
+            $title .= ' ('.dgettext('studipad', 'schreibgeschützt').')';
+        }
+
+        \PageLayout::setTitle($title);
+
+        if ($GLOBALS['perm']->have_studip_perm('tutor', $cid)) {
+
+            $sidebar = \Sidebar::get();
+
+            $actions = $sidebar->hasWidget('actions')
+                     ? $sidebar->getWidget('actions')
+                     : new \ActionsWidget();
+
+            if (!$sidebar->hasWidget('actions')) {
+                $sidebar->addWidget($actions);
+            }
+
+            if ($pad['public']) {
+                $urlWidget = new \ActionsWidget();
+                $urlWidget->setTitle('Öffentliche URL');
+                $urlWidget->addLink(
+                    $pad['publicUrl'],
+                    $pad['publicUrl'],
+                    \Icon::create('globe+move_right')
+                );
+                $sidebar->addWidget($urlWidget);
+            }
+
+            $actions->addLink(
+                dgettext('studipad', 'Einstellungen'),
+                $this->url_for('pads/settings', $padid, ['page'=>1]),
+                Icon::create('admin'),
+                ['data-dialog' => '']
+            );
+
+            if (!$pad['readOnly']) {
+                $actions->addLink(
+                    dgettext('studipad', 'Aktuellen Inhalt sichern'),
+                    $this->url_for('pads/snapshot', $padid, ['page'=>1]),
+                    Icon::create('cloud+export')
+                );
+
+                $actions->addLink(
+                    dgettext('studipad', 'Schreibschutz aktivieren'),
+                    $this->url_for('pads/activate_write_protect', $padid, ['page'=>1]),
+                    Icon::create('lock-locked')
+                );
+            } else {
+                $actions->addLink(
+                    dgettext('studipad', 'Schreibschutz deaktivieren'),
+                    $this->url_for('pads/deactivate_write_protect', $padid, ['page'=>1]),
+                    Icon::create('lock-unlocked')
+                );
+            }
+
+            if (!$pad['hasPassword']) {
+                $actions->addLink(
+                    dgettext('studipad', 'Passwort festlegen'),
+                    $this->url_for('pads/add_password', $padid, ['page'=>1]),
+                    Icon::create('key+add'),
+                    ['data-dialog' => '']
+                );
+            } else {
+                $actions->addLink(
+                    dgettext('studipad', 'Passwort löschen'),
+                    $this->url_for('pads/remove_password', $padid, ['page'=>1]),
+                    Icon::create('key+remove'),
+                    ['data-confirm' => dgettext('studipad', 'Wollen Sie das Passwort wirklich löschen?')]
+                );
+            }
+
+            if (!$pad['public']) {
+                $actions->addLink(
+                    dgettext('studipad', 'Veröffentlichen'),
+                    $this->url_for('pads/publish', $padid, ['page'=>1]),
+                    Icon::create('globe'),
+                    ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich öffentlich machen?')]
+                );
+            } else {
+                $actions->addLink(
+                    dgettext('studipad', 'Veröffentlichung beenden'),
+                    $this->url_for('pads/unpublish', $padid, ['page'=>1]),
+                    Icon::create('globe+decline')
+                );
+            }
+
+            $actions->addLink(
+                dgettext('studipad', 'Pad löschen'),
+                $this->url_for('pads/delete', $padid, ['page'=>1]),
+                Icon::create('trash', Icon::ROLE_ATTENTION),
+                ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich löschen?')]
+            );
+        }
     }
 
     /**
@@ -112,26 +225,24 @@ class PadsController extends StudipController
     {
         $this->requireTutor();
 
-        $eplGroupId = $this->requireGroup();
-
         try {
-            $grouppads = $this->client->listPads($eplGroupId);
-            $pads = $grouppads->padIDs;
-            $tpads = $this->getPads(\Context::getId(), $eplGroupId, $pads);
+            $pad = $this->getPad(\Context::getId(), $padid);
         } catch (\Exception $e) {
             \PageLayout::postError($e->getMessage());
 
             return $this->redirect('');
         }
 
-        if (!isset($tpads[$padid])) {
+        if (!isset($pad)) {
             \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
 
             return $this->redirect('');
         }
 
         $this->padid = $padid;
-        $this->pad = $tpads[$padid];
+        $this->pad = $pad;
+
+        $this->toPage = \Request::submitted('page');
     }
 
     /**
@@ -150,7 +261,7 @@ class PadsController extends StudipController
         $this->setControls($padid, $controls);
         \PageLayout::postInfo(dgettext('studipad', 'Einstellungen gespeichert.'));
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad  : '');
     }
 
     /**
@@ -160,6 +271,7 @@ class PadsController extends StudipController
     {
         $this->requireTutor();
         $this->padid = $padid;
+        $this->toPage = \Request::submitted('page');
     }
 
     /**
@@ -178,7 +290,7 @@ class PadsController extends StudipController
             \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht gesetzt werden.'));
         }
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -196,7 +308,7 @@ class PadsController extends StudipController
             \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht entfernt werden.'));
         }
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -209,7 +321,7 @@ class PadsController extends StudipController
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 1);
         \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz aktiviert.'));
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid  : '');
     }
 
     /**
@@ -222,7 +334,7 @@ class PadsController extends StudipController
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 0);
         \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz deaktiviert.'));
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid  : '');
     }
 
     /**
@@ -240,7 +352,7 @@ class PadsController extends StudipController
             \PageLayout::postError(dgettext('studipad', 'Pad konnte nicht veröffentlicht werden.'));
         }
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -258,7 +370,7 @@ class PadsController extends StudipController
             \PageLayout::postError(dgettext('studipad', 'Veröffentlichung des Pads konnte nicht aufgehoben werden.'));
         }
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -333,7 +445,24 @@ class PadsController extends StudipController
             )
         );
 
-        $this->redirect('');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad  : '');
+    }
+
+    protected function getPad($contextId, $padid)
+    {
+        $eplGroupId = $this->requireGroup();
+
+        $grouppads = $this->client->listPads($eplGroupId);
+        $pads = $grouppads->padIDs;
+        $tpads = $this->getPads($contextId, $eplGroupId, $pads);
+
+        if (!isset($tpads[$padid])) {
+            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
+
+            return $this->redirect('');
+        }
+
+        return $tpads[$padid];
     }
 
     protected function getPads($cid, $eplGroupId, $pads)

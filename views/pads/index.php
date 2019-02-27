@@ -56,10 +56,9 @@
                     <?=
                     \ActionMenu::get()
                                ->addLink(
-                                   $controller->url_for('pads/open', $padid),
+                                   $controller->url_for('pads/iframe', $padid),
                                    dgettext('studipad', 'Öffnen'),
-                                   Icon::create('link-extern'),
-                                   ['data-dialog' => '']
+                                   Icon::create('link-extern')
                                )
 
                                ->addLink(

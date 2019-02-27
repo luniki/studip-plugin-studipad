@@ -16,4 +16,8 @@
         <?= \Studip\Button::createAccept(dgettext('studipad', 'Passwort setzen')) ?>
         <?= \Studip\LinkButton::createCancel(dgettext('studipad', 'Abbrechen'), $controller->url_for('')) ?>
     </footer>
+
+    <? if ($toPage) { ?>
+        <input type="hidden" name="page" value="1">
+    <? } ?>
 </form>

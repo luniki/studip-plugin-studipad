@@ -44,4 +44,8 @@
         <?= \Studip\Button::createAccept(dgettext('studipad', 'Speichern')) ?>
         <?= \Studip\LinkButton::createCancel(dgettext('studipad', 'Abbrechen'), $controller->url_for('')) ?>
     </footer>
+
+    <? if ($toPage) { ?>
+        <input type="hidden" name="page" value="1">
+    <? } ?>
 </form>
