@@ -158,13 +158,14 @@ class PadsController extends StudipController
                 ['data-dialog' => '']
             );
 
-            if (!$pad['readOnly']) {
-                $actions->addLink(
-                    dgettext('studipad', 'Aktuellen Inhalt sichern'),
-                    $this->url_for('pads/snapshot', $padid, ['page'=>1]),
-                    Icon::create('cloud+export')
-                );
+            $actions->addLink(
+                dgettext('studipad', 'Aktuellen Inhalt sichern'),
+                $this->url_for('pads/snapshot', $padid, ['page'=>1]),
+                Icon::create('cloud+export')
+            );
 
+
+            if (!$pad['readOnly']) {
                 $actions->addLink(
                     dgettext('studipad', 'Schreibschutz aktivieren'),
                     $this->url_for('pads/activate_write_protect', $padid, ['page'=>1]),

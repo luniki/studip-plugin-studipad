@@ -68,18 +68,6 @@
                                    ['data-dialog' => '']
                                )
 
-                               ->condition(false && !$pad['readOnly'])
-                               ->addLink(
-                                   $controller->url_for('pads/export_pdf', $padid),
-                                   dgettext('studipad', 'Export als PDF'),
-                                   Icon::create('file-pdf'),
-                                   [
-                                       'target' => '_blank',
-                                       'rel' => 'noreferrer noopener'
-                                   ]
-                               )
-
-                               ->condition(!$pad['readOnly'])
                                ->addLink(
                                    $controller->url_for('pads/snapshot', $padid),
                                    dgettext('studipad', 'Aktuellen Inhalt sichern'),
