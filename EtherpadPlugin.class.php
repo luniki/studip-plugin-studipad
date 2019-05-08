@@ -1,17 +1,14 @@
 <?php
 
-// +---------------------------------------------------------------------------+
-// This file is NOT part of Stud.IP
-// Copyright (C) 2011 Oliver Oster <oster@zmml.uni-bremen.de>
-// +---------------------------------------------------------------------------+
 /**
  * @author Oliver Oster <oster@zmml.uni-bremen.de>
+ * @author <lunzenauer@elan-ev.de>
  */
 
 // require composer autoloader
 require __DIR__.'/vendor/autoload.php';
 
-class StudIPadPlugin extends StudipPlugin implements StandardPlugin
+class EtherpadPlugin extends StudipPlugin implements StandardPlugin
 {
     /**
      * plugin template factory.

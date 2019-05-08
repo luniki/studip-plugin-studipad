@@ -1,6 +1,6 @@
-pluginname=StudIPad
-pluginclassname=StudIPadPlugin
-origin=ZMML
+pluginname=EtherpadPlugin
+pluginclassname=EtherpadPlugin
+origin=elan-ev
 version=2.11
 studipMinVersion=4.0
 category=Kommunikation und Zusammenarbeit
