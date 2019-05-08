@@ -1,13 +1,22 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: templates/studipad.php:31
 msgid "neu"
 msgstr "new"
 
 #: templates/studipad.php:35
-msgid "&ouml;ffentlich"
+msgid "öffentlich"
 msgstr "public"
 
 #: templates/studipad.php:40
-msgid "Schreibgesch&uuml;tzt"
+msgid "Schreibgeschützt"
 msgstr "read only"
 
 #: templates/studipad.php:45
@@ -16,7 +25,7 @@ msgstr "The Pad does have a password."
 
 #: templates/studipad.php:53
 #, fuzzy
-msgid "letzte &Auml;nderung"
+msgid "letzte Änderung"
 msgstr "last changes"
 
 #: templates/studipad.php:77
@@ -48,7 +57,7 @@ msgid "Zeilennummern anzeigen"
 msgstr "Show linenumbers"
 
 #: templates/studipad.php:142
-msgid "Schutz und Sichtbarkeit au&szlig;erhalb Stud.IP"
+msgid "Schutz und Sichtbarkeit außerhalb Stud.IP"
 msgstr "Protection and visibility outside of Stud.IP"
 
 #: templates/studipad.php:149
@@ -77,18 +86,18 @@ msgstr "If a password is set you need the password to use the pad."
 
 #: templates/studipad.php:171
 #, fuzzy
-msgid "Ver&ouml;ffentlichung beenden"
-msgstr "public"
+msgid "Veröffentlichung beenden"
+msgstr "remove public"
 
 #: templates/studipad.php:173 templates/studipad.php:180
 msgid ""
-"&#214;ffentliche Pads k&#246;nnen ohne Stud.IP-Zugang von jedem verwendet "
+"Öffentliche Pads können ohne Stud.IP-Zugang von jedem verwendet "
 "werden."
 msgstr "Public Pads can be used by everyone."
 
 #: templates/studipad.php:178
 #, fuzzy
-msgid "Pad verffentlichen:"
+msgid "Pad veröffentlichen"
 msgstr "set pad to public"
 
 #: templates/studipad.php:188
@@ -97,7 +106,7 @@ msgstr "save"
 
 #: templates/studipad.php:195
 #, fuzzy
-msgid "Pad lschen"
+msgid "Pad löschen"
 msgstr "delete Pad"
 
 #: templates/studipad.php:215
@@ -125,12 +134,12 @@ msgstr "This should never happen"
 
 #: StudIPadPlugin.class.php:264
 #, php-format
-msgid "Soll das Pad \"%s\" wirklich gel&ouml;scht werden?"
+msgid "Soll das Pad \"%s\" wirklich gelöscht werden?"
 msgstr "Do you really want to delete the Pad \"%s\"?"
 
 #: StudIPadPlugin.class.php:301
 #, php-format
-msgid "Das Pad \"%s\" wurde gel&ouml;scht."
+msgid "Das Pad \"%s\" wurde gelöscht."
 msgstr "Pad \"%s\" deleted."
 
 #: StudIPadPlugin.class.php:323
@@ -142,7 +151,7 @@ msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr "The Pads name can not be longer than 32 characters."
 
 #: StudIPadPlugin.class.php:364
-msgid "Pad Namen d&uuml;rfen nur aus Buchstaben und Zahlen bestehen."
+msgid "Pad Namen dürfen nur aus Buchstaben und Zahlen bestehen."
 msgstr "The Pads name may only contain numbers and letters."
 
 #: StudIPadPlugin.class.php:378
@@ -155,7 +164,7 @@ msgid "StudIPad Group konnte nicht angelegt werden."
 msgstr "Could not create StudIPad Site."
 
 #: StudIPadPlugin.class.php:409
-msgid "Zur Zeit sind keine Stud.IPads f&uuml;r diese Veranstaltung vorhanden."
+msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr "No Pads created for this course."
 
 #: StudIPadPlugin.class.php:465
@@ -166,12 +175,12 @@ msgstr "EhterPad Client Setup Error"
 #: StudIPadPlugin.class.php:535
 #, php-format
 msgid ""
-"Die Einstellungen f&uuml;r das Pad \"%s\" konnten nicht gespeichert werden!"
+"Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
 msgstr "The Settings for pad \"%s\" could not be saved!"
 
 #: StudIPadPlugin.class.php:537
 #, php-format
-msgid "Die Einstellungen f&uuml;r das Pad \"%s\" wurden gespeichert!"
+msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
 msgstr "The Settings for pad \"%s\" have been saved!"
 
 #~ msgid "Information"
@@ -179,9 +188,6 @@ msgstr "The Settings for pad \"%s\" have been saved!"
 
 #~ msgid "Kurzes Demo-Video: So funktioniert Etherpad"
 #~ msgstr "Short Demo-Video about Etherpad"
-
-#~ msgid "&Ouml;ffentlich"
-#~ msgstr "public"
 
 #~ msgid "Pad Name"
 #~ msgstr "Pad Name"

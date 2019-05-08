@@ -1,187 +1,351 @@
-#: templates/studipad.php:31
-msgid "neu"
-msgstr "new"
-
-#: templates/studipad.php:35
-msgid "&ouml;ffentlich"
-msgstr "public"
-
-#: templates/studipad.php:40
-msgid "Schreibgesch&uuml;tzt"
-msgstr "read only"
-
-#: templates/studipad.php:45
-msgid "Das Pad ist mit einem Passwort versehen."
-msgstr "The Pad does have a password."
-
-#: templates/studipad.php:53
-#, fuzzy
-msgid "letzte &Auml;nderung"
-msgstr "last changes"
-
-#: templates/studipad.php:77
-msgid "Einstellungen"
-msgstr "Settings"
-
-#: templates/studipad.php:95
-msgid "Funktionen"
-msgstr "Functions"
-
-#: templates/studipad.php:104
-msgid "Kontrollelemente anzeigen"
-msgstr "Show control elements"
-
-#: templates/studipad.php:109
-msgid "Farbsteuerelemente anzeigen"
-msgstr "Show colorcontrols"
-
-#: templates/studipad.php:114
-msgid "Import- Exportelemente ein- oder ausblenden"
-msgstr "Show import/export"
-
-#: templates/studipad.php:119
-msgid "Chat anzeigen"
-msgstr "Show Chat"
-
-#: templates/studipad.php:124
-msgid "Zeilennummern anzeigen"
-msgstr "Show linenumbers"
-
-#: templates/studipad.php:142
-msgid "Schutz und Sichtbarkeit au&szlig;erhalb Stud.IP"
-msgstr "Protection and visibility outside of Stud.IP"
-
-#: templates/studipad.php:149
-msgid "Schreibrechte entziehen (Schreibschutz)"
-msgstr "Write Protection"
-
-#: templates/studipad.php:156
-#, fuzzy
-msgid "Passwort lschen"
-msgstr "delete Password"
-
-#: templates/studipad.php:160
-msgid "Passwort"
-msgstr "Password"
-
-#: templates/studipad.php:162
-msgid "zuweisen"
-msgstr "set"
-
-#: templates/studipad.php:164
 #, fuzzy
 msgid ""
-"Wenn ein Passwort gesetzt wird kann das Pad nur nach Eingabe des Passwortes "
-"verwendet werden."
-msgstr "If a password is set you need the password to use the pad."
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-08 06:34+0200\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/studipad.php:171
-#, fuzzy
-msgid "Ver&ouml;ffentlichung beenden"
-msgstr "remove public"
-
-#: templates/studipad.php:173 templates/studipad.php:180
-msgid ""
-"&#214;ffentliche Pads k&#246;nnen ohne Stud.IP-Zugang von jedem verwendet "
-"werden."
-msgstr "Public Pads can be used by everyone."
-
-#: templates/studipad.php:178
-#, fuzzy
-msgid "Pad ver�ffentlichen"
-msgstr "set pad to public"
-
-#: templates/studipad.php:188
-msgid "speichern"
-msgstr "save"
-
-#: templates/studipad.php:195
-#, fuzzy
-msgid "Pad l�schen"
-msgstr "delete Pad"
-
-#: templates/studipad.php:215
-msgid "Name des neuen Pads"
-msgstr "Name of the new Pad"
-
-#: templates/studipad.php:216
-msgid "anlegen"
-msgstr "create"
-
-#: StudIPadPlugin.class.php:98
+#: EtherpadPlugin.class.php:74
 #, php-format
 msgid "%d Pad(s)"
 msgstr "%d Pad(s)"
 
-#: StudIPadPlugin.class.php:119
+#: EtherpadPlugin.class.php:94
 #, fuzzy, php-format
 msgid "%d Pad(s), %d neue"
 msgstr "%d Pad(s), %d new"
 
-#: StudIPadPlugin.class.php:231
-#, fuzzy
-msgid "Dies sollte nie zu sehen sein.."
-msgstr "This should never happen"
+#: EtherpadPlugin.class.php:118
+msgid "Übersicht"
+msgstr ""
 
-#: StudIPadPlugin.class.php:264
-#, php-format
-msgid "Soll das Pad \"%s\" wirklich gel&ouml;scht werden?"
+#: EtherpadPlugin.class.php:158
+msgid "unbekannte Plugin-Aktion: "
+msgstr ""
+
+#: controllers/pads.php:58
+msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
+msgstr "No Pads created for this course."
+
+#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:461
+#, fuzzy
+msgid "Dieses Pad konnte nicht gefunden werden."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:126 views/pads/index.php:29
+#, fuzzy
+msgid "schreibgeschützt"
+msgstr "read only"
+
+#: controllers/pads.php:155 views/pads/index.php:66
+msgid "Einstellungen"
+msgstr "Settings"
+
+#: controllers/pads.php:162 views/pads/index.php:73
+msgid "Aktuellen Inhalt sichern"
+msgstr ""
+
+#: controllers/pads.php:170 views/pads/index.php:80
+#, fuzzy
+msgid "Schreibschutz aktivieren"
+msgstr "read only"
+
+#: controllers/pads.php:176 views/pads/index.php:86
+#, fuzzy
+msgid "Schreibschutz deaktivieren"
+msgstr "read only"
+
+#: controllers/pads.php:184 views/pads/index.php:93
+#, fuzzy
+msgid "Passwort festlegen"
+msgstr "delete Password"
+
+#: controllers/pads.php:191 views/pads/index.php:100
+#, fuzzy
+msgid "Passwort löschen"
+msgstr "delete Password"
+
+#: controllers/pads.php:194 views/pads/index.php:102
+#, fuzzy
+msgid "Wollen Sie das Passwort wirklich löschen?"
 msgstr "Do you really want to delete the Pad \"%s\"?"
 
-#: StudIPadPlugin.class.php:301
-#, php-format
-msgid "Das Pad \"%s\" wurde gel&ouml;scht."
-msgstr "Pad \"%s\" deleted."
+#: controllers/pads.php:200 views/pads/index.php:108
+#, fuzzy
+msgid "Veröffentlichen"
+msgstr "set pad to public"
 
-#: StudIPadPlugin.class.php:323
-msgid "Passwort wurde gesetzt."
+#: controllers/pads.php:203 views/pads/index.php:110
+#, fuzzy
+msgid "Wollen Sie das Pad wirklich öffentlich machen?"
+msgstr "Do you really want to delete the Pad \"%s\"?"
+
+#: controllers/pads.php:207 views/pads/index.php:115
+#, fuzzy
+msgid "Veröffentlichung beenden"
+msgstr "remove public"
+
+#: controllers/pads.php:214 views/pads/index.php:121
+#, fuzzy
+msgid "Pad löschen"
+msgstr "delete Pad"
+
+#: controllers/pads.php:217 views/pads/index.php:123
+#, fuzzy
+msgid "Wollen Sie das Pad wirklich löschen?"
+msgstr "Do you really want to delete the Pad \"%s\"?"
+
+#: controllers/pads.php:263
+#, fuzzy
+msgid "Einstellungen gespeichert."
+msgstr "Settings"
+
+#: controllers/pads.php:289
+#, fuzzy
+msgid "Passwort gesetzt."
 msgstr "Password has been set."
 
-#: StudIPadPlugin.class.php:360
+#: controllers/pads.php:291
+#, fuzzy
+msgid "Das Passwort des Pads konnte nicht gesetzt werden."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:307
+#, fuzzy
+msgid "Passwort entfernt."
+msgstr "delete Password"
+
+#: controllers/pads.php:309
+#, fuzzy
+msgid "Das Passwort des Pads konnte nicht entfernt werden."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:324
+#, fuzzy
+msgid "Schreibschutz aktiviert."
+msgstr "read only"
+
+#: controllers/pads.php:337
+#, fuzzy
+msgid "Schreibschutz deaktiviert."
+msgstr "read only"
+
+#: controllers/pads.php:351
+#, fuzzy
+msgid "Veröffentlicht."
+msgstr "public"
+
+#: controllers/pads.php:353
+#, fuzzy
+msgid "Pad konnte nicht veröffentlicht werden."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:369
+#, fuzzy
+msgid "Veröffentlichung aufgehoben."
+msgstr "remove public"
+
+#: controllers/pads.php:371
+#, fuzzy
+msgid "Veröffentlichung des Pads konnte nicht aufgehoben werden."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:389
 msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr "The Pads name can not be longer than 32 characters."
 
-#: StudIPadPlugin.class.php:364
-msgid "Pad Namen d&uuml;rfen nur aus Buchstaben und Zahlen bestehen."
+#: controllers/pads.php:394
+#, fuzzy
+msgid ""
+"Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen "
+"bestehen."
 msgstr "The Pads name may only contain numbers and letters."
 
-#: StudIPadPlugin.class.php:378
+#: controllers/pads.php:400
+#, fuzzy
+msgid "Das Pad wurde erfolgreich angelegt."
+msgstr "Could not create the pad."
+
+#: controllers/pads.php:402
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr "Could not create the pad."
 
-#: StudIPadPlugin.class.php:385
+#: controllers/pads.php:419
 #, fuzzy
-msgid "StudIPad Group konnte nicht angelegt werden."
-msgstr "Could not create StudIPad Site."
+msgid "Das Pad wurde gelöscht."
+msgstr "Pad \"%s\" deleted."
 
-#: StudIPadPlugin.class.php:409
-msgid "Zur Zeit sind keine Stud.IPads f&uuml;r diese Veranstaltung vorhanden."
-msgstr "No Pads created for this course."
+#: controllers/pads.php:421
+#, fuzzy
+msgid "Das Pad konnte nicht gelöscht werden."
+msgstr "Could not create the pad."
 
-#: StudIPadPlugin.class.php:465
+#: controllers/pads.php:443
+#, php-format
+msgid ""
+"Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
+"Dateibereich</a> gesichert."
+msgstr ""
+
+#: controllers/pads.php:635
+#, php-format
+msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
+msgstr "The Settings for pad \"%s\" have been saved!"
+
+#: controllers/pads.php:636
+#, php-format
+msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
+msgstr "The Settings for pad \"%s\" could not be saved!"
+
+#: controllers/pads.php:709
+msgid "Es ist ein Verbindungsfehler aufgetreten!"
+msgstr ""
+
+#: controllers/pads.php:718 controllers/pads.php:747
+msgid "Dieses Pad existiert nicht."
+msgstr ""
+
+#: controllers/pads.php:733
+#, php-format
+msgid "Fehler beim Ermitteln der padCallId: %s"
+msgstr ""
+
+#: views/pads/setuperror.php:1
 #, fuzzy
 msgid "StudIPad Client Setup Fehler"
 msgstr "EhterPad Client Setup Error"
 
-#: StudIPadPlugin.class.php:535
-#, php-format
-msgid ""
-"Die Einstellungen f&uuml;r das Pad \"%s\" konnten nicht gespeichert werden!"
-msgstr "The Settings for pad \"%s\" could not be saved!"
+#: views/pads/add_password.php:3
+msgid "Etherpad-Passwort festlegen"
+msgstr ""
 
-#: StudIPadPlugin.class.php:537
-#, php-format
-msgid "Die Einstellungen f&uuml;r das Pad \"%s\" wurden gespeichert!"
-msgstr "The Settings for pad \"%s\" have been saved!"
+#: views/pads/add_password.php:6
+msgid "Passwort"
+msgstr "Password"
+
+#: views/pads/add_password.php:11
+#, fuzzy
+msgid ""
+"Wenn ein Passwort gesetzt wird, kann das Pad nur nach Eingabe des Passwortes "
+"verwendet werden."
+msgstr "If a password is set you need the password to use the pad."
+
+#: views/pads/add_password.php:16
+#, fuzzy
+msgid "Passwort setzen"
+msgstr "delete Password"
+
+#: views/pads/add_password.php:17 views/pads/settings.php:45
+msgid "Abbrechen"
+msgstr ""
+
+#: views/pads/settings.php:3
+msgid "Etherpad Toolbar"
+msgstr ""
+
+#: views/pads/settings.php:8
+msgid "Kontrollelemente anzeigen"
+msgstr "Show control elements"
+
+#: views/pads/settings.php:17
+msgid "Farbsteuerelemente anzeigen"
+msgstr "Show colorcontrols"
+
+#: views/pads/settings.php:24
+#, fuzzy
+msgid "Import-/Exportelemente ein- oder ausblenden"
+msgstr "Show import/export"
+
+#: views/pads/settings.php:31
+msgid "Chat anzeigen"
+msgstr "Show Chat"
+
+#: views/pads/settings.php:38
+msgid "Zeilennummern anzeigen"
+msgstr "Show linenumbers"
+
+#: views/pads/settings.php:44
+#, fuzzy
+msgid "Speichern"
+msgstr "save"
+
+#: views/pads/index.php:11
+#, fuzzy
+msgid "Name des Pads"
+msgstr "Name of the new Pad"
+
+#: views/pads/index.php:12
+#, fuzzy
+msgid "öffentliche URL"
+msgstr "public"
+
+#: views/pads/index.php:13
+#, fuzzy
+msgid "letzte Änderung"
+msgstr "last changes"
+
+#: views/pads/index.php:14
+#, fuzzy
+msgid "Aktionen"
+msgstr "Functions"
+
+#: views/pads/index.php:25
+msgid "neu"
+msgstr "new"
+
+#: views/pads/index.php:33
+msgid "Das Pad ist mit einem Passwort versehen."
+msgstr "The Pad does have a password."
+
+#: views/pads/index.php:60
+msgid "Öffnen"
+msgstr ""
+
+#: views/pads/index.php:137
+msgid "Name des neuen Pads"
+msgstr "Name of the new Pad"
+
+#: views/pads/index.php:142
+msgid "Erlaubte Zeichen: a-z, A-Z, 0-9, _ und -"
+msgstr ""
+
+#: views/pads/index.php:145
+msgid "Neues Pad anlegen"
+msgstr ""
+
+#~ msgid "Schutz und Sichtbarkeit außerhalb Stud.IP"
+#~ msgstr "Protection and visibility outside of Stud.IP"
+
+#~ msgid "Schreibrechte entziehen (Schreibschutz)"
+#~ msgstr "Write Protection"
+
+#~ msgid "zuweisen"
+#~ msgstr "set"
+
+#~ msgid ""
+#~ "Öffentliche Pads können ohne Stud.IP-Zugang von jedem verwendet werden."
+#~ msgstr "Public Pads can be used by everyone."
+
+#~ msgid "anlegen"
+#~ msgstr "create"
+
+#, fuzzy
+#~ msgid "Dies sollte nie zu sehen sein.."
+#~ msgstr "This should never happen"
+
+#, fuzzy
+#~ msgid "StudIPad Group konnte nicht angelegt werden."
+#~ msgstr "Could not create StudIPad Site."
 
 #~ msgid "Information"
 #~ msgstr "Information"
 
 #~ msgid "Kurzes Demo-Video: So funktioniert Etherpad"
 #~ msgstr "Short Demo-Video about Etherpad"
-
-#~ msgid "&Ouml;ffentlich"
-#~ msgstr "public"
 
 #~ msgid "Pad Name"
 #~ msgstr "Pad Name"

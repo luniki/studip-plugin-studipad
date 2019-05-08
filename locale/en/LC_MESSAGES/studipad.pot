@@ -8,178 +8,283 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 16:29+0100\n"
+"POT-Creation-Date: 2019-05-08 06:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CP1252\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/studipad.php:31
-msgid "neu"
-msgstr ""
-
-#: templates/studipad.php:35
-msgid "&ouml;ffentlich"
-msgstr ""
-
-#: templates/studipad.php:40
-msgid "Schreibgesch&uuml;tzt"
-msgstr ""
-
-#: templates/studipad.php:45
-msgid "Das Pad ist mit einem Passwort versehen."
-msgstr ""
-
-#: templates/studipad.php:53
-msgid "letzte &Auml;nderung"
-msgstr ""
-
-#: templates/studipad.php:77
-msgid "Einstellungen"
-msgstr ""
-
-#: templates/studipad.php:95
-msgid "Funktionen"
-msgstr ""
-
-#: templates/studipad.php:104
-msgid "Kontrollelemente anzeigen"
-msgstr ""
-
-#: templates/studipad.php:109
-msgid "Farbsteuerelemente anzeigen"
-msgstr ""
-
-#: templates/studipad.php:114
-msgid "Import- Exportelemente ein- oder ausblenden"
-msgstr ""
-
-#: templates/studipad.php:119
-msgid "Chat anzeigen"
-msgstr ""
-
-#: templates/studipad.php:124
-msgid "Zeilennummern anzeigen"
-msgstr ""
-
-#: templates/studipad.php:142
-msgid "Schutz und Sichtbarkeit au&szlig;erhalb Stud.IP"
-msgstr ""
-
-#: templates/studipad.php:149
-msgid "Schreibrechte entziehen (Schreibschutz)"
-msgstr ""
-
-#: templates/studipad.php:156
-msgid "Passwort l�schen"
-msgstr ""
-
-#: templates/studipad.php:160
-msgid "Passwort"
-msgstr ""
-
-#: templates/studipad.php:162
-msgid "zuweisen"
-msgstr ""
-
-#: templates/studipad.php:164
-msgid ""
-"Wenn ein Passwort gesetzt wird kann das Pad nur nach Eingabe des Passwortes "
-"verwendet werden."
-msgstr ""
-
-#: templates/studipad.php:171
-msgid "Ver&ouml;ffentlichung beenden"
-msgstr ""
-
-#: templates/studipad.php:173 templates/studipad.php:180
-msgid ""
-"&#214;ffentliche Pads k&#246;nnen ohne Stud.IP-Zugang von jedem verwendet "
-"werden."
-msgstr ""
-
-#: templates/studipad.php:178
-msgid "Pad ver�ffentlichen"
-msgstr ""
-
-#: templates/studipad.php:188
-msgid "speichern"
-msgstr ""
-
-#: templates/studipad.php:195
-msgid "Pad l�schen"
-msgstr ""
-
-#: templates/studipad.php:215
-msgid "Name des neuen Pads"
-msgstr ""
-
-#: templates/studipad.php:216
-msgid "anlegen"
-msgstr ""
-
-#: StudIPadPlugin.class.php:98
+#: EtherpadPlugin.class.php:74
 #, php-format
 msgid "%d Pad(s)"
 msgstr ""
 
-#: StudIPadPlugin.class.php:119
+#: EtherpadPlugin.class.php:94
 #, php-format
 msgid "%d Pad(s), %d neue"
 msgstr ""
 
-#: StudIPadPlugin.class.php:231
-msgid "Dies sollte nie zu sehen sein.."
+#: EtherpadPlugin.class.php:118
+msgid "Übersicht"
 msgstr ""
 
-#: StudIPadPlugin.class.php:264
-#, php-format
-msgid "Soll das Pad \"%s\" wirklich gel&ouml;scht werden?"
+#: EtherpadPlugin.class.php:158
+msgid "unbekannte Plugin-Aktion: "
 msgstr ""
 
-#: StudIPadPlugin.class.php:301
-#, php-format
-msgid "Das Pad \"%s\" wurde gel&ouml;scht."
+#: controllers/pads.php:58
+msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr ""
 
-#: StudIPadPlugin.class.php:323
-msgid "Passwort wurde gesetzt."
+#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:461
+msgid "Dieses Pad konnte nicht gefunden werden."
 msgstr ""
 
-#: StudIPadPlugin.class.php:360
+#: controllers/pads.php:126 views/pads/index.php:29
+msgid "schreibgeschützt"
+msgstr ""
+
+#: controllers/pads.php:155 views/pads/index.php:66
+msgid "Einstellungen"
+msgstr ""
+
+#: controllers/pads.php:162 views/pads/index.php:73
+msgid "Aktuellen Inhalt sichern"
+msgstr ""
+
+#: controllers/pads.php:170 views/pads/index.php:80
+msgid "Schreibschutz aktivieren"
+msgstr ""
+
+#: controllers/pads.php:176 views/pads/index.php:86
+msgid "Schreibschutz deaktivieren"
+msgstr ""
+
+#: controllers/pads.php:184 views/pads/index.php:93
+msgid "Passwort festlegen"
+msgstr ""
+
+#: controllers/pads.php:191 views/pads/index.php:100
+msgid "Passwort löschen"
+msgstr ""
+
+#: controllers/pads.php:194 views/pads/index.php:102
+msgid "Wollen Sie das Passwort wirklich löschen?"
+msgstr ""
+
+#: controllers/pads.php:200 views/pads/index.php:108
+msgid "Veröffentlichen"
+msgstr ""
+
+#: controllers/pads.php:203 views/pads/index.php:110
+msgid "Wollen Sie das Pad wirklich öffentlich machen?"
+msgstr ""
+
+#: controllers/pads.php:207 views/pads/index.php:115
+msgid "Veröffentlichung beenden"
+msgstr ""
+
+#: controllers/pads.php:214 views/pads/index.php:121
+msgid "Pad löschen"
+msgstr ""
+
+#: controllers/pads.php:217 views/pads/index.php:123
+msgid "Wollen Sie das Pad wirklich löschen?"
+msgstr ""
+
+#: controllers/pads.php:263
+msgid "Einstellungen gespeichert."
+msgstr ""
+
+#: controllers/pads.php:289
+msgid "Passwort gesetzt."
+msgstr ""
+
+#: controllers/pads.php:291
+msgid "Das Passwort des Pads konnte nicht gesetzt werden."
+msgstr ""
+
+#: controllers/pads.php:307
+msgid "Passwort entfernt."
+msgstr ""
+
+#: controllers/pads.php:309
+msgid "Das Passwort des Pads konnte nicht entfernt werden."
+msgstr ""
+
+#: controllers/pads.php:324
+msgid "Schreibschutz aktiviert."
+msgstr ""
+
+#: controllers/pads.php:337
+msgid "Schreibschutz deaktiviert."
+msgstr ""
+
+#: controllers/pads.php:351
+msgid "Veröffentlicht."
+msgstr ""
+
+#: controllers/pads.php:353
+msgid "Pad konnte nicht veröffentlicht werden."
+msgstr ""
+
+#: controllers/pads.php:369
+msgid "Veröffentlichung aufgehoben."
+msgstr ""
+
+#: controllers/pads.php:371
+msgid "Veröffentlichung des Pads konnte nicht aufgehoben werden."
+msgstr ""
+
+#: controllers/pads.php:389
 msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr ""
 
-#: StudIPadPlugin.class.php:364
-msgid "Pad Namen d&uuml;rfen nur aus Buchstaben und Zahlen bestehen."
+#: controllers/pads.php:394
+msgid ""
+"Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen "
+"bestehen."
 msgstr ""
 
-#: StudIPadPlugin.class.php:378
+#: controllers/pads.php:400
+msgid "Das Pad wurde erfolgreich angelegt."
+msgstr ""
+
+#: controllers/pads.php:402
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr ""
 
-#: StudIPadPlugin.class.php:385
-msgid "StudIPad Group konnte nicht angelegt werden."
+#: controllers/pads.php:419
+msgid "Das Pad wurde gelöscht."
 msgstr ""
 
-#: StudIPadPlugin.class.php:409
-msgid "Zur Zeit sind keine Stud.IPads f&uuml;r diese Veranstaltung vorhanden."
+#: controllers/pads.php:421
+msgid "Das Pad konnte nicht gelöscht werden."
 msgstr ""
 
-#: StudIPadPlugin.class.php:465
+#: controllers/pads.php:443
+#, php-format
+msgid ""
+"Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
+"Dateibereich</a> gesichert."
+msgstr ""
+
+#: controllers/pads.php:635
+#, php-format
+msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
+msgstr ""
+
+#: controllers/pads.php:636
+#, php-format
+msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
+msgstr ""
+
+#: controllers/pads.php:709
+msgid "Es ist ein Verbindungsfehler aufgetreten!"
+msgstr ""
+
+#: controllers/pads.php:718 controllers/pads.php:747
+msgid "Dieses Pad existiert nicht."
+msgstr ""
+
+#: controllers/pads.php:733
+#, php-format
+msgid "Fehler beim Ermitteln der padCallId: %s"
+msgstr ""
+
+#: views/pads/setuperror.php:1
 msgid "StudIPad Client Setup Fehler"
 msgstr ""
 
-#: StudIPadPlugin.class.php:535
-#, php-format
-msgid ""
-"Die Einstellungen f&uuml;r das Pad \"%s\" konnten nicht gespeichert werden!"
+#: views/pads/add_password.php:3
+msgid "Etherpad-Passwort festlegen"
 msgstr ""
 
-#: StudIPadPlugin.class.php:537
-#, php-format
-msgid "Die Einstellungen f&uuml;r das Pad \"%s\" wurden gespeichert!"
+#: views/pads/add_password.php:6
+msgid "Passwort"
+msgstr ""
+
+#: views/pads/add_password.php:11
+msgid ""
+"Wenn ein Passwort gesetzt wird, kann das Pad nur nach Eingabe des Passwortes "
+"verwendet werden."
+msgstr ""
+
+#: views/pads/add_password.php:16
+msgid "Passwort setzen"
+msgstr ""
+
+#: views/pads/add_password.php:17 views/pads/settings.php:45
+msgid "Abbrechen"
+msgstr ""
+
+#: views/pads/settings.php:3
+msgid "Etherpad Toolbar"
+msgstr ""
+
+#: views/pads/settings.php:8
+msgid "Kontrollelemente anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:17
+msgid "Farbsteuerelemente anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:24
+msgid "Import-/Exportelemente ein- oder ausblenden"
+msgstr ""
+
+#: views/pads/settings.php:31
+msgid "Chat anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:38
+msgid "Zeilennummern anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:44
+msgid "Speichern"
+msgstr ""
+
+#: views/pads/index.php:11
+msgid "Name des Pads"
+msgstr ""
+
+#: views/pads/index.php:12
+msgid "öffentliche URL"
+msgstr ""
+
+#: views/pads/index.php:13
+msgid "letzte Änderung"
+msgstr ""
+
+#: views/pads/index.php:14
+msgid "Aktionen"
+msgstr ""
+
+#: views/pads/index.php:25
+msgid "neu"
+msgstr ""
+
+#: views/pads/index.php:33
+msgid "Das Pad ist mit einem Passwort versehen."
+msgstr ""
+
+#: views/pads/index.php:60
+msgid "Öffnen"
+msgstr ""
+
+#: views/pads/index.php:137
+msgid "Name des neuen Pads"
+msgstr ""
+
+#: views/pads/index.php:142
+msgid "Erlaubte Zeichen: a-z, A-Z, 0-9, _ und -"
+msgstr ""
+
+#: views/pads/index.php:145
+msgid "Neues Pad anlegen"
 msgstr ""
