@@ -394,12 +394,15 @@ class PadsController extends StudipController
                                        'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
                                    ));
         } else {
+            $ifNotExists = !!\Request::get('if_not_exists', 0);
             try {
                 $result = $this->client->createGroupPad($eplGroupId, $name, \Config::get()->getValue('STUDIPAD_INITEXT'));
                 $this->createControls($result->padID);
                 \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.'));
             } catch (\Exception $e) {
-                \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
+                if (!$ifNotExists) {
+                    \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
+                }
             }
         }
 
