@@ -1,7 +1,7 @@
 pluginname=EtherpadPlugin
 pluginclassname=EtherpadPlugin
 origin=elan-ev
-version=2.11
+version=2.12
 studipMinVersion=4.0
 category=Kommunikation und Zusammenarbeit
 description=Gemeinsam Texte erstellen und die Texterstellung koordinieren
