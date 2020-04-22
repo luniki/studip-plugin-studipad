@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-22 07:20+0200\n"
+"POT-Creation-Date: 2020-04-22 07:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,8 +195,18 @@ msgstr ""
 msgid "Fehler beim Ermitteln der padCallId: %s"
 msgstr ""
 
-#: views/pads/setuperror.php:1
-msgid "Etherpad Client Setup Fehler"
+#: views/pads/setuperror.php:2
+msgid "Etherpad-Konfigurationsfehler"
+msgstr ""
+
+#: views/pads/setuperror.php:4
+msgid "Die Verbindung zu Etherpad ist nicht möglich."
+msgstr ""
+
+#: views/pads/setuperror.php:5
+msgid ""
+"Wenden Sie sich bitte an ihre Stud.IP-Administration. Das Etherpad-Plugin "
+"ist nicht korrekt konfiguriert."
 msgstr ""
 
 #: views/pads/add_password.php:3
