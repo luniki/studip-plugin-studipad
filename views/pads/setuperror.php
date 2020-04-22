@@ -1,1 +1,1 @@
-<?= MessageBox::error(dgettext('studipad', 'StudIPad Client Setup Fehler')) ?>
+<?= MessageBox::error(dgettext('studipad', 'Etherpad Client Setup Fehler')) ?>
