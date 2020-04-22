@@ -1,8 +1,11 @@
 pluginname=EtherpadPlugin
 pluginclassname=EtherpadPlugin
 origin=elan-ev
-version=2.12
+version=2.13
 studipMinVersion=4.0
 category=Kommunikation und Zusammenarbeit
 description=Gemeinsam Texte erstellen und die Texterstellung koordinieren
-descriptionlong=Erstellen Sie gemeinsam ein Dokument und verfolgen Sie den Ablauf der Texterstellung. Dieses Plugin ist ein wertvoller Begleiter bei der Erstellung von Gruppenarbeiten.
+descriptionlong=Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.
+keywords=Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den "aktuellen Inhalt sichern", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.
+screenshot=screenshot.jpg
+homepage=https://github.com/luniki/studip-plugin-studipad
