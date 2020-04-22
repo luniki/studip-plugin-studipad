@@ -1,6 +1,7 @@
 # Stud.IP-"Etherpad Lite"-Integration
 Der Stud.IPad Plugin erlaubt es Stud.IP mit einem Etherpad-Lite Server zu verbinden.
 
+![Stud.IP Etherpad in einer Veranstaltung](screenshot.jpg?raw=true)
 
 ## Installation
 
