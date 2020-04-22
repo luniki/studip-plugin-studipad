@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 06:34+0200\n"
+"POT-Creation-Date: 2020-04-22 07:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr ""
 
-#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:461
+#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:464
 msgid "Dieses Pad konnte nicht gefunden werden."
 msgstr ""
 
@@ -149,54 +149,54 @@ msgid ""
 "bestehen."
 msgstr ""
 
-#: controllers/pads.php:400
+#: controllers/pads.php:401
 msgid "Das Pad wurde erfolgreich angelegt."
 msgstr ""
 
-#: controllers/pads.php:402
+#: controllers/pads.php:404
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr ""
 
-#: controllers/pads.php:419
+#: controllers/pads.php:422
 msgid "Das Pad wurde gelöscht."
 msgstr ""
 
-#: controllers/pads.php:421
+#: controllers/pads.php:424
 msgid "Das Pad konnte nicht gelöscht werden."
 msgstr ""
 
-#: controllers/pads.php:443
+#: controllers/pads.php:446
 #, php-format
 msgid ""
 "Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
 "Dateibereich</a> gesichert."
 msgstr ""
 
-#: controllers/pads.php:635
+#: controllers/pads.php:638
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
 msgstr ""
 
-#: controllers/pads.php:636
+#: controllers/pads.php:639
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
 msgstr ""
 
-#: controllers/pads.php:709
+#: controllers/pads.php:712
 msgid "Es ist ein Verbindungsfehler aufgetreten!"
 msgstr ""
 
-#: controllers/pads.php:718 controllers/pads.php:747
+#: controllers/pads.php:721 controllers/pads.php:750
 msgid "Dieses Pad existiert nicht."
 msgstr ""
 
-#: controllers/pads.php:733
+#: controllers/pads.php:736
 #, php-format
 msgid "Fehler beim Ermitteln der padCallId: %s"
 msgstr ""
 
 #: views/pads/setuperror.php:1
-msgid "StudIPad Client Setup Fehler"
+msgid "Etherpad Client Setup Fehler"
 msgstr ""
 
 #: views/pads/add_password.php:3

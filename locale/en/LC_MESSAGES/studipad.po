@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 06:34+0200\n"
+"POT-Creation-Date: 2020-04-22 07:20+0200\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr "No Pads created for this course."
 
-#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:461
+#: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:464
 #, fuzzy
 msgid "Dieses Pad konnte nicht gefunden werden."
 msgstr "Could not create the pad."
@@ -165,59 +165,59 @@ msgid ""
 "bestehen."
 msgstr "The Pads name may only contain numbers and letters."
 
-#: controllers/pads.php:400
+#: controllers/pads.php:401
 #, fuzzy
 msgid "Das Pad wurde erfolgreich angelegt."
 msgstr "Could not create the pad."
 
-#: controllers/pads.php:402
+#: controllers/pads.php:404
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr "Could not create the pad."
 
-#: controllers/pads.php:419
+#: controllers/pads.php:422
 #, fuzzy
 msgid "Das Pad wurde gelöscht."
 msgstr "Pad \"%s\" deleted."
 
-#: controllers/pads.php:421
+#: controllers/pads.php:424
 #, fuzzy
 msgid "Das Pad konnte nicht gelöscht werden."
 msgstr "Could not create the pad."
 
-#: controllers/pads.php:443
+#: controllers/pads.php:446
 #, php-format
 msgid ""
 "Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
 "Dateibereich</a> gesichert."
 msgstr ""
 
-#: controllers/pads.php:635
+#: controllers/pads.php:638
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
 msgstr "The Settings for pad \"%s\" have been saved!"
 
-#: controllers/pads.php:636
+#: controllers/pads.php:639
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
 msgstr "The Settings for pad \"%s\" could not be saved!"
 
-#: controllers/pads.php:709
+#: controllers/pads.php:712
 msgid "Es ist ein Verbindungsfehler aufgetreten!"
 msgstr ""
 
-#: controllers/pads.php:718 controllers/pads.php:747
+#: controllers/pads.php:721 controllers/pads.php:750
 msgid "Dieses Pad existiert nicht."
 msgstr ""
 
-#: controllers/pads.php:733
+#: controllers/pads.php:736
 #, php-format
 msgid "Fehler beim Ermitteln der padCallId: %s"
 msgstr ""
 
 #: views/pads/setuperror.php:1
 #, fuzzy
-msgid "StudIPad Client Setup Fehler"
-msgstr "EhterPad Client Setup Error"
+msgid "Etherpad Client Setup Fehler"
+msgstr "EtherPad Client Setup Error"
 
 #: views/pads/add_password.php:3
 msgid "Etherpad-Passwort festlegen"
@@ -338,8 +338,8 @@ msgstr ""
 #~ msgstr "This should never happen"
 
 #, fuzzy
-#~ msgid "StudIPad Group konnte nicht angelegt werden."
-#~ msgstr "Could not create StudIPad Site."
+#~ msgid "Etherpad Group konnte nicht angelegt werden."
+#~ msgstr "Could not create Etherpad Site."
 
 #~ msgid "Information"
 #~ msgstr "Information"
