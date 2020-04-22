@@ -121,7 +121,7 @@ class PadsController extends StudipController
             \Navigation::activateItem('/course/studipad');
         }
 
-        $title = \Context::getHeaderLine().' - Pad: '.$padid;
+        $title = \Context::getHeaderLine().' - Etherpad: '.$padid;
         if ($pad['readOnly']) {
             $title .= ' ('.dgettext('studipad', 'schreibgeschützt').')';
         }
@@ -526,7 +526,7 @@ class PadsController extends StudipController
 
     protected function setDefaultPageTitle()
     {
-        \PageLayout::setTitle(Context::getHeaderLine().' - Pad');
+        \PageLayout::setTitle(Context::getHeaderLine().' - Etherpad');
     }
 
     //////// OLD STUFF

@@ -72,7 +72,7 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
 
                 if ($numPads) {
                     $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
-                    $iconNavigation = new Navigation('Pad', PluginEngine::getURL($this, [], ''));
+                    $iconNavigation = new Navigation('Etherpad', PluginEngine::getURL($this, [], ''));
                     $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, ['title' => $iconTitle]));
                     $newCount = 0;
 
@@ -105,12 +105,12 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
     public function getTabNavigation($courseId)
     {
         $url = PluginEngine::getURL($this, ['cid' => $courseId], '', true);
-        $navigation = new Navigation('Pad', $url);
+        $navigation = new Navigation('Etherpad', $url);
 
         $icon = Icon::create(
             $this->getPluginURL().'/images/icons/EPedit.svg',
             \Icon::ROLE_INACTIVE,
-            ['title' => 'Pad']
+            ['title' => 'Etherpad']
         );
         $navigation->setImage($icon);
         $navigation->setActiveImage($icon->copyWithRole(ICON::ROLE_ATTENTION));

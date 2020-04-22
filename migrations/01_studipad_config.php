@@ -52,7 +52,7 @@ class StudipadConfig extends Migration
         Config::get()->create(
             'STUDIPAD_INITEXT',
             [
-                'description' => "Welcome to Stud.IPad!\r\n\r\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text.  This allows you to collaborate seamlessly on documents!\r\n"
+                'description' => "Welcome to Etherpad!\r\n\r\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text.  This allows you to collaborate seamlessly on documents!\r\n"
             ]
         );
         Config::get()->create(
