@@ -1,4 +1,3 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
@@ -8,6 +7,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: EtherpadPlugin.class.php:74
 #, php-format
@@ -21,25 +25,23 @@ msgstr "%d Pad(s), %d new"
 
 #: EtherpadPlugin.class.php:118
 msgid "Übersicht"
-msgstr ""
+msgstr "Overview"
 
 #: EtherpadPlugin.class.php:158
 msgid "unbekannte Plugin-Aktion: "
-msgstr ""
+msgstr "Unknown plugin action:"
 
 #: controllers/pads.php:58
 msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr "No Pads created for this course."
 
 #: controllers/pads.php:112 controllers/pads.php:238 controllers/pads.php:464
-#, fuzzy
 msgid "Dieses Pad konnte nicht gefunden werden."
-msgstr "Could not create the pad."
+msgstr "This pad could not be found."
 
 #: controllers/pads.php:126 views/pads/index.php:29
-#, fuzzy
 msgid "schreibgeschützt"
-msgstr "read only"
+msgstr "read-only"
 
 #: controllers/pads.php:155 views/pads/index.php:66
 msgid "Einstellungen"
@@ -47,142 +49,118 @@ msgstr "Settings"
 
 #: controllers/pads.php:162 views/pads/index.php:73
 msgid "Aktuellen Inhalt sichern"
-msgstr ""
+msgstr "Save current content"
 
 #: controllers/pads.php:170 views/pads/index.php:80
-#, fuzzy
 msgid "Schreibschutz aktivieren"
-msgstr "read only"
+msgstr "Activate read-only"
 
 #: controllers/pads.php:176 views/pads/index.php:86
-#, fuzzy
 msgid "Schreibschutz deaktivieren"
-msgstr "read only"
+msgstr "Deactivate read-only"
 
 #: controllers/pads.php:184 views/pads/index.php:93
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "delete Password"
+msgstr "Set password"
 
 #: controllers/pads.php:191 views/pads/index.php:100
-#, fuzzy
 msgid "Passwort löschen"
-msgstr "delete Password"
+msgstr "Delete password"
 
 #: controllers/pads.php:194 views/pads/index.php:102
-#, fuzzy
 msgid "Wollen Sie das Passwort wirklich löschen?"
-msgstr "Do you really want to delete the Pad \"%s\"?"
+msgstr "Do you really want to delete the password \"%s\"?"
 
 #: controllers/pads.php:200 views/pads/index.php:108
-#, fuzzy
 msgid "Veröffentlichen"
-msgstr "set pad to public"
+msgstr "Publish"
 
 #: controllers/pads.php:203 views/pads/index.php:110
-#, fuzzy
 msgid "Wollen Sie das Pad wirklich öffentlich machen?"
-msgstr "Do you really want to delete the Pad \"%s\"?"
+msgstr "Do you really want to publish the Pad \"%s\"?"
 
 #: controllers/pads.php:207 views/pads/index.php:115
-#, fuzzy
 msgid "Veröffentlichung beenden"
-msgstr "remove public"
+msgstr "Stop publication"
 
 #: controllers/pads.php:214 views/pads/index.php:121
-#, fuzzy
 msgid "Pad löschen"
-msgstr "delete Pad"
+msgstr "Delete pad"
 
 #: controllers/pads.php:217 views/pads/index.php:123
-#, fuzzy
 msgid "Wollen Sie das Pad wirklich löschen?"
 msgstr "Do you really want to delete the Pad \"%s\"?"
 
 #: controllers/pads.php:263
-#, fuzzy
 msgid "Einstellungen gespeichert."
-msgstr "Settings"
+msgstr "Settings saved"
 
 #: controllers/pads.php:289
-#, fuzzy
 msgid "Passwort gesetzt."
-msgstr "Password has been set."
+msgstr "Password set."
 
 #: controllers/pads.php:291
-#, fuzzy
 msgid "Das Passwort des Pads konnte nicht gesetzt werden."
-msgstr "Could not create the pad."
+msgstr "The password for the Pad could not be set."
 
 #: controllers/pads.php:307
-#, fuzzy
 msgid "Passwort entfernt."
-msgstr "delete Password"
+msgstr "Password removed"
 
 #: controllers/pads.php:309
-#, fuzzy
 msgid "Das Passwort des Pads konnte nicht entfernt werden."
-msgstr "Could not create the pad."
+msgstr "The password for the Pad could not be removed."
 
 #: controllers/pads.php:324
-#, fuzzy
 msgid "Schreibschutz aktiviert."
-msgstr "read only"
+msgstr "Read-only activated"
 
 #: controllers/pads.php:337
-#, fuzzy
 msgid "Schreibschutz deaktiviert."
-msgstr "read only"
+msgstr "Read-only deactivated"
 
 #: controllers/pads.php:351
-#, fuzzy
 msgid "Veröffentlicht."
-msgstr "public"
+msgstr "Published"
 
 #: controllers/pads.php:353
-#, fuzzy
 msgid "Pad konnte nicht veröffentlicht werden."
-msgstr "Could not create the pad."
+msgstr "The Pad could not be published."
 
 #: controllers/pads.php:369
-#, fuzzy
 msgid "Veröffentlichung aufgehoben."
-msgstr "remove public"
+msgstr "Publication cancelled."
 
 #: controllers/pads.php:371
-#, fuzzy
 msgid "Veröffentlichung des Pads konnte nicht aufgehoben werden."
-msgstr "Could not create the pad."
+msgstr "Publication of the pad could not be cancelled."
 
 #: controllers/pads.php:389
 msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr "The Pads name can not be longer than 32 characters."
 
 #: controllers/pads.php:394
-#, fuzzy
 msgid ""
 "Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen "
 "bestehen."
-msgstr "The Pads name may only contain numbers and letters."
+msgstr ""
+"The Pads name may only contain numbers, letters, hyphens and underscores."
 
 #: controllers/pads.php:401
-#, fuzzy
 msgid "Das Pad wurde erfolgreich angelegt."
-msgstr "Could not create the pad."
+msgstr "Pad was successfully created."
 
 #: controllers/pads.php:404
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr "Could not create the pad."
 
 #: controllers/pads.php:422
-#, fuzzy
 msgid "Das Pad wurde gelöscht."
-msgstr "Pad \"%s\" deleted."
+msgstr "The pad was deleted."
 
 #: controllers/pads.php:424
-#, fuzzy
 msgid "Das Pad konnte nicht gelöscht werden."
-msgstr "Could not create the pad."
+msgstr "Could not delete the pad."
 
 #: controllers/pads.php:446
 #, php-format
@@ -190,6 +168,8 @@ msgid ""
 "Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
 "Dateibereich</a> gesichert."
 msgstr ""
+"The current content of the Etherpad document was saved <a href=\"%s\">in the "
+"file area</a>."
 
 #: controllers/pads.php:638
 #, php-format
@@ -203,58 +183,59 @@ msgstr "The Settings for pad \"%s\" could not be saved!"
 
 #: controllers/pads.php:712
 msgid "Es ist ein Verbindungsfehler aufgetreten!"
-msgstr ""
+msgstr "A connection error has occurred."
 
 #: controllers/pads.php:721 controllers/pads.php:750
 msgid "Dieses Pad existiert nicht."
-msgstr ""
+msgstr "This pad does not exist."
 
 #: controllers/pads.php:736
 #, php-format
 msgid "Fehler beim Ermitteln der padCallId: %s"
-msgstr ""
+msgstr "Error while determining the padCallId: %s"
 
 #: views/pads/setuperror.php:2
 msgid "Etherpad-Konfigurationsfehler"
-msgstr ""
+msgstr "Etherpad configuration error"
 
 #: views/pads/setuperror.php:4
 msgid "Die Verbindung zu Etherpad ist nicht möglich."
-msgstr ""
+msgstr "Connection to Etherpad is not possible."
 
 #: views/pads/setuperror.php:5
 msgid ""
 "Wenden Sie sich bitte an ihre Stud.IP-Administration. Das Etherpad-Plugin "
 "ist nicht korrekt konfiguriert."
 msgstr ""
+"Please contact your Stud.IP administrator. The Etherpad plugin is not "
+"configured correctly."
 
 #: views/pads/add_password.php:3
 msgid "Etherpad-Passwort festlegen"
-msgstr ""
+msgstr "Set Etherpad password"
 
 #: views/pads/add_password.php:6
 msgid "Passwort"
 msgstr "Password"
 
 #: views/pads/add_password.php:11
-#, fuzzy
 msgid ""
 "Wenn ein Passwort gesetzt wird, kann das Pad nur nach Eingabe des Passwortes "
 "verwendet werden."
-msgstr "If a password is set you need the password to use the pad."
+msgstr ""
+"If a password is set, the Pad can only be used after entering the password."
 
 #: views/pads/add_password.php:16
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "delete Password"
+msgstr "Set password"
 
 #: views/pads/add_password.php:17 views/pads/settings.php:45
 msgid "Abbrechen"
-msgstr ""
+msgstr "Cancel"
 
 #: views/pads/settings.php:3
 msgid "Etherpad Toolbar"
-msgstr ""
+msgstr "Etherpad toolbar"
 
 #: views/pads/settings.php:8
 msgid "Kontrollelemente anzeigen"
@@ -265,9 +246,8 @@ msgid "Farbsteuerelemente anzeigen"
 msgstr "Show colorcontrols"
 
 #: views/pads/settings.php:24
-#, fuzzy
 msgid "Import-/Exportelemente ein- oder ausblenden"
-msgstr "Show import/export"
+msgstr "Display/hide import/export elements"
 
 #: views/pads/settings.php:31
 msgid "Chat anzeigen"
@@ -278,29 +258,24 @@ msgid "Zeilennummern anzeigen"
 msgstr "Show linenumbers"
 
 #: views/pads/settings.php:44
-#, fuzzy
 msgid "Speichern"
-msgstr "save"
+msgstr "Save"
 
 #: views/pads/index.php:11
-#, fuzzy
 msgid "Name des Pads"
-msgstr "Name of the new Pad"
+msgstr "Name of the Pad"
 
 #: views/pads/index.php:12
-#, fuzzy
 msgid "öffentliche URL"
-msgstr "public"
+msgstr "public URL"
 
 #: views/pads/index.php:13
-#, fuzzy
 msgid "letzte Änderung"
-msgstr "last changes"
+msgstr "last edit"
 
 #: views/pads/index.php:14
-#, fuzzy
 msgid "Aktionen"
-msgstr "Functions"
+msgstr "Actions"
 
 #: views/pads/index.php:25
 msgid "neu"
@@ -312,7 +287,7 @@ msgstr "The Pad does have a password."
 
 #: views/pads/index.php:60
 msgid "Öffnen"
-msgstr ""
+msgstr "Open"
 
 #: views/pads/index.php:137
 msgid "Name des neuen Pads"
@@ -320,11 +295,11 @@ msgstr "Name of the new Pad"
 
 #: views/pads/index.php:142
 msgid "Erlaubte Zeichen: a-z, A-Z, 0-9, _ und -"
-msgstr ""
+msgstr "Allowed characters: a-z, A-Z, 0-9, _ and -"
 
 #: views/pads/index.php:145
 msgid "Neues Pad anlegen"
-msgstr ""
+msgstr "Create new pad"
 
 #, fuzzy
 #~ msgid "Etherpad Client Setup Fehler"
