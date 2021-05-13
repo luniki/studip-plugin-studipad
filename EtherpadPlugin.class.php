@@ -159,4 +159,13 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
             }
         }
     }
+    function getMetadata() {
+        $metadata = parent::getMetadata();
+        $metadata['pluginname'] = dgettext('studipad', "EtherpadPlugin");
+        $metadata['displayname'] = dgettext('studipad',"Etherpad");
+        $metadata['description'] = dgettext('studipad', "Gemeinsam Texte erstellen und die Texterstellung koordinieren");
+        $metadata['descriptionlong'] = dgettext('studipad', "Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.");
+        $metadata['keywords'] = dgettext('studipad', "Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den \"aktuellen Inhalt sichern\", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.");
+        return $metadata;
+    }
 }

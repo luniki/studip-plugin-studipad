@@ -476,6 +476,7 @@ class PadsController extends StudipController
             foreach ($pads as $pval) {
                 $padparts = explode('$', $pval);
                 $pad = $padparts[1];
+
                 $tpads[$pad] = [];
 
                 $padid = $eplGroupId.'$'.$pad;
@@ -494,10 +495,7 @@ class PadsController extends StudipController
                                           )
                                           : false;
 
-                $isPasswordProtected = $this->client->isPasswordProtected($padid);
-                $tpads[$pad]['hasPassword'] = isset($isPasswordProtected)
-                                            ? $isPasswordProtected->isPasswordProtected
-                                            : false;
+                $tpads[$pad]['hasPassword'] = false;
 
                 $tpads[$pad]['readOnly'] = $this->isWriteProtected($padid);
 
