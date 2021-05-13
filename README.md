@@ -16,7 +16,7 @@ Wenn Sie möchten, installieren Sie sich weitere Plugins aus der Liste https://g
 Für den Betrieb mit Stud.IP müssen aber zwei Plugins installiert sein:
 
 ``` shell
-npm install github:luniki/ep_auth_session
+npm install ep_auth_session
 npm install github:virtUOS/ep_resize
 ```
 
