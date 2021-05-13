@@ -179,22 +179,6 @@ class PadsController extends StudipController
                 );
             }
 
-            if (!$pad['hasPassword']) {
-                $actions->addLink(
-                    dgettext('studipad', 'Passwort festlegen'),
-                    $this->url_for('pads/add_password', $padid, ['page'=>1]),
-                    Icon::create('key+add'),
-                    ['data-dialog' => '']
-                );
-            } else {
-                $actions->addLink(
-                    dgettext('studipad', 'Passwort löschen'),
-                    $this->url_for('pads/remove_password', $padid, ['page'=>1]),
-                    Icon::create('key+remove'),
-                    ['data-confirm' => dgettext('studipad', 'Wollen Sie das Passwort wirklich löschen?')]
-                );
-            }
-
             if (!$pad['public']) {
                 $actions->addLink(
                     dgettext('studipad', 'Veröffentlichen'),

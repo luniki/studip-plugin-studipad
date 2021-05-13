@@ -28,10 +28,6 @@
                     <? if ($pad['readOnly']) { ?>
                         (<?= dgettext('studipad', 'schreibgeschützt') ?>)
                     <? } ?>
-
-                    <? if ($pad['hasPassword']) { ?>
-                        <?= Icon::create('lock-locked', Icon::ROLE_ATTENTION, ['title' => dgettext('studipad', 'Das Pad ist mit einem Passwort versehen.')]) ?>
-                    <? } ?>
                 </a>
             </td>
 
