@@ -1,7 +1,10 @@
 {
     "license": "GPL-2.0+",
     "name": "elan-ev/studip-plugin-studipad",
+    "autoload": {
+        "files": ["EtherpadPlugin.class.php"]
+    },
     "require": {
-        "tomnomnom/etherpad-lite-client": "0.1.2"
-    }
+     "tomnomnom/etherpad-lite-client": "0.1.2"
+ }
 }

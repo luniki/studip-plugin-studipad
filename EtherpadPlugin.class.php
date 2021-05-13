@@ -4,16 +4,11 @@
  * @author Oliver Oster <oster@zmml.uni-bremen.de>
  * @author <lunzenauer@elan-ev.de>
  */
-
-// require composer autoloader
-require __DIR__.'/vendor/autoload.php';
-
-class EtherpadPlugin extends StudipPlugin implements StandardPlugin
+class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
 {
-    /**
-     * plugin template factory.
-     */
+    /** @var ?\Flexi_TemplateFactory */
     protected $templateFactory;
+    /** @var ?\EtherpadLite\Client */
     protected $eplClient = null;
 
     /**
@@ -22,6 +17,8 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
     public function __construct()
     {
         parent::__construct();
+
+        require __DIR__.'/vendor/autoload.php';
         bindtextdomain('studipad', dirname(__FILE__).'/locale');
     }
 
@@ -73,7 +70,11 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
                 if ($numPads) {
                     $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
                     $iconNavigation = new Navigation('Etherpad', PluginEngine::getURL($this, [], ''));
-                    $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, ['title' => $iconTitle]));
+                    $iconNavigation->setImage(
+                        Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
+                            'title' => $iconTitle,
+                        ])
+                    );
                     $newCount = 0;
 
                     foreach ($pads as $pad) {
@@ -92,7 +93,11 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
 
                     if ($newCount > 0) {
                         $iconTitle = sprintf(dgettext('studipad', '%d Pad(s), %d neue'), $numPads, $newCount);
-                        $iconNavigation->setImage(Icon::create($this->getPluginURL().'/images/icons/EPedit-new.svg', ICON::ROLE_ATTENTION, ['title' => $iconTitle]));
+                        $iconNavigation->setImage(
+                            Icon::create($this->getPluginURL().'/images/icons/EPedit-new.svg', Icon::ROLE_ATTENTION, [
+                                'title' => $iconTitle,
+                            ])
+                        );
                     }
                 }
             }
@@ -107,13 +112,11 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
         $url = PluginEngine::getURL($this, ['cid' => $courseId], '', true);
         $navigation = new Navigation('Etherpad', $url);
 
-        $icon = Icon::create(
-            $this->getPluginURL().'/images/icons/EPedit.svg',
-            \Icon::ROLE_INACTIVE,
-            ['title' => 'Etherpad']
-        );
+        $icon = Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
+            'title' => 'Etherpad',
+        ]);
         $navigation->setImage($icon);
-        $navigation->setActiveImage($icon->copyWithRole(ICON::ROLE_ATTENTION));
+        $navigation->setActiveImage($icon->copyWithRole(Icon::ROLE_ATTENTION));
 
         $navigation->addSubNavigation('index', new Navigation(_('Übersicht'), $url));
 
@@ -138,25 +141,29 @@ class EtherpadPlugin extends StudipPlugin implements StandardPlugin
     /**
      * This method dispatches all actions.
      *
-     * @param string   part of the dispatch path that was not consumed
+     * @param string $unconsumedPath part of the dispatch path that was not consumed
      */
     public function perform($unconsumedPath)
     {
         $args = explode('/', $unconsumedPath);
 
         $trailsRoot = $this->getPluginPath();
-        $trailsUri = rtrim(PluginEngine::getLink($this, [], null, true), '/');
+        /** @var string $link */
+        $link = PluginEngine::getLink($this, [], null, true);
+        $trailsUri = rtrim($link, '/');
 
         $dispatcher = new Trails_Dispatcher($trailsRoot, $trailsUri, 'pads');
         $dispatcher->plugin = $this;
-        try {
-            $dispatcher->dispatch($unconsumedPath);
-        } catch (Trails_UnknownAction $exception) {
-            if (count($args) > 0) {
-                throw $exception;
-            } else {
-                throw new Exception(_('unbekannte Plugin-Aktion: ').$unconsumedPath);
-            }
-        }
+        $dispatcher->dispatch($unconsumedPath);
+    }
+
+    function getMetadata() {
+        $metadata = parent::getMetadata();
+        $metadata['pluginname'] = dgettext('studipad', "EtherpadPlugin");
+        $metadata['displayname'] = dgettext('studipad',"Etherpad");
+        $metadata['description'] = dgettext('studipad', "Gemeinsam Texte erstellen und die Texterstellung koordinieren");
+        $metadata['descriptionlong'] = dgettext('studipad', "Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.");
+        $metadata['keywords'] = dgettext('studipad', "Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den \"aktuellen Inhalt sichern\", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.");
+        return $metadata;
     }
 }

@@ -1,8 +1,24 @@
 <?php
 
+/**
+  @property string $newPadName;
+  @property bool $padadmin;
+  @property string $message;
+  @property array $tpads;
+  @property string $error;
+  @property string $padid;
+  @property string $toPage;
+  @property array $pad;
+*/
 class PadsController extends StudipController
 {
-    public function __construct($dispatcher)
+    /** @var \EtherpadPlugin */
+    public $plugin;
+
+    /** @var ?\EtherpadLite\Client */
+    public $client;
+
+    public function __construct(Trails_Dispatcher $dispatcher)
     {
         parent::__construct($dispatcher);
         $this->plugin = $dispatcher->plugin;
@@ -75,17 +91,6 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    public function export_pdf_action($pad)
-    {
-        $exportFn = function ($padCallId) {
-            return \Config::get()->getValue('STUDIPAD_PADBASEURL').'/'.$padCallId.'/export/pdf';
-        };
-        $this->redirectToEtherpad($pad, $exportFn);
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
     public function open_action($pad)
     {
         $eplGroupId = $this->requireGroup();
@@ -129,7 +134,6 @@ class PadsController extends StudipController
         \PageLayout::setTitle($title);
 
         if ($GLOBALS['perm']->have_studip_perm('tutor', $cid)) {
-
             $sidebar = \Sidebar::get();
 
             $actions = $sidebar->hasWidget('actions')
@@ -153,7 +157,7 @@ class PadsController extends StudipController
 
             $actions->addLink(
                 dgettext('studipad', 'Einstellungen'),
-                $this->url_for('pads/settings', $padid, ['page'=>1]),
+                $this->url_for('pads/settings', $padid, ['page' => 1]),
                 Icon::create('admin'),
                 ['data-dialog' => '']
             );
@@ -246,7 +250,7 @@ class PadsController extends StudipController
         $this->setControls($padid, $controls);
         \PageLayout::postInfo(dgettext('studipad', 'Einstellungen gespeichert.'));
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad  : '');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad : '');
     }
 
     /**
@@ -259,7 +263,7 @@ class PadsController extends StudipController
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 1);
         \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz aktiviert.'));
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid  : '');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -272,7 +276,7 @@ class PadsController extends StudipController
 
         $this->setWriteProtection($eplGroupId.'$'.$padid, 0);
         \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz deaktiviert.'));
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid  : '');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
     }
 
     /**
@@ -322,16 +326,16 @@ class PadsController extends StudipController
         $name = trim(\Request::get('new_pad_name', ''));
         if ('' === $name || mb_strlen($name) > 32) {
             \PageLayout::postError(dgettext(
-                                       'studipad',
-                                       'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.'
-                                   ));
+                'studipad',
+                'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.'
+            ));
         } elseif (!preg_match('/^[A-Za-z0-9_-]+$/', $name)) {
             \PageLayout::postError(dgettext(
-                                       'studipad',
-                                       'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
-                                   ));
+                'studipad',
+                'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
+            ));
         } else {
-            $ifNotExists = !!\Request::get('if_not_exists', 0);
+            $ifNotExists = !!\Request::get('if_not_exists', null);
             try {
                 $result = $this->client->createGroupPad($eplGroupId, $name, \Config::get()->getValue('STUDIPAD_INITEXT'));
                 $this->createControls($result->padID);
@@ -386,7 +390,7 @@ class PadsController extends StudipController
             )
         );
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad  : '');
+        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad : '');
     }
 
     protected function getPad($contextId, $padid)
@@ -417,9 +421,7 @@ class PadsController extends StudipController
 
                 $padid = $eplGroupId.'$'.$pad;
 
-                if (!strlen($tpads[$pad]['title'])) {
-                    $tpads[$pad]['title'] = $pad;
-                }
+                $tpads[$pad]['title'] = $pad;
 
                 $getPublicStatus = $this->client->getPublicStatus($padid);
                 $tpads[$pad]['public'] = isset($getPublicStatus) ? $getPublicStatus->publicStatus : false;
@@ -492,6 +494,8 @@ class PadsController extends StudipController
             case 'showLineNumbers':
                 $id = '4';
                 break;
+            default:
+                throw new \InvalidArgumentException();
         }
 
         $sql = "SELECT controls FROM plugin_StudIPad_controls WHERE pad_id = '$padid'";
@@ -590,12 +594,11 @@ class PadsController extends StudipController
         try {
             $padRO = $this->client->getReadOnlyID($padid);
             $result[0] = true;
-        } catch (Excepion $e) {
+            $result[1] = $padRO->readOnlyID;
+        } catch (Exception $e) {
             $result[0] = false;
             $result[2] = $e->getMessage();
         }
-
-        $result[1] = $padRO->readOnlyID;
 
         return $result;
     }
@@ -719,16 +722,22 @@ class PadsController extends StudipController
 
     private function saveAsPDF(\User $user, \Course $course, $pad, $html)
     {
-        if (!$folder = \Folder::findTopFolder($course->id)) {
+        /** @var ?\Folder $folder */
+        $folder = \Folder::findTopFolder($course->id);
+        if (!$folder) {
             throw new \RuntimeException('Could not find top folder.');
         }
 
         $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad, date('Y-m-d-H-m-s')));
-        if (!$file = \File::create(['user_id' => $user->id, 'mime_type' => 'application/pdf', 'name' => $filename, 'storage' => 'disk'])) {
+        /** @var ?\File $file */
+        $file = \File::create(['user_id' => $user->id, 'mime_type' => 'application/pdf', 'name' => $filename, 'storage' => 'disk']);
+        if (!$file) {
             throw new \RuntimeException('Could not store file.');
         }
 
-        if (!$fileRef = \FileRef::create(['file_id' => $file->id, 'folder_id' => $folder->id, 'user_id' => $user->id, 'name' => $file->name])) {
+        /** @var ?\FileRef $fileRef */
+        $fileRef = \FileRef::create(['file_id' => $file->id, 'folder_id' => $folder->id, 'user_id' => $user->id, 'name' => $file->name]);
+        if (!$fileRef) {
             throw new \RuntimeException('Could not store file ref.');
         }
 
