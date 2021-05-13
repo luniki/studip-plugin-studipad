@@ -252,53 +252,6 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    public function add_password_action($padid)
-    {
-        $this->requireTutor();
-        $this->padid = $padid;
-        $this->toPage = \Request::submitted('page');
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
-    public function store_password_action($padid)
-    {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
-
-        try {
-            $padpassword = \Request::get('pad_password');
-            $this->client->setPassword($eplGroupId.'$'.$padid, $padpassword);
-            \PageLayout::postInfo(dgettext('studipad', 'Passwort gesetzt.'));
-        } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht gesetzt werden.'));
-        }
-
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
-    public function remove_password_action($padid)
-    {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
-
-        try {
-            $this->client->setPassword($eplGroupId.'$'.$padid, null);
-            \PageLayout::postInfo(dgettext('studipad', 'Passwort entfernt.'));
-        } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht entfernt werden.'));
-        }
-
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
     public function activate_write_protect_action($padid)
     {
         $this->requireTutor();
@@ -477,11 +430,6 @@ class PadsController extends StudipController
                                               $this->getPadCallId($eplGroupId, $pad)
                                           )
                                           : false;
-
-                $isPasswordProtected = $this->client->isPasswordProtected($padid);
-                $tpads[$pad]['hasPassword'] = isset($isPasswordProtected)
-                                            ? $isPasswordProtected->isPasswordProtected
-                                            : false;
 
                 $tpads[$pad]['readOnly'] = $this->isWriteProtected($padid);
 

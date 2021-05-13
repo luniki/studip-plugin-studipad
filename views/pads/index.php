@@ -83,21 +83,6 @@
                                    Icon::create('lock-unlocked')
                                )
 
-                               ->condition(!$pad['hasPassword'])
-                               ->addLink(
-                                   $controller->url_for('pads/add_password', $padid),
-                                   dgettext('studipad', 'Passwort festlegen'),
-                                   Icon::create('key+add'),
-                                   ['data-dialog' => '']
-                               )
-                               ->condition($pad['hasPassword'])
-                               ->addLink(
-                                   $controller->url_for('pads/remove_password', $padid),
-                                   dgettext('studipad', 'Passwort löschen'),
-                                   Icon::create('key+remove'),
-                                   ['data-confirm' => dgettext('studipad', 'Wollen Sie das Passwort wirklich löschen?')]
-                               )
-
                                ->condition(!$pad['public'])
                                ->addLink(
                                    $controller->url_for('pads/publish', $padid),
