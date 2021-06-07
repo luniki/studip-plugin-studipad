@@ -155,7 +155,7 @@ class PadsController extends StudipController
                 dgettext('studipad', 'Einstellungen'),
                 $this->url_for('pads/settings', $padid, ['page'=>1]),
                 Icon::create('admin'),
-                ['data-dialog' => '']
+                ['data-dialog' => 'size=auto']
             );
 
             $actions->addLink(
@@ -176,22 +176,6 @@ class PadsController extends StudipController
                     dgettext('studipad', 'Schreibschutz deaktivieren'),
                     $this->url_for('pads/deactivate_write_protect', $padid, ['page'=>1]),
                     Icon::create('lock-unlocked')
-                );
-            }
-
-            if (!$pad['hasPassword']) {
-                $actions->addLink(
-                    dgettext('studipad', 'Passwort festlegen'),
-                    $this->url_for('pads/add_password', $padid, ['page'=>1]),
-                    Icon::create('key+add'),
-                    ['data-dialog' => '']
-                );
-            } else {
-                $actions->addLink(
-                    dgettext('studipad', 'Passwort löschen'),
-                    $this->url_for('pads/remove_password', $padid, ['page'=>1]),
-                    Icon::create('key+remove'),
-                    ['data-confirm' => dgettext('studipad', 'Wollen Sie das Passwort wirklich löschen?')]
                 );
             }
 
@@ -278,40 +262,6 @@ class PadsController extends StudipController
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    public function store_password_action($padid)
-    {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
-
-        try {
-            $padpassword = \Request::get('pad_password');
-            $this->client->setPassword($eplGroupId.'$'.$padid, $padpassword);
-            \PageLayout::postInfo(dgettext('studipad', 'Passwort gesetzt.'));
-        } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht gesetzt werden.'));
-        }
-
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
-    public function remove_password_action($padid)
-    {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
-
-        try {
-            $this->client->setPassword($eplGroupId.'$'.$padid, null);
-            \PageLayout::postInfo(dgettext('studipad', 'Passwort entfernt.'));
-        } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Das Passwort des Pads konnte nicht entfernt werden.'));
-        }
-
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
-    }
-
     /**
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
@@ -642,11 +592,11 @@ class PadsController extends StudipController
         $controls = $this->getControls($padid);
         $result = '&showControls='.($controls['showControls'] ? 'true' : 'false');
 
-        if ($controls['showControls']) {
+        //if ($controls['showControls']) {
             foreach (['showColorBlock', 'showImportExportBlock', 'showChat', 'showLineNumbers'] as $key) {
                 $result .= sprintf('&%s=%s', $key, $controls[$key] ? 'true' : 'false');
             }
-        }
+        //}
 
         return $result;
     }

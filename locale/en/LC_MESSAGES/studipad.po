@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-11 11:37+0100\n"
+"POT-Creation-Date: 2021-06-07 09:19+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -50,8 +50,9 @@ msgid ""
 "Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig "
 "Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und "
 "schreiben."
-msgstr "With this plugin you can work alone or edit texts with many people at the same time."
-" All participants in the course can read and write."
+msgstr ""
+"With this plugin you can work alone or edit texts with many people at the "
+"same time. All participants in the course can read and write."
 
 #: /EtherpadPlugin.class.php:168
 msgid ""
@@ -62,18 +63,20 @@ msgid ""
 "dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro "
 "Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad "
 "veröffentlichen und die dann angezeigte URL weitergeben."
-msgstr "True simultaneous working: Several people can edit at the same time, all of them see the changes immediately;"
-"Version history: No change is lost, use the clock icon at the top;"
-"Save intermediate statuses: In the menu on the left you can \"save the current content\", which then ends up as a PDF file in the file area;"
-"Unlimited number of pads per course;"
-"Worldwide access possible: In the menu on the left you can share the URL that is then displayed."
+msgstr ""
+"True simultaneous working: Several people can edit at the same time, all of "
+"them see the changes immediately;Version history: No change is lost, use the "
+"clock icon at the top;Save intermediate statuses: In the menu on the left "
+"you can \"save the current content\", which then ends up as a PDF file in "
+"the file area;Unlimited number of pads per course;Worldwide access possible: "
+"In the menu on the left you can share the URL that is then displayed."
 
 #: /controllers/pads.php:58
 msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
 msgstr "No Pads created for this course."
 
-#: /controllers/pads.php:112 /controllers/pads.php:238
-#: /controllers/pads.php:464
+#: /controllers/pads.php:112 /controllers/pads.php:222
+#: /controllers/pads.php:414
 msgid "Dieses Pad konnte nicht gefunden werden."
 msgstr "This pad could not be found."
 
@@ -81,126 +84,98 @@ msgstr "This pad could not be found."
 msgid "schreibgeschützt"
 msgstr "read-only"
 
-#: /controllers/pads.php:155 /views/pads/index.php:66
+#: /controllers/pads.php:155 /views/pads/index.php:62
 msgid "Einstellungen"
 msgstr "Settings"
 
-#: /controllers/pads.php:162 /views/pads/index.php:73
+#: /controllers/pads.php:162 /views/pads/index.php:69
 msgid "Aktuellen Inhalt sichern"
 msgstr "Save current content"
 
-#: /controllers/pads.php:170 /views/pads/index.php:80
+#: /controllers/pads.php:170 /views/pads/index.php:76
 msgid "Schreibschutz aktivieren"
 msgstr "Activate read-only"
 
-#: /controllers/pads.php:176 /views/pads/index.php:86
+#: /controllers/pads.php:176 /views/pads/index.php:82
 msgid "Schreibschutz deaktivieren"
 msgstr "Deactivate read-only"
 
-#: /controllers/pads.php:184 /views/pads/index.php:93
-msgid "Passwort festlegen"
-msgstr "Set password"
-
-#: /controllers/pads.php:191 /views/pads/index.php:100
-msgid "Passwort löschen"
-msgstr "Delete password"
-
-#: /controllers/pads.php:194 /views/pads/index.php:102
-msgid "Wollen Sie das Passwort wirklich löschen?"
-msgstr "Do you really want to delete the password \"%s\"?"
-
-#: /controllers/pads.php:200 /views/pads/index.php:108
+#: /controllers/pads.php:184 /views/pads/index.php:89
 msgid "Veröffentlichen"
 msgstr "Publish"
 
-#: /controllers/pads.php:203 /views/pads/index.php:110
+#: /controllers/pads.php:187 /views/pads/index.php:91
 msgid "Wollen Sie das Pad wirklich öffentlich machen?"
 msgstr "Do you really want to publish the Pad \"%s\"?"
 
-#: /controllers/pads.php:207 /views/pads/index.php:115
+#: /controllers/pads.php:191 /views/pads/index.php:96
 msgid "Veröffentlichung beenden"
 msgstr "Stop publication"
 
-#: /controllers/pads.php:214 /views/pads/index.php:121
+#: /controllers/pads.php:198 /views/pads/index.php:102
 msgid "Pad löschen"
 msgstr "Delete pad"
 
-#: /controllers/pads.php:217 /views/pads/index.php:123
+#: /controllers/pads.php:201 /views/pads/index.php:104
 msgid "Wollen Sie das Pad wirklich löschen?"
 msgstr "Do you really want to delete the Pad \"%s\"?"
 
-#: /controllers/pads.php:263
+#: /controllers/pads.php:247
 msgid "Einstellungen gespeichert."
 msgstr "Settings saved"
 
-#: /controllers/pads.php:289
-msgid "Passwort gesetzt."
-msgstr "Password set."
-
-#: /controllers/pads.php:291
-msgid "Das Passwort des Pads konnte nicht gesetzt werden."
-msgstr "The password for the Pad could not be set."
-
-#: /controllers/pads.php:307
-msgid "Passwort entfernt."
-msgstr "Password removed"
-
-#: /controllers/pads.php:309
-msgid "Das Passwort des Pads konnte nicht entfernt werden."
-msgstr "The password for the Pad could not be removed."
-
-#: /controllers/pads.php:324
+#: /controllers/pads.php:274
 msgid "Schreibschutz aktiviert."
 msgstr "Read-only activated"
 
-#: /controllers/pads.php:337
+#: /controllers/pads.php:287
 msgid "Schreibschutz deaktiviert."
 msgstr "Read-only deactivated"
 
-#: /controllers/pads.php:351
+#: /controllers/pads.php:301
 msgid "Veröffentlicht."
 msgstr "Published"
 
-#: /controllers/pads.php:353
+#: /controllers/pads.php:303
 msgid "Pad konnte nicht veröffentlicht werden."
 msgstr "The Pad could not be published."
 
-#: /controllers/pads.php:369
+#: /controllers/pads.php:319
 msgid "Veröffentlichung aufgehoben."
 msgstr "Publication cancelled."
 
-#: /controllers/pads.php:371
+#: /controllers/pads.php:321
 msgid "Veröffentlichung des Pads konnte nicht aufgehoben werden."
 msgstr "Publication of the pad could not be cancelled."
 
-#: /controllers/pads.php:389
+#: /controllers/pads.php:339
 msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr "The Pads name can not be longer than 32 characters."
 
-#: /controllers/pads.php:394
+#: /controllers/pads.php:344
 msgid ""
 "Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen "
 "bestehen."
 msgstr ""
 "The Pads name may only contain numbers, letters, hyphens and underscores."
 
-#: /controllers/pads.php:401
+#: /controllers/pads.php:351
 msgid "Das Pad wurde erfolgreich angelegt."
 msgstr "Pad was successfully created."
 
-#: /controllers/pads.php:404
+#: /controllers/pads.php:354
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr "Could not create the pad."
 
-#: /controllers/pads.php:422
+#: /controllers/pads.php:372
 msgid "Das Pad wurde gelöscht."
 msgstr "The pad was deleted."
 
-#: /controllers/pads.php:424
+#: /controllers/pads.php:374
 msgid "Das Pad konnte nicht gelöscht werden."
 msgstr "Could not delete the pad."
 
-#: /controllers/pads.php:446
+#: /controllers/pads.php:396
 #, php-format
 msgid ""
 "Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
@@ -209,25 +184,25 @@ msgstr ""
 "The current content of the Etherpad document was saved <a href=\"%s\">in the "
 "file area</a>."
 
-#: /controllers/pads.php:638
+#: /controllers/pads.php:586
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
 msgstr "The Settings for pad \"%s\" have been saved!"
 
-#: /controllers/pads.php:639
+#: /controllers/pads.php:587
 #, php-format
 msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
 msgstr "The Settings for pad \"%s\" could not be saved!"
 
-#: /controllers/pads.php:712
+#: /controllers/pads.php:660
 msgid "Es ist ein Verbindungsfehler aufgetreten!"
 msgstr "A connection error has occurred."
 
-#: /controllers/pads.php:721 /controllers/pads.php:750
+#: /controllers/pads.php:669 /controllers/pads.php:698
 msgid "Dieses Pad existiert nicht."
 msgstr "This pad does not exist."
 
-#: /controllers/pads.php:736
+#: /controllers/pads.php:684
 #, php-format
 msgid "Fehler beim Ermitteln der padCallId: %s"
 msgstr "Error while determining the padCallId: %s"
@@ -237,30 +212,18 @@ msgid "Etherpad Toolbar"
 msgstr "Etherpad toolbar"
 
 #: /views/pads/settings.php:8
-msgid "Kontrollelemente anzeigen"
-msgstr "Show control elements"
-
-#: /views/pads/settings.php:17
-msgid "Farbsteuerelemente anzeigen"
-msgstr "Show colorcontrols"
-
-#: /views/pads/settings.php:24
-msgid "Import-/Exportelemente ein- oder ausblenden"
-msgstr "Display/hide import/export elements"
-
-#: /views/pads/settings.php:31
 msgid "Chat anzeigen"
 msgstr "Show Chat"
 
-#: /views/pads/settings.php:38
+#: /views/pads/settings.php:14
 msgid "Zeilennummern anzeigen"
 msgstr "Show linenumbers"
 
-#: /views/pads/settings.php:44
+#: /views/pads/settings.php:20
 msgid "Speichern"
 msgstr "Save"
 
-#: /views/pads/settings.php:45 /views/pads/add_password.php:17
+#: /views/pads/settings.php:21
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -284,44 +247,21 @@ msgstr "Actions"
 msgid "neu"
 msgstr "new"
 
-#: /views/pads/index.php:33
-msgid "Das Pad ist mit einem Passwort versehen."
-msgstr "The Pad does have a password."
-
-#: /views/pads/index.php:60
+#: /views/pads/index.php:56
 msgid "Öffnen"
 msgstr "Open"
 
-#: /views/pads/index.php:137
+#: /views/pads/index.php:118
 msgid "Name des neuen Pads"
 msgstr "Name of the new Pad"
 
-#: /views/pads/index.php:142
+#: /views/pads/index.php:123
 msgid "Erlaubte Zeichen: a-z, A-Z, 0-9, _ und -"
 msgstr "Allowed characters: a-z, A-Z, 0-9, _ and -"
 
-#: /views/pads/index.php:145
+#: /views/pads/index.php:126
 msgid "Neues Pad anlegen"
 msgstr "Create new pad"
-
-#: /views/pads/add_password.php:3
-msgid "Etherpad-Passwort festlegen"
-msgstr "Set Etherpad password"
-
-#: /views/pads/add_password.php:6
-msgid "Passwort"
-msgstr "Password"
-
-#: /views/pads/add_password.php:11
-msgid ""
-"Wenn ein Passwort gesetzt wird, kann das Pad nur nach Eingabe des Passwortes "
-"verwendet werden."
-msgstr ""
-"If a password is set, the Pad can only be used after entering the password."
-
-#: /views/pads/add_password.php:16
-msgid "Passwort setzen"
-msgstr "Set password"
 
 #: /views/pads/setuperror.php:2
 msgid "Etherpad-Konfigurationsfehler"
@@ -338,6 +278,55 @@ msgid ""
 msgstr ""
 "Please contact your Stud.IP administrator. The Etherpad plugin is not "
 "configured correctly."
+
+#~ msgid "Passwort festlegen"
+#~ msgstr "Set password"
+
+#~ msgid "Passwort löschen"
+#~ msgstr "Delete password"
+
+#~ msgid "Wollen Sie das Passwort wirklich löschen?"
+#~ msgstr "Do you really want to delete the password \"%s\"?"
+
+#~ msgid "Passwort gesetzt."
+#~ msgstr "Password set."
+
+#~ msgid "Das Passwort des Pads konnte nicht gesetzt werden."
+#~ msgstr "The password for the Pad could not be set."
+
+#~ msgid "Passwort entfernt."
+#~ msgstr "Password removed"
+
+#~ msgid "Das Passwort des Pads konnte nicht entfernt werden."
+#~ msgstr "The password for the Pad could not be removed."
+
+#~ msgid "Kontrollelemente anzeigen"
+#~ msgstr "Show control elements"
+
+#~ msgid "Farbsteuerelemente anzeigen"
+#~ msgstr "Show colorcontrols"
+
+#~ msgid "Import-/Exportelemente ein- oder ausblenden"
+#~ msgstr "Display/hide import/export elements"
+
+#~ msgid "Das Pad ist mit einem Passwort versehen."
+#~ msgstr "The Pad does have a password."
+
+#~ msgid "Etherpad-Passwort festlegen"
+#~ msgstr "Set Etherpad password"
+
+#~ msgid "Passwort"
+#~ msgstr "Password"
+
+#~ msgid ""
+#~ "Wenn ein Passwort gesetzt wird, kann das Pad nur nach Eingabe des "
+#~ "Passwortes verwendet werden."
+#~ msgstr ""
+#~ "If a password is set, the Pad can only be used after entering the "
+#~ "password."
+
+#~ msgid "Passwort setzen"
+#~ msgstr "Set password"
 
 #, fuzzy
 #~ msgid "Etherpad Client Setup Fehler"
