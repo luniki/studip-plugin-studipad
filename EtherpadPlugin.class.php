@@ -18,8 +18,8 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
     {
         parent::__construct();
 
-        require __DIR__.'/vendor/autoload.php';
-        bindtextdomain('studipad', dirname(__FILE__).'/locale');
+        require __DIR__ . '/vendor/autoload.php';
+        bindtextdomain('studipad', dirname(__FILE__) . '/locale');
     }
 
     public function getClient()
@@ -48,6 +48,8 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      * no icon for this plugin (or course). The navigation object’s
      * title will not be shown, only the image (and its associated
      * attributes like ’title’) and the URL are actually used.
+     *
+     * @return ?object navigation item to render or NULL
      */
     public function getIconNavigation($courseId, $lastVisit, $userId = null)
     {
@@ -59,7 +61,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
             $iconNavigation = null;
             $lastVisit = $lastVisit * 1000;
 
-            $eplGmap = $this->eplClient->createGroupIfNotExistsFor('subdomain:'.$courseId);
+            $eplGmap = $this->eplClient->createGroupIfNotExistsFor('subdomain:' . $courseId);
             $eplGroupid = $eplGmap->groupID;
 
             if ($eplGroupid) {
@@ -71,7 +73,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
                     $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
                     $iconNavigation = new Navigation('Etherpad', PluginEngine::getURL($this, [], ''));
                     $iconNavigation->setImage(
-                        Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
+                        Icon::create($this->getPluginURL() . '/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
                             'title' => $iconTitle,
                         ])
                     );
@@ -94,7 +96,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
                     if ($newCount > 0) {
                         $iconTitle = sprintf(dgettext('studipad', '%d Pad(s), %d neue'), $numPads, $newCount);
                         $iconNavigation->setImage(
-                            Icon::create($this->getPluginURL().'/images/icons/EPedit-new.svg', Icon::ROLE_ATTENTION, [
+                            Icon::create($this->getPluginURL() . '/images/icons/EPedit-new.svg', Icon::ROLE_ATTENTION, [
                                 'title' => $iconTitle,
                             ])
                         );
@@ -112,7 +114,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         $url = PluginEngine::getURL($this, ['cid' => $courseId], '', true);
         $navigation = new Navigation('Etherpad', $url);
 
-        $icon = Icon::create($this->getPluginURL().'/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
+        $icon = Icon::create($this->getPluginURL() . '/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
             'title' => 'Etherpad',
         ]);
         $navigation->setImage($icon);
@@ -132,6 +134,8 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      * Return a template (an instance of the Flexi_Template class)
      * to be rendered on the course summary page. Return NULL to
      * render nothing for this plugin.
+     *
+     * @return ?object navigation item to render or NULL
      */
     public function getInfoTemplate($courseId)
     {
@@ -157,13 +161,23 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         $dispatcher->dispatch($unconsumedPath);
     }
 
-    function getMetadata() {
+    public function getMetadata()
+    {
         $metadata = parent::getMetadata();
-        $metadata['pluginname'] = dgettext('studipad', "EtherpadPlugin");
-        $metadata['displayname'] = dgettext('studipad',"Etherpad");
-        $metadata['description'] = dgettext('studipad', "Gemeinsam Texte erstellen und die Texterstellung koordinieren");
-        $metadata['descriptionlong'] = dgettext('studipad', "Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.");
-        $metadata['keywords'] = dgettext('studipad', "Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den \"aktuellen Inhalt sichern\", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.");
+        $metadata['pluginname'] = dgettext('studipad', 'EtherpadPlugin');
+        $metadata['displayname'] = dgettext('studipad', 'Etherpad');
+        $metadata['description'] = dgettext(
+            'studipad',
+            'Gemeinsam Texte erstellen und die Texterstellung koordinieren'
+        );
+        $metadata['descriptionlong'] = dgettext(
+            'studipad',
+            'Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.'
+        );
+        $metadata['keywords'] = dgettext(
+            'studipad',
+            'Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den "aktuellen Inhalt sichern", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.'
+        );
         return $metadata;
     }
 }
