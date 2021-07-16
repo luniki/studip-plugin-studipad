@@ -427,7 +427,7 @@ class PadsController extends StudipController
                 $tpads[$pad]['public'] = isset($getPublicStatus) ? $getPublicStatus->publicStatus : false;
                 $tpads[$pad]['publicUrl'] = isset($getPublicStatus)
                                           ? $this->shorten(
-                                              \Config::get()->getValue('STUDIPAD_PADBASEURL').
+                                              rtrim(\Config::get()->getValue('STUDIPAD_PADBASEURL'), '/').
                                               '/'.
                                               $this->getPadCallId($eplGroupId, $pad)
                                           )
@@ -696,7 +696,7 @@ class PadsController extends StudipController
 
         return sprintf(
             '%s/auth_session?sessionID=%s&padName=%s',
-            dirname(Config::get()->getValue('STUDIPAD_PADBASEURL')),
+            dirname(rtrim(Config::get()->getValue('STUDIPAD_PADBASEURL'), '/')),
             $eplSid->sessionID,
             $this->getPadCallId($eplGroupId, $pad)
         );

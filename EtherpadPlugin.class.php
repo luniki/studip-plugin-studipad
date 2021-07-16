@@ -33,7 +33,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
             try {
                 $this->eplClient = new \EtherpadLite\Client(
                     \Config::get()->getValue('STUDIPAD_APIKEY'),
-                    \Config::get()->getValue('STUDIPAD_APIURL')
+                    rtrim((string) \Config::get()->getValue('STUDIPAD_APIURL'), '/')
                 );
             } catch (Exception $ex) {
             }
