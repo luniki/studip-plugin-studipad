@@ -42,6 +42,8 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         return isset($this->eplClient);
     }
 
+    const CACHE_KEY_SUFFIX = 'plugins/etherpadplugin/';
+
     /**
      * Return a navigation object representing this plugin in the
      * course overview table or return NULL if you want to display
@@ -53,60 +55,30 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      */
     public function getIconNavigation($courseId, $lastVisit, $userId = null)
     {
-        if (!$this->eplclientInit()) {
-            return null;
-        }
+        $cache = \StudipCacheFactory::getCache();
+        $cacheKey = self::CACHE_KEY_SUFFIX . $courseId;
+        $lastEdit = $cache->read($cacheKey);
 
-        try {
-            $iconNavigation = null;
-            $lastVisit = $lastVisit * 1000;
-
-            $eplGmap = $this->eplClient->createGroupIfNotExistsFor('subdomain:' . $courseId);
-            $eplGroupid = $eplGmap->groupID;
-
-            if ($eplGroupid) {
-                $grouppads = $this->eplClient->listPads($eplGroupid);
-                $pads = $grouppads->padIDs;
-                $numPads = count($pads);
-
-                if ($numPads) {
-                    $iconTitle = sprintf(dgettext('studipad', '%d Pad(s)'), $numPads);
-                    $iconNavigation = new Navigation('Etherpad', PluginEngine::getURL($this, [], ''));
-                    $iconNavigation->setImage(
-                        Icon::create($this->getPluginURL() . '/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
-                            'title' => $iconTitle,
-                        ])
-                    );
-                    $newCount = 0;
-
-                    foreach ($pads as $pad) {
-                        $lastEdit = 0;
-
-                        try {
-                            $le = $this->eplClient->getLastEdited($pad);
-                            $lastEdit = $le->lastEdited;
-                        } catch (Exception $e) {
-                        }
-
-                        if ($lastEdit > $lastVisit) {
-                            ++$newCount;
-                        }
-                    }
-
-                    if ($newCount > 0) {
-                        $iconTitle = sprintf(dgettext('studipad', '%d Pad(s), %d neue'), $numPads, $newCount);
-                        $iconNavigation->setImage(
-                            Icon::create($this->getPluginURL() . '/images/icons/EPedit-new.svg', Icon::ROLE_ATTENTION, [
-                                'title' => $iconTitle,
-                            ])
-                        );
-                    }
+        if ($lastEdit === false) {
+            try {
+                if (!$this->eplclientInit()) {
+                    return null;
                 }
+
+                $lastEdit = $this->getLastEdit($courseId);
+
+                // problems getting $lastEdit, just pretend there aren't any
+                if ($lastEdit === null) {
+                    $lastEdit = $lastVisit;
+                } else {
+                    $cache->write($cacheKey, $lastEdit, 5 * 60);
+                }
+            } catch (Exception $ex) {
+                return null;
             }
-        } catch (Exception $ex) {
         }
 
-        return $iconNavigation;
+        return $this->createIconNavigation($lastEdit >= $lastVisit);
     }
 
     public function getTabNavigation($courseId)
@@ -179,5 +151,66 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
             'Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den "aktuellen Inhalt sichern", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.'
         );
         return $metadata;
+    }
+
+    public function expireLastEditCache($courseId = null)
+    {
+        if ($courseId === null) {
+            $courseId = \Context::getId();
+        }
+        $cache = \StudipCacheFactory::getCache();
+        $cacheKey = self::CACHE_KEY_SUFFIX . $courseId;
+        $cache->expire($cacheKey);
+    }
+
+    private function createIconNavigation($isFresh)
+    {
+        $iconTitle = $isFresh
+            ? dgettext('studipad', 'Etherpad-Plugin mit neuen Inhalten')
+            : dgettext('studipad', 'Etherpad-Plugin');
+        $iconNavigation = new \Navigation('Etherpad', \PluginEngine::getURL($this, [], ''));
+        $iconNavigation->setImage(
+            \Icon::create(
+                $this->getPluginURL() . ($isFresh ? '/images/icons/EPedit-new.svg' : '/images/icons/EPedit.svg'),
+                $isFresh ? \Icon::ROLE_ATTENTION : \Icon::ROLE_INACTIVE,
+                [
+                    'title' => $iconTitle,
+                ]
+            )
+        );
+        $iconNavigation->setBadgeNumber('1');
+
+        return $iconNavigation;
+    }
+
+    /**
+     * @param string $courseId the ID of a course
+     * @return ?integer timestamp of last edit, null if not able to compute it
+     */
+    private function getLastEdit($courseId)
+    {
+        $group = $this->eplClient->createGroupIfNotExistsFor('subdomain:' . $courseId);
+        if (!isset($group->groupID) || !$group->groupID) {
+            return null;
+        }
+
+        $pads = $this->eplClient->listPads($group->groupID);
+        if (!isset($pads->padIDs)) {
+            return null;
+        }
+        if (!count($pads->padIDs)) {
+            return null;
+        }
+
+        $latest = null;
+        foreach ($pads->padIDs as $padId) {
+            $lastEdit = $this->eplClient->getLastEdited($padId);
+            $timestamp = intval($lastEdit->lastEdited / 1000);
+            if (!$latest || $latest < $timestamp) {
+                $latest = $timestamp;
+            }
+        }
+
+        return $latest;
     }
 }

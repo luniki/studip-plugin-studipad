@@ -340,6 +340,7 @@ class PadsController extends StudipController
                 $result = $this->client->createGroupPad($eplGroupId, $name, \Config::get()->getValue('STUDIPAD_INITEXT'));
                 $this->createControls($result->padID);
                 \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.'));
+                $this->plugin->expireLastEditCache();
             } catch (\Exception $e) {
                 if (!$ifNotExists) {
                     \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
@@ -361,6 +362,7 @@ class PadsController extends StudipController
         try {
             $this->client->deletePad($eplGroupId.'$'.$padid);
             \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde gelöscht.'));
+            $this->plugin->expireLastEditCache();
         } catch (Exception $e) {
             \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht gelöscht werden.'));
         }
