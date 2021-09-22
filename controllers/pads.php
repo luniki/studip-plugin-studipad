@@ -379,6 +379,9 @@ class PadsController extends StudipController
         $pad = $this->requirePad($pad);
 
         $fileRef = $this->storeSnapshot($this->getCurrentUser(), \Context::get(), $pad);
+        if (!$fileRef) {
+            return $this->redirect('');
+        }
 
         $url = URLHelper::getLink(sprintf('dispatch.php/course/files/index/%s#fileref_%s', $fileRef->folder_id, $fileRef->id), ['cid' => \Context::getId()], true);
 
@@ -718,7 +721,7 @@ class PadsController extends StudipController
         } catch (Exception $ex) {
             \PageLayout::postError($ex->getMessage());
 
-            return $this->redirect('');
+            return null;
         }
     }
 
