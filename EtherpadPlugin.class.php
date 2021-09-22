@@ -55,6 +55,10 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      */
     public function getIconNavigation($courseId, $lastVisit, $userId = null)
     {
+        if (!$lastVisit) {
+            return $this->createIconNavigation(false);
+        }
+
         $cache = \StudipCacheFactory::getCache();
         $cacheKey = self::CACHE_KEY_SUFFIX . $courseId;
         $lastEdit = $cache->read($cacheKey);
