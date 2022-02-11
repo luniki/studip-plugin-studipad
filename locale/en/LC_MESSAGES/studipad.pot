@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-13 09:34+0200\n"
+"POT-Creation-Date: 2022-02-18 12:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,29 +17,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: EtherpadPlugin.class.php:71
-#, php-format
-msgid "%d Pad(s)"
-msgstr ""
-
-#: EtherpadPlugin.class.php:95
-#, php-format
-msgid "%d Pad(s), %d neue"
-msgstr ""
-
-#: EtherpadPlugin.class.php:121
+#: EtherpadPlugin.class.php:105
 msgid "Übersicht"
 msgstr ""
 
-#: EtherpadPlugin.class.php:162
+#: EtherpadPlugin.class.php:108
+msgid "Gruppen"
+msgstr ""
+
+#: EtherpadPlugin.class.php:112 controllers/pads.php:572
+#: views/pads/groups/pad.php:45
+msgid "Einstellungen"
+msgstr ""
+
+#: EtherpadPlugin.class.php:157
 msgid "EtherpadPlugin"
 msgstr ""
 
-#: EtherpadPlugin.class.php:163
+#: EtherpadPlugin.class.php:158
 msgid "Etherpad"
 msgstr ""
 
-#: EtherpadPlugin.class.php:164
+#: EtherpadPlugin.class.php:161
 msgid "Gemeinsam Texte erstellen und die Texterstellung koordinieren"
 msgstr ""
 
@@ -50,7 +49,7 @@ msgid ""
 "schreiben."
 msgstr ""
 
-#: EtherpadPlugin.class.php:166
+#: EtherpadPlugin.class.php:169
 msgid ""
 "Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit "
 "bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine "
@@ -61,136 +60,213 @@ msgid ""
 "veröffentlichen und die dann angezeigte URL weitergeben."
 msgstr ""
 
-#: controllers/pads.php:76
-msgid "Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden."
+#: EtherpadPlugin.class.php:191
+msgid "Etherpad-Plugin mit neuen Inhalten"
 msgstr ""
 
-#: controllers/pads.php:119 controllers/pads.php:229 controllers/pads.php:408
-msgid "Dieses Pad konnte nicht gefunden werden."
+#: EtherpadPlugin.class.php:192
+msgid "Etherpad-Plugin"
 msgstr ""
 
-#: controllers/pads.php:133 views/pads/index.php:29
-msgid "schreibgeschützt"
+#: controllers/settings.php:86
+msgid ""
+"Die veranstaltungsbezogene Berechtigung zur Verwaltung von Gruppen-Pads "
+"wurde geändert!"
 msgstr ""
 
-#: controllers/pads.php:162 views/pads/index.php:62
-msgid "Einstellungen"
+#: controllers/settings.php:121
+#, php-format
+msgid "%1$s - Etherpad-Einstellungen"
 msgstr ""
 
-#: controllers/pads.php:169 views/pads/index.php:69
-msgid "Aktuellen Inhalt sichern"
+#: controllers/pads.php:105
+msgid "Diese Gruppe gefunden werden."
 msgstr ""
 
-#: controllers/pads.php:177 views/pads/index.php:76
-msgid "Schreibschutz aktivieren"
-msgstr ""
-
-#: controllers/pads.php:183 views/pads/index.php:82
-msgid "Schreibschutz deaktivieren"
-msgstr ""
-
-#: controllers/pads.php:191 views/pads/index.php:89
-msgid "Veröffentlichen"
-msgstr ""
-
-#: controllers/pads.php:194 views/pads/index.php:91
-msgid "Wollen Sie das Pad wirklich öffentlich machen?"
-msgstr ""
-
-#: controllers/pads.php:198 views/pads/index.php:96
-msgid "Veröffentlichung beenden"
-msgstr ""
-
-#: controllers/pads.php:205 views/pads/index.php:102
-msgid "Pad löschen"
-msgstr ""
-
-#: controllers/pads.php:208 views/pads/index.php:104
-msgid "Wollen Sie das Pad wirklich löschen?"
-msgstr ""
-
-#: controllers/pads.php:254
+#: controllers/pads.php:166
 msgid "Einstellungen gespeichert."
 msgstr ""
 
-#: controllers/pads.php:268
+#: controllers/pads.php:180
 msgid "Schreibschutz aktiviert."
 msgstr ""
 
-#: controllers/pads.php:281
+#: controllers/pads.php:195
 msgid "Schreibschutz deaktiviert."
 msgstr ""
 
-#: controllers/pads.php:295
+#: controllers/pads.php:211
 msgid "Veröffentlicht."
 msgstr ""
 
-#: controllers/pads.php:297
+#: controllers/pads.php:213
 msgid "Pad konnte nicht veröffentlicht werden."
 msgstr ""
 
-#: controllers/pads.php:313
+#: controllers/pads.php:230
 msgid "Veröffentlichung aufgehoben."
 msgstr ""
 
-#: controllers/pads.php:315
+#: controllers/pads.php:232
 msgid "Veröffentlichung des Pads konnte nicht aufgehoben werden."
 msgstr ""
 
-#: controllers/pads.php:333
+#: controllers/pads.php:254
 msgid "Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht."
 msgstr ""
 
-#: controllers/pads.php:338
+#: controllers/pads.php:260
 msgid ""
 "Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen "
 "bestehen."
 msgstr ""
 
-#: controllers/pads.php:345
+#: controllers/pads.php:267
 msgid "Das Pad wurde erfolgreich angelegt."
 msgstr ""
 
-#: controllers/pads.php:348
+#: controllers/pads.php:270
+msgid "Dieses Pad ist bereits angelegt."
+msgstr ""
+
+#: controllers/pads.php:272
 msgid "Das Pad konnte nicht angelegt werden."
 msgstr ""
 
-#: controllers/pads.php:366
+#: controllers/pads.php:290
 msgid "Das Pad wurde gelöscht."
 msgstr ""
 
-#: controllers/pads.php:368
+#: controllers/pads.php:293
 msgid "Das Pad konnte nicht gelöscht werden."
 msgstr ""
 
-#: controllers/pads.php:390
+#: controllers/pads.php:324
 #, php-format
 msgid ""
 "Der aktuelle Inhalt des Etherpad-Dokuments wurde <a href=\"%s\">im "
 "Dateibereich</a> gesichert."
 msgstr ""
 
-#: controllers/pads.php:577
-#, php-format
-msgid "Die Einstellungen für das Pad \"%s\" wurden gespeichert!"
-msgstr ""
-
-#: controllers/pads.php:578
-#, php-format
-msgid "Die Einstellungen für das Pad \"%s\" konnten nicht gespeichert werden!"
-msgstr ""
-
-#: controllers/pads.php:651
+#: controllers/pads.php:375 lib/Group.php:107
 msgid "Es ist ein Verbindungsfehler aufgetreten!"
 msgstr ""
 
-#: controllers/pads.php:660 controllers/pads.php:689
-msgid "Dieses Pad existiert nicht."
+#: controllers/pads.php:567
+msgid "Öffentliche URL"
 msgstr ""
 
-#: controllers/pads.php:675
+#: controllers/pads.php:577 views/pads/groups/pad.php:52
+msgid "Aktuellen Inhalt sichern"
+msgstr ""
+
+#: controllers/pads.php:584 views/pads/groups/pad.php:59
+msgid "Schreibschutz aktivieren"
+msgstr ""
+
+#: controllers/pads.php:590 views/pads/groups/pad.php:65
+msgid "Schreibschutz deaktivieren"
+msgstr ""
+
+#: controllers/pads.php:598 views/pads/groups/pad.php:72
+msgid "Veröffentlichen"
+msgstr ""
+
+#: controllers/pads.php:601 views/pads/groups/pad.php:74
+msgid "Wollen Sie das Pad wirklich öffentlich machen?"
+msgstr ""
+
+#: controllers/pads.php:605 views/pads/groups/pad.php:79
+msgid "Veröffentlichung beenden"
+msgstr ""
+
+#: controllers/pads.php:612 views/pads/groups/pad.php:85
+msgid "Pad löschen"
+msgstr ""
+
+#: controllers/pads.php:615 views/pads/groups/pad.php:87
+msgid "Wollen Sie das Pad wirklich löschen?"
+msgstr ""
+
+#: controllers/pads.php:628
 #, php-format
-msgid "Fehler beim Ermitteln der padCallId: %s"
+msgid "%1$s - Etherpad: %2$s (schreibgeschützt)"
+msgstr ""
+
+#: controllers/pads.php:630
+#, php-format
+msgid "%1$s - Etherpad: %2$s"
+msgstr ""
+
+#: controllers/pads.php:633
+#, php-format
+msgid "%1$s - Etherpad"
+msgstr ""
+
+#: controllers/pads.php:658
+msgid "Ungültiger Pad-Name."
+msgstr ""
+
+#: controllers/pads.php:664
+msgid "Ungültige Gruppe."
+msgstr ""
+
+#: controllers/pads.php:669
+msgid "Dieses Pad konnte nicht gefunden werden."
+msgstr ""
+
+#: lib/Group.php:122
+#, php-format
+msgid "Pads der Veranstaltung: %s"
+msgstr ""
+
+#: lib/Group.php:124
+#, php-format
+msgid "Pads der Gruppe: %s"
+msgstr ""
+
+#: views/settings/index.php:5
+msgid "Wer darf Gruppen-Pads verwalten?"
+msgstr ""
+
+#: views/settings/index.php:10
+msgid "Lehrende und Tutor:innen"
+msgstr ""
+
+#: views/settings/index.php:15
+msgid "Alle Mitglieder der Gruppe"
+msgstr ""
+
+#: views/settings/index.php:20 views/pads/settings.php:47
+msgid "Speichern"
+msgstr ""
+
+#: views/settings/index.php:21 views/pads/settings.php:48
+msgid "Abbrechen"
+msgstr ""
+
+#: views/pads/settings.php:6
+msgid "Etherpad Toolbar"
+msgstr ""
+
+#: views/pads/settings.php:11
+msgid "Kontrollelemente anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:20
+msgid "Farbsteuerelemente anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:27
+msgid "Import-/Exportelemente ein- oder ausblenden"
+msgstr ""
+
+#: views/pads/settings.php:34
+msgid "Chat anzeigen"
+msgstr ""
+
+#: views/pads/settings.php:41
+msgid "Zeilennummern anzeigen"
 msgstr ""
 
 #: views/pads/setuperror.php:2
@@ -207,70 +283,56 @@ msgid ""
 "ist nicht korrekt konfiguriert."
 msgstr ""
 
-#: views/pads/settings.php:3
-msgid "Etherpad Toolbar"
+#: views/pads/list-of-groups.php:15
+msgid "Pad hinzufügen"
 msgstr ""
 
-#: views/pads/settings.php:8
-msgid "Kontrollelemente anzeigen"
+#: views/pads/groups.php:5
+msgid ""
+"In dieser Veranstaltung wurden noch keine Gruppen von Teilnehmenden "
+"definiert."
 msgstr ""
 
-#: views/pads/settings.php:17
-msgid "Farbsteuerelemente anzeigen"
-msgstr ""
-
-#: views/pads/settings.php:24
-msgid "Import-/Exportelemente ein- oder ausblenden"
-msgstr ""
-
-#: views/pads/settings.php:31
-msgid "Chat anzeigen"
-msgstr ""
-
-#: views/pads/settings.php:38
-msgid "Zeilennummern anzeigen"
-msgstr ""
-
-#: views/pads/settings.php:44
-msgid "Speichern"
-msgstr ""
-
-#: views/pads/settings.php:45
-msgid "Abbrechen"
-msgstr ""
-
-#: views/pads/index.php:11
-msgid "Name des Pads"
-msgstr ""
-
-#: views/pads/index.php:12
-msgid "öffentliche URL"
-msgstr ""
-
-#: views/pads/index.php:13
-msgid "letzte Änderung"
-msgstr ""
-
-#: views/pads/index.php:14
-msgid "Aktionen"
-msgstr ""
-
-#: views/pads/index.php:25
-msgid "neu"
-msgstr ""
-
-#: views/pads/index.php:56
-msgid "Öffnen"
-msgstr ""
-
-#: views/pads/index.php:118
+#: views/pads/new.php:4
 msgid "Name des neuen Pads"
 msgstr ""
 
-#: views/pads/index.php:123
+#: views/pads/new.php:10
 msgid "Erlaubte Zeichen: a-z, A-Z, 0-9, _ und -"
 msgstr ""
 
-#: views/pads/index.php:126
+#: views/pads/new.php:14 views/pads/groups/list.php:32
 msgid "Neues Pad anlegen"
+msgstr ""
+
+#: views/pads/groups/list.php:15
+msgid "Name des Pads"
+msgstr ""
+
+#: views/pads/groups/list.php:16
+msgid "öffentliche URL"
+msgstr ""
+
+#: views/pads/groups/list.php:17
+msgid "letzte Änderung"
+msgstr ""
+
+#: views/pads/groups/list.php:18
+msgid "Aktionen"
+msgstr ""
+
+#: views/pads/groups/list.php:29
+msgid "Diese Gruppe enthält noch keine Pads."
+msgstr ""
+
+#: views/pads/groups/pad.php:11
+msgid "neu"
+msgstr ""
+
+#: views/pads/groups/pad.php:15
+msgid "schreibgeschützt"
+msgstr ""
+
+#: views/pads/groups/pad.php:39
+msgid "Öffnen"
 msgstr ""

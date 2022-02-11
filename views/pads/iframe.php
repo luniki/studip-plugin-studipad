@@ -1,4 +1,4 @@
-<iframe id="etherpad" src="<?= $controller->link_for('pads/open', $padid) ?>" style="width:100%; min-width: 50vh; border: none;"></iframe>
+<iframe id="etherpad" src="<?= $controller->getPadLink('open') ?>" style="width:100%; min-width: 50vh; border: none;"></iframe>
 <script>
 jQuery(window).on('message onmessage', function (e) {
     var msg = e.originalEvent.data;

@@ -1,3 +1,12 @@
+#etherpad-plugin #layout_content {
+    font-size: initial;
+}
+
+#etherpad-plugin table.default {
+    margin: 0;
+    padding: 0;
+}
+
 form.studipad-new-pad {
     margin-top: 3em;
 }
@@ -26,4 +35,36 @@ form.studipad-new-pad {
 
 .studipad-pads-index td > a {
     display: block;
+}
+
+.studipad-pads-index .studipad-pad-name {
+    padding-right: 1em;
+}
+
+
+.studipad-badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.studipad-badge:empty {
+    display: none;
+}
+
+.studipad-bg-attention {
+    background-color: var(--active-color);
+}
+
+.studipad-bg-primary {
+    background-color: var(--brand-color-darker);
+}
+
+.studipad-bg-secondary {
+    background-color: var(--brand-color-light);
 }
