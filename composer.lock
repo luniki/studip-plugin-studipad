@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed69b66f87f01688ea31c3b719b2d3e9",
+    "content-hash": "ee680a790ca86313ef6ca4b1979d0f98",
     "packages": [
         {
             "name": "tomnomnom/etherpad-lite-client",
@@ -35,6 +35,10 @@
             ],
             "description": "Etherpad Lite client for PHP",
             "homepage": "https://github.com/TomNomNom/etherpad-lite-client/",
+            "support": {
+                "issues": "https://github.com/TomNomNom/etherpad-lite-client/issues",
+                "source": "https://github.com/TomNomNom/etherpad-lite-client/tree/master"
+            },
             "time": "2016-02-09T14:27:44+00:00"
         }
     ],
@@ -45,5 +49,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }

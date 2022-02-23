@@ -1,15 +1,14 @@
 <?php
 
+use EtherpadPlugin\Group;
+use EtherpadPlugin\Pad;
+
 /**
-  @property string $newPadName;
-  @property bool $padadmin;
-  @property string $message;
-  @property array $tpads;
-  @property string $error;
-  @property string $padid;
-  @property string $toPage;
-  @property array $pad;
-*/
+ * @property ?Pad          $pad
+ * @property ?Group        $group
+ * @property array<Group> $groups
+ */
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 class PadsController extends StudipController
 {
     /** @var \EtherpadPlugin */
@@ -25,9 +24,12 @@ class PadsController extends StudipController
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @param string   $action
+     * @param string[] $args
+     *
+     * @return void|bool
      */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
@@ -36,356 +38,286 @@ class PadsController extends StudipController
             throw new \AccessDeniedException();
         }
 
-        $this->set_layout(
-            $GLOBALS['template_factory']->open(\Request::isXhr() ? 'layouts/dialog' : 'layouts/base')
-        );
-        $this->setDefaultPageTitle();
+        $this->set_layout($GLOBALS['template_factory']->open(\Request::isXhr() ? 'layouts/dialog' : 'layouts/base'));
+        $this->setPageTitle();
+        \PageLayout::setHelpKeyword('Basis.EtherpadPlugin');
+        \PageLayout::addStylesheet($this->plugin->getPluginURL() . '/stylesheets/studipad.css');
+        \PageLayout::setBodyElementId('etherpad-plugin');
 
-        if (!$this->client = $this->plugin->getClient()) {
+        if (!($this->client = $this->plugin->getClient())) {
             $action = 'setuperror';
         }
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @return void
      */
-    public function index_action()
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function setuperror_action()
     {
-        \PageLayout::setHelpKeyword('Basis.StudiPad');
         if (\Navigation::hasItem('/course/studipad/index')) {
             \Navigation::activateItem('/course/studipad/index');
         }
-        \PageLayout::addStylesheet($this->plugin->getPluginURL().'/stylesheets/studipad.css');
 
-        $cid = \Context::getId();
-        $this->newPadName = '';
-        $this->padadmin = $GLOBALS['perm']->have_studip_perm('tutor', $cid);
+        // now just render template
+    }
 
-        $eplGroupId = $this->requireGroup();
+    /**
+     * @return void
+     */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function index_action()
+    {
+        if (\Navigation::hasItem('/course/studipad/index')) {
+            \Navigation::activateItem('/course/studipad/index');
+        }
 
-        try {
-            $grouppads = $this->client->listPads($eplGroupId);
-            $pads = $grouppads->padIDs;
+        $this->groups = $this->getCourseGroups();
+    }
 
-            if (!count($pads)) {
-                $this->message = dgettext(
-                    'studipad',
-                    'Zur Zeit sind keine Stud.IPads für diese Veranstaltung vorhanden.'
-                );
-            }
+    /**
+     * @return void
+     */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function groups_action()
+    {
+        if (\Navigation::hasItem('/course/studipad/groups')) {
+            \Navigation::activateItem('/course/studipad/groups');
+        }
 
-            $this->tpads = $this->getPads($cid, $eplGroupId, $pads);
-        } catch (Exception $ex) {
-            $this->error = '7:'.$ex->getMessage();
+        $this->groups = $this->getStatusgruppenGroups();
+    }
+
+    /**
+     * @return void
+     */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function new_action()
+    {
+        if (\Navigation::hasItem('/course/studipad/index')) {
+            \Navigation::activateItem('/course/studipad/index');
+        }
+
+        $rangeId = \Request::get('range');
+        $this->group = $this->findGroup($rangeId);
+
+        if (!$this->group) {
+            PageLayout::postError(dgettext('studipad', 'Diese Gruppe gefunden werden.'));
         }
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function setuperror_action()
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function open_action()
     {
-    }
+        $this->requirePad();
 
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
-    public function open_action($pad)
-    {
-        $eplGroupId = $this->requireGroup();
-        $padCallId = $eplGroupId.'$'.$pad;
-        $url = $this->redirectToEtherpad($pad).$this->getHtmlControlString($padCallId);
+        $url = $this->redirectToEtherpad($this->pad) . $this->pad->getHtmlControlString();
         $this->redirect($url);
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function iframe_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function iframe_action()
     {
-        try {
-            $cid = \Context::getId();
-            $pad = $this->getPad($cid, $padid);
-        } catch (\Exception $e) {
-            \PageLayout::postError($e->getMessage());
+        $this->requirePad();
 
-            return $this->redirect('');
+        $navItem = $this->group->isStatusgruppenGroup() ? '/course/studipad/groups' : '/course/studipad/index';
+        if (\Navigation::hasItem($navItem)) {
+            \Navigation::activateItem($navItem);
         }
 
-        if (!isset($pad)) {
-            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
+        $this->setPageTitle($this->pad);
 
-            return $this->redirect('');
-        }
-
-        $this->padid = $padid;
-        $this->pad = $pad;
-
-        if (\Navigation::hasItem('/course/studipad')) {
-            \Navigation::activateItem('/course/studipad');
-        }
-
-        $title = \Context::getHeaderLine().' - Etherpad: '.$padid;
-        if ($pad['readOnly']) {
-            $title .= ' ('.dgettext('studipad', 'schreibgeschützt').')';
-        }
-
-        \PageLayout::setTitle($title);
-
-        if ($GLOBALS['perm']->have_studip_perm('tutor', $cid)) {
-            $sidebar = \Sidebar::get();
-
-            $actions = $sidebar->hasWidget('actions')
-                     ? $sidebar->getWidget('actions')
-                     : new \ActionsWidget();
-
-            if (!$sidebar->hasWidget('actions')) {
-                $sidebar->addWidget($actions);
-            }
-
-            if ($pad['public']) {
-                $urlWidget = new \ActionsWidget();
-                $urlWidget->setTitle('Öffentliche URL');
-                $urlWidget->addLink(
-                    $pad['publicUrl'],
-                    $pad['publicUrl'],
-                    \Icon::create('globe+move_right')
-                );
-                $sidebar->addWidget($urlWidget);
-            }
-
-            $actions->addLink(
-                dgettext('studipad', 'Einstellungen'),
-                $this->url_for('pads/settings', $padid, ['page' => 1]),
-                Icon::create('admin'),
-                ['data-dialog' => '']
-            );
-
-            $actions->addLink(
-                dgettext('studipad', 'Aktuellen Inhalt sichern'),
-                $this->url_for('pads/snapshot', $padid, ['page'=>1]),
-                Icon::create('cloud+export')
-            );
-
-
-            if (!$pad['readOnly']) {
-                $actions->addLink(
-                    dgettext('studipad', 'Schreibschutz aktivieren'),
-                    $this->url_for('pads/activate_write_protect', $padid, ['page'=>1]),
-                    Icon::create('lock-locked')
-                );
-            } else {
-                $actions->addLink(
-                    dgettext('studipad', 'Schreibschutz deaktivieren'),
-                    $this->url_for('pads/deactivate_write_protect', $padid, ['page'=>1]),
-                    Icon::create('lock-unlocked')
-                );
-            }
-
-            if (!$pad['public']) {
-                $actions->addLink(
-                    dgettext('studipad', 'Veröffentlichen'),
-                    $this->url_for('pads/publish', $padid, ['page'=>1]),
-                    Icon::create('globe'),
-                    ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich öffentlich machen?')]
-                );
-            } else {
-                $actions->addLink(
-                    dgettext('studipad', 'Veröffentlichung beenden'),
-                    $this->url_for('pads/unpublish', $padid, ['page'=>1]),
-                    Icon::create('globe+decline')
-                );
-            }
-
-            $actions->addLink(
-                dgettext('studipad', 'Pad löschen'),
-                $this->url_for('pads/delete', $padid, ['page'=>1]),
-                Icon::create('trash', Icon::ROLE_ATTENTION),
-                ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich löschen?')]
-            );
+        if ($this->group->canAdmin()) {
+            $this->prepareSidebar($this->pad);
         }
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function settings_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function settings_action()
     {
-        $this->requireTutor();
-
-        try {
-            $pad = $this->getPad(\Context::getId(), $padid);
-        } catch (\Exception $e) {
-            \PageLayout::postError($e->getMessage());
-
-            return $this->redirect('');
-        }
-
-        if (!isset($pad)) {
-            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
-
-            return $this->redirect('');
-        }
-
-        $this->padid = $padid;
-        $this->pad = $pad;
-
-        $this->toPage = \Request::submitted('page');
+        $this->requirePad();
+        $this->requireGroupAdmin();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function store_settings_action($pad)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function store_settings_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
-        $padid = $eplGroupId.'$'.$pad;
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
         $controls = [];
-        foreach (self::getControlsKeys() as $key) {
+        foreach (Pad::getControlsKeys() as $key) {
             $controls[$key] = \Request::get($key) ? 1 : 0;
         }
-        $this->setControls($padid, $controls);
-        \PageLayout::postInfo(dgettext('studipad', 'Einstellungen gespeichert.'));
+        $this->pad->setControls($controls);
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad : '');
+        PageLayout::postInfo(dgettext('studipad', 'Einstellungen gespeichert.'));
+        $this->redirectBack();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function activate_write_protect_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function activate_write_protect_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
-        $this->setWriteProtection($eplGroupId.'$'.$padid, 1);
-        \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz aktiviert.'));
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
+        $this->pad->setWriteProtection(true);
+        PageLayout::postInfo(dgettext('studipad', 'Schreibschutz aktiviert.'));
+
+        $this->redirectBack();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function deactivate_write_protect_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function deactivate_write_protect_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
-        $this->setWriteProtection($eplGroupId.'$'.$padid, 0);
-        \PageLayout::postInfo(dgettext('studipad', 'Schreibschutz deaktiviert.'));
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
+        $this->pad->setWriteProtection(false);
+        PageLayout::postInfo(dgettext('studipad', 'Schreibschutz deaktiviert.'));
+
+        $this->redirectBack();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function publish_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function publish_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
         try {
-            $this->client->setPublicStatus($eplGroupId.'$'.$padid, 'true');
-            \PageLayout::postInfo(dgettext('studipad', 'Veröffentlicht.'));
+            $this->pad->setPublic(true);
+            PageLayout::postInfo(dgettext('studipad', 'Veröffentlicht.'));
         } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Pad konnte nicht veröffentlicht werden.'));
+            PageLayout::postError(dgettext('studipad', 'Pad konnte nicht veröffentlicht werden.'));
         }
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
+        $this->redirectBack();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function unpublish_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function unpublish_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
         try {
-            $this->client->setPublicStatus($eplGroupId.'$'.$padid, 'false');
-            \PageLayout::postInfo(dgettext('studipad', 'Veröffentlichung aufgehoben.'));
+            $this->pad->setPublic(false);
+            PageLayout::postInfo(dgettext('studipad', 'Veröffentlichung aufgehoben.'));
         } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Veröffentlichung des Pads konnte nicht aufgehoben werden.'));
+            PageLayout::postError(dgettext('studipad', 'Veröffentlichung des Pads konnte nicht aufgehoben werden.'));
         }
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$padid : '');
+        $this->redirectBack();
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function create_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        // find group
+        $rangeId = \Request::get('range');
+        $this->group = $this->findGroup($rangeId);
 
+        $this->requireGroupAdmin();
+
+        // validate pad name
         $name = trim(\Request::get('new_pad_name', ''));
         if ('' === $name || mb_strlen($name) > 32) {
-            \PageLayout::postError(dgettext(
-                'studipad',
-                'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.'
-            ));
+            PageLayout::postError(
+                dgettext('studipad', 'Es muss ein Name angegeben werden der aus maximal 32 Zeichen besteht.')
+            );
         } elseif (!preg_match('/^[A-Za-z0-9_-]+$/', $name)) {
-            \PageLayout::postError(dgettext(
-                'studipad',
-                'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
-            ));
+            PageLayout::postError(
+                dgettext(
+                    'studipad',
+                    'Namen neuer Pads dürfen nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.'
+                )
+            );
         } else {
-            $ifNotExists = !!\Request::get('if_not_exists', null);
+            // create pad
             try {
-                $result = $this->client->createGroupPad($eplGroupId, $name, \Config::get()->getValue('STUDIPAD_INITEXT'));
-                $this->createControls($result->padID);
-                \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.'));
+                $this->group->createPad($name);
+                PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde erfolgreich angelegt.'));
                 $this->plugin->expireLastEditCache();
+            } catch (\InvalidArgumentException $e) {
+                PageLayout::postInfo(dgettext('studipad', 'Dieses Pad ist bereits angelegt.'));
             } catch (\Exception $e) {
-                if (!$ifNotExists) {
-                    \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
-                }
+                PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht angelegt werden.'));
             }
         }
 
-        $this->redirect('');
+        $this->redirect($this->group->isStatusgruppenGroup() ? 'pads/groups' : 'pads/index');
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function delete_action($padid)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function delete_action()
     {
-        $this->requireTutor();
-        $eplGroupId = $this->requireGroup();
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
         try {
-            $this->client->deletePad($eplGroupId.'$'.$padid);
-            \PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde gelöscht.'));
+            $this->pad->delete();
+            PageLayout::postInfo(dgettext('studipad', 'Das Pad wurde gelöscht.'));
             $this->plugin->expireLastEditCache();
         } catch (Exception $e) {
-            \PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht gelöscht werden.'));
+            PageLayout::postError(dgettext('studipad', 'Das Pad konnte nicht gelöscht werden.'));
         }
 
-        $this->redirect('');
+        $this->redirect($this->group->isStatusgruppenGroup() ? 'pads/groups' : 'pads/index');
     }
 
     /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+     * @return void
      */
-    public function snapshot_action($pad)
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function snapshot_action()
     {
-        $this->requireTutor();
-        $pad = $this->requirePad($pad);
+        $this->requirePad();
+        $this->requireGroupAdmin();
 
-        $fileRef = $this->storeSnapshot($this->getCurrentUser(), \Context::get(), $pad);
+        $fileRef = $this->storeSnapshot();
         if (!$fileRef) {
-            return $this->redirect('');
+            // Fehler werden schon beim Methodenaufruf über PageLayout::postError notiert.
+            $this->redirect($this->group->isStatusgruppenGroup() ? 'pads/groups' : 'pads/index');
         }
 
-        $url = URLHelper::getLink(sprintf('dispatch.php/course/files/index/%s#fileref_%s', $fileRef->folder_id, $fileRef->id), ['cid' => \Context::getId()], true);
+        $url = \URLHelper::getLink(
+            sprintf('dispatch.php/course/files/index/%s#fileref_%s', $fileRef['folder_id'], $fileRef->getId()),
+            ['cid' => \Context::getId()],
+            true
+        );
 
-        \PageLayout::postInfo(
+        PageLayout::postInfo(
             sprintf(
                 dgettext(
                     'studipad',
@@ -395,222 +327,16 @@ class PadsController extends StudipController
             )
         );
 
-        $this->redirect(\Request::submitted('page') ? 'pads/iframe/'.$pad : '');
+        $this->redirectBack();
     }
 
-    protected function getPad($contextId, $padid)
-    {
-        $eplGroupId = $this->requireGroup();
-
-        $grouppads = $this->client->listPads($eplGroupId);
-        $pads = $grouppads->padIDs;
-        $tpads = $this->getPads($contextId, $eplGroupId, $pads);
-
-        if (!isset($tpads[$padid])) {
-            \PageLayout::postError(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
-
-            return $this->redirect('');
-        }
-
-        return $tpads[$padid];
-    }
-
-    protected function getPads($cid, $eplGroupId, $pads)
-    {
-        $tpads = [];
-        if (count($pads)) {
-            foreach ($pads as $pval) {
-                $padparts = explode('$', $pval);
-                $pad = $padparts[1];
-                $tpads[$pad] = [];
-
-                $padid = $eplGroupId.'$'.$pad;
-
-                $tpads[$pad]['title'] = $pad;
-
-                $getPublicStatus = $this->client->getPublicStatus($padid);
-                $tpads[$pad]['public'] = isset($getPublicStatus) ? $getPublicStatus->publicStatus : false;
-                $tpads[$pad]['publicUrl'] = isset($getPublicStatus)
-                                          ? $this->shorten(
-                                              rtrim(\Config::get()->getValue('STUDIPAD_PADBASEURL'), '/').
-                                              '/'.
-                                              $this->getPadCallId($eplGroupId, $pad)
-                                          )
-                                          : false;
-
-                $tpads[$pad]['readOnly'] = $this->isWriteProtected($padid);
-
-                $tpads[$pad] = array_merge($tpads[$pad], $this->getControls($padid));
-
-                $lastVisit = object_get_visit($cid, 'sem', 'last');
-                $clientLastEdited = $this->client->getLastEdited($padid);
-                $padLastEdited = floor($clientLastEdited->lastEdited / 1000);
-                $tpads[$pad]['new'] = $padLastEdited > $lastVisit;
-                $tpads[$pad]['lastEdited'] = $padLastEdited;
-            }
-        }
-
-        return $tpads;
-    }
+    // #########################################################################
 
     /**
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @param string $to
+     * @return string
      */
-    protected function getCurrentUser()
-    {
-        $currentUser = \User::findCurrent();
-
-        return $currentUser;
-    }
-
-    protected function setDefaultPageTitle()
-    {
-        \PageLayout::setTitle(Context::getHeaderLine().' - Etherpad');
-    }
-
-    //////// OLD STUFF
-
-    protected function createControls($padid)
-    {
-        $stmt = \DBManager::get()->prepare(
-            'INSERT INTO plugin_StudIPad_controls '.
-            '(pad_id, controls, readonly) VALUES (?, ?, ?)'
-        );
-        $stmt->execute([$padid, self::getControlsDefaultString(), 0]);
-    }
-
-    protected function getControlSet($padid, $control)
-    {
-        $db = \DBManager::get();
-
-        switch ($control) {
-            case 'showControls':
-                $id = '0';
-                break;
-            case 'showColorBlock':
-                $id = '1';
-                break;
-            case 'showImportExportBlock':
-                $id = '2';
-                break;
-            case 'showChat':
-                $id = '3';
-                break;
-            case 'showLineNumbers':
-                $id = '4';
-                break;
-            default:
-                throw new \InvalidArgumentException();
-        }
-
-        $sql = "SELECT controls FROM plugin_StudIPad_controls WHERE pad_id = '$padid'";
-
-        $result = $db->query($sql)->fetchColumn();
-        $setting = explode(';', $result);
-
-        return $setting[$id];
-    }
-
-    private static function getControlsKeys()
-    {
-        return ['showControls', 'showColorBlock', 'showImportExportBlock', 'showChat', 'showLineNumbers'];
-    }
-
-    private static function getControlsDefaultValue()
-    {
-        return \Config::get()->getValue('STUDIPAD_CONTROLS_DEFAULT') ? 1 : 0;
-    }
-
-    private static function getControlsDefaultString()
-    {
-        return join(';', array_fill(0, count(self::getControlsKeys()), self::getControlsDefaultValue()));
-    }
-
-    private function getControls($padid)
-    {
-        $stmt = \DBManager::get()->prepare('SELECT controls FROM plugin_StudIPad_controls WHERE pad_id = ? LIMIT 1');
-        $stmt->execute([$padid]);
-
-        $controls = $stmt->fetch(PDO::FETCH_COLUMN);
-        if (false === $controls) {
-            $controls = self::getControlsDefaultString();
-        }
-
-        return array_combine(self::getControlsKeys(), explode(';', $controls));
-    }
-
-    private function setControls($padid, $controls)
-    {
-        $stmt = \DBManager::get()->prepare(
-            'UPDATE plugin_StudIPad_controls SET controls = ? WHERE pad_id = ?'
-        );
-
-        $defaultValue = self::getControlsDefaultValue();
-        $controlsString = join(';', array_map(function ($key) use ($controls, $defaultValue) {
-            return isset($controls[$key]) ? ($controls[$key] ? 1 : 0) : $defaultValue;
-        }, self::getControlsKeys()));
-
-        $stmt->execute([$controlsString, $padid]);
-    }
-
-    private function isWriteProtected($padid)
-    {
-        $stmt = \DBManager::get()->prepare('SELECT readonly FROM plugin_StudIPad_controls WHERE pad_id = ? LIMIT 1');
-        $stmt->execute([$padid]);
-
-        return (bool) $stmt->fetch(PDO::FETCH_COLUMN);
-    }
-
-    private function setWriteProtection($padid, $protect)
-    {
-        $stmt = \DBManager::get()->prepare(
-            'UPDATE plugin_StudIPad_controls SET readonly = ? WHERE pad_id = ?'
-        );
-
-        $stmt->execute([$protect ? 1 : 0, $padid]);
-    }
-
-    protected function setControlSet($padid, $padname, $controlset, $readonly)
-    {
-        $result = \DBManager::get()->prepare('REPLACE INTO plugin_StudIPad_controls (pad_id, controls, readonly) VALUES (:pid, :controls, :readonly)');
-        $control = $result->execute(array('pid' => $padid, 'controls' => $controlset, 'readonly' => $readonly));
-
-        return $control
-            ? sprintf(dgettext('studipad', 'Die Einstellungen für das Pad "%s" wurden gespeichert!'), $padname)
-            : sprintf(dgettext('studipad', 'Die Einstellungen für das Pad "%s" konnten nicht gespeichert werden!'), $padname);
-    }
-
-    protected function getHtmlControlString($padid)
-    {
-        $controls = $this->getControls($padid);
-        $result = '&showControls='.($controls['showControls'] ? 'true' : 'false');
-
-        if ($controls['showControls']) {
-            foreach (['showColorBlock', 'showImportExportBlock', 'showChat', 'showLineNumbers'] as $key) {
-                $result .= sprintf('&%s=%s', $key, $controls[$key] ? 'true' : 'false');
-            }
-        }
-
-        return $result;
-    }
-
-    protected function getReadOnlyId($padid)
-    {
-        try {
-            $padRO = $this->client->getReadOnlyID($padid);
-            $result[0] = true;
-            $result[1] = $padRO->readOnlyID;
-        } catch (Exception $e) {
-            $result[0] = false;
-            $result[2] = $e->getMessage();
-        }
-
-        return $result;
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     */
+    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function url_for($to = '')
     {
         $args = func_get_args();
@@ -629,119 +355,102 @@ class PadsController extends StudipController
     }
 
     /**
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @param ?string $suffix
+     *
+     * @return string
+     *
+     * @throws \Trails_Exception
      */
-    protected function requireTutor()
+    protected function requireGroup($suffix = null)
     {
         $cid = \Context::getId();
-        if (!$GLOBALS['perm']->have_studip_perm('tutor', $cid)) {
-            throw new \AccessDeniedException();
-        }
-    }
-
-    protected function requireGroup()
-    {
-        $cid = \Context::getId();
+        $groupId = 'subdomain:' . $cid . ($suffix ? '/' . $suffix : '');
         try {
-            $eplGmap = $this->client->createGroupIfNotExistsFor('subdomain:'.$cid);
+            $eplGmap = $this->client->createGroupIfNotExistsFor('subdomain:' . $groupId);
         } catch (\Exception $e) {
             throw new \Trails_Exception(500, $e->getMessage());
         }
 
-        if (!$eplGroupId = $eplGmap->groupID) {
+        if (!($eplGroupId = $eplGmap->groupID)) {
             throw new \Trails_Exception(500, dgettext('studipad', 'Es ist ein Verbindungsfehler aufgetreten!'));
         }
 
         return $eplGroupId;
     }
 
-    protected function requirePad($pad)
+    /**
+     * @param Pad $pad
+     * @return string
+     */
+    protected function redirectToEtherpad(Pad $pad)
     {
-        if (!preg_match('|^[A-Za-z0-9_-]+$|i', $pad)) {
-            throw new \Trails_Exception(400, dgettext('studipad', 'Dieses Pad existiert nicht.'));
-        }
-
-        return $pad;
-    }
-
-    protected function getPadCallId($eplGroupId, $pad)
-    {
-        if (!$this->isWriteProtected($eplGroupId.'$'.$pad)) {
-            return $eplGroupId.'$'.$pad;
-        }
-        list($success, $padCallId, $error) = $this->getReadOnlyId($eplGroupId.'$'.$pad);
-        if (!$success) {
-            throw new \Trails_Exception(
-                sprintf(
-                    dgettext('studipad', 'Fehler beim Ermitteln der padCallId: %s'),
-                    $error
-                )
-            );
-        }
-
-        return $padCallId;
-    }
-
-    protected function redirectToEtherpad($pad)
-    {
-        $eplGroupId = $this->requireGroup();
-
-        if (!preg_match('|^[A-Za-z0-9_-]+$|i', $pad)) {
-            \PageLayout::postError(dgettext('studipad', 'Dieses Pad existiert nicht.'));
-
-            return $this->redirect('');
-        }
-
-        $user = $this->getCurrentUser();
+        $user = \User::findCurrent();
         $author = $this->client->createAuthorIfNotExistsFor($user->id, $user->getFullName());
         $authorID = $author->authorID;
 
         $until = strtotime('tomorrow');
-        $eplSid = $this->client->createSession($eplGroupId, $authorID, $until);
+        $eplSid = $this->client->createSession($pad->getGroup()->getId(), $authorID, $until);
 
         return sprintf(
             '%s/auth_session?sessionID=%s&padName=%s',
             dirname(rtrim(Config::get()->getValue('STUDIPAD_PADBASEURL'), '/')),
             $eplSid->sessionID,
-            $this->getPadCallId($eplGroupId, $pad)
+            $pad->getPadCallId()
         );
     }
 
-    protected function storeSnapshot(\User $user, \Course $course, $pad)
+    /**
+     * @return ?\FileRef
+     */
+    protected function storeSnapshot()
     {
-        try {
-            $eplGroupId = $this->requireGroup();
+        $user = \User::findCurrent();
+        $course = \Context::get();
 
-            return $this->saveAsPDF(
-                $user,
-                $course,
-                $pad,
-                $this->client->getHTML($eplGroupId.'$'.$pad)->html
-            );
+        try {
+            $html = $this->pad->getHTML();
+
+            return $this->saveAsPDF($user, $course, $this->pad, $html);
         } catch (Exception $ex) {
-            \PageLayout::postError($ex->getMessage());
+            PageLayout::postError($ex->getMessage());
 
             return null;
         }
     }
 
-    private function saveAsPDF(\User $user, \Course $course, $pad, $html)
+    /**
+     * @param string $html
+     * @return \FileRef
+     *
+     * @throws \RuntimeException
+     */
+    private function saveAsPDF(User $user, Course $course, Pad $pad, $html)
     {
         /** @var ?\Folder $folder */
-        $folder = \Folder::findTopFolder($course->id);
+        $folder = \Folder::findTopFolder($course->getId());
         if (!$folder) {
             throw new \RuntimeException('Could not find top folder.');
         }
 
-        $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad, date('Y-m-d-H-m-s')));
+        $filename = \FileManager::cleanFileName(sprintf('%s.%s.pdf', $pad->getName(), date('Y-m-d-H-m-s')));
         /** @var ?\File $file */
-        $file = \File::create(['user_id' => $user->id, 'mime_type' => 'application/pdf', 'name' => $filename, 'storage' => 'disk']);
+        $file = \File::create([
+            'user_id' => $user->getId(),
+            'mime_type' => 'application/pdf',
+            'name' => $filename,
+            'storage' => 'disk',
+        ]);
         if (!$file) {
             throw new \RuntimeException('Could not store file.');
         }
 
         /** @var ?\FileRef $fileRef */
-        $fileRef = \FileRef::create(['file_id' => $file->id, 'folder_id' => $folder->id, 'user_id' => $user->id, 'name' => $file->name]);
+        $fileRef = \FileRef::create([
+            'file_id' => $file->getId(),
+            'folder_id' => $folder->getId(),
+            'user_id' => $user->getId(),
+            'name' => $file['name'],
+        ]);
         if (!$fileRef) {
             throw new \RuntimeException('Could not store file ref.');
         }
@@ -760,13 +469,16 @@ class PadsController extends StudipController
     }
 
     /**
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @param Course $course
+     * @param Pad $pad
+     * @param string $html
+     * @return string|false
      */
-    private function createPDF(\Course $course, $pad, $html)
+    private function createPDF(Course $course, Pad $pad, $html)
     {
         $doc = new \ExportPDF();
-        $doc->setHeaderTitle('Etherpad-Dokument: '.$pad);
-        $doc->setHeaderSubtitle($GLOBALS['UNI_NAME_CLEAN'].' » '.$course->getFullname().' » Pad');
+        $doc->setHeaderTitle('Etherpad-Dokument: ' . $pad->getName());
+        $doc->setHeaderSubtitle($GLOBALS['UNI_NAME_CLEAN'] . ' » ' . $course->getFullname() . ' » Pad');
         $doc->addPage();
         $doc->writeHTML($html);
 
@@ -776,22 +488,263 @@ class PadsController extends StudipController
         return $tmpPath;
     }
 
-    private function shorten($url)
+    /**
+     * @return \EtherpadPlugin\Group[]
+     */
+    private function getCourseGroups(): iterable
     {
-        $cache = \StudipCacheFactory::getCache();
-        $cacheKey = 'pad/basicshortener/'.md5($url);
+        $groups = [new Group($this->client, \Context::get())];
 
-        $result = unserialize($cache->read($cacheKey));
-        if (!$result) {
-            $apiUrl = 'https://vt.uos.de/shorten.php?longurl='.urlencode($url);
-            $curlHandle = \curl_init($apiUrl);
-            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($curlHandle, CURLOPT_TIMEOUT, 5);
-            $result = curl_exec($curlHandle);
-            $cache->write($cacheKey, serialize($result));
+        return $groups;
+    }
+
+    /**
+     * @return \EtherpadPlugin\Group[]
+     */
+    private function getStatusgruppenGroups(): iterable
+    {
+        $groups = [];
+        foreach ($this->getStatusgruppen() as $statusgruppe) {
+            $groups[] = new Group($this->client, $statusgruppe);
         }
 
-        return $result;
+        return $groups;
+    }
+
+    /**
+     * @return \Statusgruppen[]
+     */
+    private function getStatusgruppen()
+    {
+        $cid = \Context::getId();
+        $isTutor = $GLOBALS['perm']->have_studip_perm('tutor', $cid);
+        $groups = \Statusgruppen::findBySeminar_id($cid);
+
+        return $isTutor
+            ? $groups
+            : array_filter($groups, function ($group) {
+                return $group->isMember();
+            });
+    }
+
+    /**
+     * @param string $rangeId
+     *
+     * @return ?Group
+     */
+    private function findGroup($rangeId)
+    {
+        if ($rangeId === \Context::getId()) {
+            return new Group($this->client, \Context::get());
+        } else {
+            $statusgruppen = $this->getStatusgruppen();
+            foreach ($statusgruppen as $gruppe) {
+                if ($rangeId === $gruppe->getId()) {
+                    return new Group($this->client, $gruppe);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return void
+     */
+    private function prepareSidebar(Pad $pad)
+    {
+        $sidebar = \Sidebar::get();
+
+        $actions = $sidebar->hasWidget('actions') ? $sidebar->getWidget('actions') : new \ActionsWidget();
+
+        if (!$sidebar->hasWidget('actions')) {
+            $sidebar->addWidget($actions);
+        }
+
+        if ($pad->isPublic()) {
+            $publicURL = $pad->getPublicURL();
+            $urlWidget = new \ActionsWidget();
+            $urlWidget->setTitle(dgettext('studipad', 'Öffentliche URL'));
+            $urlWidget->addLink($publicURL, $publicURL, \Icon::create('globe+move_right'));
+            $sidebar->addWidget($urlWidget);
+        }
+
+        $actions->addLink(dgettext('studipad', 'Einstellungen'), $this->getPadURL('settings'), Icon::create('admin'), [
+            'data-dialog' => '',
+        ]);
+
+        $actions->addLink(
+            dgettext('studipad', 'Aktuellen Inhalt sichern'),
+            $this->getPadURL('snapshot'),
+            Icon::create('cloud+export')
+        );
+
+        if (!$pad->isWriteProtected()) {
+            $actions->addLink(
+                dgettext('studipad', 'Schreibschutz aktivieren'),
+                $this->getPadURL('activate_write_protect'),
+                Icon::create('lock-locked')
+            );
+        } else {
+            $actions->addLink(
+                dgettext('studipad', 'Schreibschutz deaktivieren'),
+                $this->getPadURL('deactivate_write_protect'),
+                Icon::create('lock-unlocked')
+            );
+        }
+
+        if (!$pad->isPublic()) {
+            $actions->addLink(
+                dgettext('studipad', 'Veröffentlichen'),
+                $this->getPadURL('publish'),
+                Icon::create('globe'),
+                ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich öffentlich machen?')]
+            );
+        } else {
+            $actions->addLink(
+                dgettext('studipad', 'Veröffentlichung beenden'),
+                $this->getPadURL('unpublish'),
+                Icon::create('globe+decline')
+            );
+        }
+
+        $actions->addLink(
+            dgettext('studipad', 'Pad löschen'),
+            $this->getPadURL('delete'),
+            Icon::create('trash', Icon::ROLE_ATTENTION),
+            ['data-confirm' => dgettext('studipad', 'Wollen Sie das Pad wirklich löschen?')]
+        );
+    }
+
+    /**
+     * @param ?Pad $pad
+     *
+     * @return void
+     */
+    private function setPageTitle(Pad $pad = null)
+    {
+        if ($pad) {
+            if ($pad->isWriteProtected()) {
+                $title = dgettext('studipad', '%1$s - Etherpad: %2$s (schreibgeschützt)');
+            } else {
+                $title = dgettext('studipad', '%1$s - Etherpad: %2$s');
+            }
+        } else {
+            $title = dgettext('studipad', '%1$s - Etherpad');
+        }
+
+        PageLayout::setTitle(sprintf($title, \Context::getHeaderLine(), $pad ? $pad->getName() : ''));
+    }
+
+    /**
+     * @throws \Trails_Exception
+     * @param string $reason
+     * @return never
+     */
+    private function forceErrorRedirect($reason)
+    {
+        PageLayout::postError($reason);
+        throw new \Trails_Exception(302, $reason, ['Location' => $this->url_for('')]);
+    }
+
+    /**
+     * @return void
+     * @throws \Trails_Exception
+     */
+    private function requirePad()
+    {
+        $padName = \Request::get('pad');
+        if (!Pad::validateName($padName)) {
+            $this->forceErrorRedirect(dgettext('studipad', 'Ungültiger Pad-Name.'));
+        }
+
+        $rangeId = \Request::get('range');
+        $this->group = $this->findGroup($rangeId);
+        if (!$this->group) {
+            $this->forceErrorRedirect(dgettext('studipad', 'Ungültige Gruppe.'));
+        }
+
+        $this->pad = $this->group->getPad($padName);
+        if (!$this->pad) {
+            $this->forceErrorRedirect(dgettext('studipad', 'Dieses Pad konnte nicht gefunden werden.'));
+        }
+    }
+
+    /**
+     * @param bool $backToList
+     * @return array<string, string|int>
+     */
+    private function getPadURLParameters(Pad $pad = null, $backToList = false)
+    {
+        if ($pad) {
+            $padURLParameters = ['pad' => $pad->getName(), 'range' => $pad->getGroup()->getRangeId()];
+        } else {
+            if (!$this->pad || !$this->group) {
+                throw new \RuntimeException('Calling #getPadURLParameters without proper context.');
+            }
+
+            $padURLParameters = ['pad' => $this->pad->getName(), 'range' => $this->group->getRangeId()];
+        }
+
+        if ($backToList) {
+            $padURLParameters['list'] = 1;
+        }
+
+        return $padURLParameters;
+    }
+
+    /**
+     * @return void
+     */
+    private function redirectBack()
+    {
+        $backToList = \Request::submitted('list');
+
+        if ($backToList) {
+            $this->redirect($this->group && $this->group->isStatusgruppenGroup() ? 'pads/groups' : 'pads/index');
+        } else {
+            $this->redirect($this->getPadURL('iframe'));
+        }
+    }
+
+    /**
+     * @throws \Trails_Exception if `$this->group` is not set yet
+     * @return void
+     */
+    private function requireGroupAdmin()
+    {
+        if (!$this->group) {
+            throw new \Trails_Exception(500);
+        }
+
+        if (!$this->group->canAdmin()) {
+            throw new \AccessDeniedException();
+        }
+    }
+
+    ////////////////////////
+    // Controller helpers //
+    ////////////////////////
+
+    /**
+     * @param string $action
+     * @param ?Pad $pad
+     * @param bool $backToList
+     * @return string
+     */
+    public function getPadLink($action, Pad $pad = null, $backToList = false)
+    {
+        return $this->link_for('pads/' . $action, $this->getPadURLParameters($pad, $backToList));
+    }
+
+    /**
+     * @param string $action
+     * @param ?Pad $pad
+     * @param bool $backToList
+     * @return string
+     */
+    public function getPadURL($action, Pad $pad = null, $backToList = false)
+    {
+        return $this->url_for('pads/' . $action, $this->getPadURLParameters($pad, $backToList));
     }
 }

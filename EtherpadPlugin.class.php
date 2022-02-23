@@ -22,11 +22,17 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         bindtextdomain('studipad', dirname(__FILE__) . '/locale');
     }
 
+    /**
+     * @return ?\EtherpadLite\Client
+     */
     public function getClient()
     {
         return $this->eplclientInit() ? $this->eplClient : null;
     }
 
+    /**
+     * @return bool
+     */
     protected function eplclientInit()
     {
         if (!$this->eplClient) {
@@ -42,7 +48,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         return isset($this->eplClient);
     }
 
-    const CACHE_KEY_SUFFIX = 'plugins/etherpadplugin/';
+    public const CACHE_KEY_SUFFIX = 'plugins/etherpadplugin/';
 
     /**
      * Return a navigation object representing this plugin in the
@@ -97,6 +103,14 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         $navigation->setActiveImage($icon->copyWithRole(Icon::ROLE_ATTENTION));
 
         $navigation->addSubNavigation('index', new Navigation(_('Übersicht'), $url));
+
+        $groupURL = PluginEngine::getURL($this, ['cid' => $courseId], 'pads/groups', true);
+        $navigation->addSubNavigation('groups', new Navigation(_('Gruppen'), $groupURL));
+
+        if ($GLOBALS['perm']->have_studip_perm('tutor', $courseId)) {
+            $settingsURL = PluginEngine::getURL($this, ['cid' => $courseId], 'settings', true);
+            $navigation->addSubNavigation('settings', new Navigation(_('Einstellungen'), $settingsURL));
+        }
 
         return ['studipad' => $navigation];
     }
@@ -157,6 +171,10 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         return $metadata;
     }
 
+    /**
+     * @param string|null $courseId
+     * @return void
+     */
     public function expireLastEditCache($courseId = null)
     {
         if ($courseId === null) {
