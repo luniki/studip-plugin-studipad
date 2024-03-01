@@ -309,6 +309,7 @@ class PadsController extends StudipController
         if (!$fileRef) {
             // Fehler werden schon beim Methodenaufruf über PageLayout::postError notiert.
             $this->redirect($this->group->isStatusgruppenGroup() ? 'pads/groups' : 'pads/index');
+            return;
         }
 
         $url = \URLHelper::getLink(
