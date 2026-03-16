@@ -1,57 +1,64 @@
 <?php
+/**
+ * @var PadsController $controller
+ * @var EtherpadPlugin\Pad $pad
+ * @var callable $_
+ */
+?>
+<?php
     $controls = $pad->getControls();
 ?>
-<form class="default studipad-settings" action="<?= $controller->url_for('pads/store_settings') ?>" method="POST">
+<form class="default studipad-settings" action="<?= $controller->store_settings() ?>" method="POST">
     <fieldset>
-        <legend><?= dgettext('studipad', 'Etherpad Toolbar') ?></legend>
+        <legend><?= $_('Etherpad Toolbar') ?></legend>
 
         <label class="checkbox">
             <input type="checkbox" name="showControls" value="true" data-activates=".subcontrol"
                    <?= $controls['showControls'] ? ' checked' : '' ?>>
-            <?= dgettext('studipad', 'Kontrollelemente anzeigen') ?>
+            <?= $_('Kontrollelemente anzeigen') ?>
         </label>
 
         <? $disabled = $controls['showControls'] ? '' : ' disabled ' ?>
 
         <label class="checkbox"<?= $disabled?>>
             <input type="checkbox" name="showColorBlock" value="true" class="subcontrol"
-                   <?= ($controls['showColorBlock'] && $controls['showControls']) ? 'checked' : '' ?>
+                   <?= $controls['showColorBlock'] && $controls['showControls'] ? 'checked' : '' ?>
                    <?= $disabled?>>
-            <?= dgettext('studipad', 'Farbsteuerelemente anzeigen') ?>
+            <?= $_('Farbsteuerelemente anzeigen') ?>
         </label>
 
         <label class="checkbox "<?= $disabled ?>>
             <input type="checkbox" name="showImportExportBlock" value="true" class="subcontrol"
-                   <?= ($controls['showImportExportBlock'] && $controls['showControls']) ? ' checked' : '' ?>
+                   <?= $controls['showImportExportBlock'] && $controls['showControls'] ? ' checked' : '' ?>
                    <?= $disabled ?>>
-            <?= dgettext('studipad', 'Import-/Exportelemente ein- oder ausblenden') ?>
+            <?= $_('Import-/Exportelemente ein- oder ausblenden') ?>
         </label>
 
         <label class="checkbox">
             <input type="checkbox" name="showChat" value="true"
-                   <?= ($controls['showChat'] && $controls['showControls']) ? ' checked' : '' ?>
+                   <?= $controls['showChat'] && $controls['showControls'] ? ' checked' : '' ?>
                    <?= $disabled ?>>
-            <?= dgettext('studipad', 'Chat anzeigen') ?>
+            <?= $_('Chat anzeigen') ?>
         </label>
 
         <label class="checkbox">
             <input type="checkbox" name="showLineNumbers" value="true"
-                   <?= ($controls['showLineNumbers'] && $controls['showControls']) ? ' checked' : '' ?>
+                   <?= $controls['showLineNumbers'] && $controls['showControls'] ? ' checked' : '' ?>
                    <?= $disabled ?>>
-            <?= dgettext('studipad', 'Zeilennummern anzeigen') ?>
+            <?= $_('Zeilennummern anzeigen') ?>
         </label>
 
     </fieldset>
 
     <footer data-dialog-button>
-        <?= \Studip\Button::createAccept(dgettext('studipad', 'Speichern')) ?>
-        <?= \Studip\LinkButton::createCancel(dgettext('studipad', 'Abbrechen'), $controller->url_for('')) ?>
+        <?= \Studip\Button::createAccept($_('Speichern')) ?>
+        <?= \Studip\LinkButton::createCancel($_('Abbrechen'), $controller->url_for('')) ?>
     </footer>
 
     <input type="hidden" name="pad" value="<?= htmlReady($pad->getName()) ?>">
     <input type="hidden" name="range" value="<?= htmlReady($pad->getGroup()->getRangeId()) ?>">
 
-    <? if (\Request::submitted('list')) { ?>
-        <input type="hidden" name="list" value="1">
-    <? } ?>
+<? if (Request::submitted('list')): ?>
+    <input type="hidden" name="list" value="1">
+<? endif; ?>
 </form>

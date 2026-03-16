@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var PadsController $controller
+ */
+?>
 <iframe id="etherpad" src="<?= $controller->getPadLink('open') ?>" style="width:100%; min-width: 50vh; border: none;"></iframe>
 <script>
 jQuery(window).on('message onmessage', function (e) {

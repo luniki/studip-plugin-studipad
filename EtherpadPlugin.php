@@ -6,8 +6,6 @@
  */
 class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
 {
-    /** @var ?\Flexi_TemplateFactory */
-    protected $templateFactory;
     /** @var ?\EtherpadLite\Client */
     protected $eplClient = null;
 
@@ -19,7 +17,6 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         parent::__construct();
 
         require __DIR__ . '/vendor/autoload.php';
-        bindtextdomain('studipad', dirname(__FILE__) . '/locale');
     }
 
     /**
@@ -35,14 +32,12 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      */
     protected function eplclientInit()
     {
-        if (!$this->eplClient) {
-            try {
-                $this->eplClient = new \EtherpadLite\Client(
-                    \Config::get()->getValue('STUDIPAD_APIKEY'),
-                    rtrim((string) \Config::get()->getValue('STUDIPAD_APIURL'), '/')
-                );
-            } catch (Exception $ex) {
-            }
+        try {
+            $this->eplClient ??= new \EtherpadLite\Client(
+                \Config::get()->getValue('STUDIPAD_APIKEY'),
+                rtrim((string) \Config::get()->getValue('STUDIPAD_APIURL'), '/')
+            );
+        } catch (Exception $ex) {
         }
 
         return isset($this->eplClient);
@@ -59,14 +54,14 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      *
      * @return ?object navigation item to render or NULL
      */
-    public function getIconNavigation($courseId, $lastVisit, $userId = null)
+    public function getIconNavigation($course_id, $last_visit, $user_id = null)
     {
-        if (!$lastVisit) {
+        if (!$last_visit) {
             return $this->createIconNavigation(false);
         }
 
-        $cache = \StudipCacheFactory::getCache();
-        $cacheKey = self::CACHE_KEY_SUFFIX . $courseId;
+        $cache = Studip\Cache\Factory::getCache();
+        $cacheKey = self::CACHE_KEY_SUFFIX . $course_id;
         $lastEdit = $cache->read($cacheKey);
 
         if ($lastEdit === false) {
@@ -75,11 +70,11 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
                     return null;
                 }
 
-                $lastEdit = $this->getLastEdit($courseId);
+                $lastEdit = $this->getLastEdit($course_id);
 
                 // problems getting $lastEdit, just pretend there aren't any
                 if ($lastEdit === null) {
-                    $lastEdit = $lastVisit;
+                    $lastEdit = $last_visit;
                 } else {
                     $cache->write($cacheKey, $lastEdit, 5 * 60);
                 }
@@ -88,12 +83,12 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
             }
         }
 
-        return $this->createIconNavigation($lastEdit >= $lastVisit);
+        return $this->createIconNavigation($lastEdit >= $last_visit);
     }
 
-    public function getTabNavigation($courseId)
+    public function getTabNavigation($course_id)
     {
-        $url = PluginEngine::getURL($this, ['cid' => $courseId], '', true);
+        $url = PluginEngine::getURL($this, ['cid' => $course_id], '', true);
         $navigation = new Navigation('Etherpad', $url);
 
         $icon = Icon::create($this->getPluginURL() . '/images/icons/EPedit.svg', \Icon::ROLE_INACTIVE, [
@@ -104,11 +99,11 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
 
         $navigation->addSubNavigation('index', new Navigation(_('Übersicht'), $url));
 
-        $groupURL = PluginEngine::getURL($this, ['cid' => $courseId], 'pads/groups', true);
+        $groupURL = PluginEngine::getURL($this, ['cid' => $course_id], 'pads/groups', true);
         $navigation->addSubNavigation('groups', new Navigation(_('Gruppen'), $groupURL));
 
-        if ($GLOBALS['perm']->have_studip_perm('tutor', $courseId)) {
-            $settingsURL = PluginEngine::getURL($this, ['cid' => $courseId], 'settings', true);
+        if ($GLOBALS['perm']->have_studip_perm('tutor', $course_id)) {
+            $settingsURL = PluginEngine::getURL($this, ['cid' => $course_id], 'settings', true);
             $navigation->addSubNavigation('settings', new Navigation(_('Einstellungen'), $settingsURL));
         }
 
@@ -127,28 +122,16 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
      *
      * @return ?object navigation item to render or NULL
      */
-    public function getInfoTemplate($courseId)
+    public function getInfoTemplate($course_id)
     {
         return null;
     }
 
-    /**
-     * This method dispatches all actions.
-     *
-     * @param string $unconsumedPath part of the dispatch path that was not consumed
-     */
-    public function perform($unconsumedPath)
+    public function registerSlimRoutes(\Slim\Interfaces\RouteCollectorProxyInterface $app, string $unconsumed_path): void
     {
-        $args = explode('/', $unconsumedPath);
+        $this->addStylesheet('stylesheets/studipad.scss');
 
-        $trailsRoot = $this->getPluginPath();
-        /** @var string $link */
-        $link = PluginEngine::getLink($this, [], null, true);
-        $trailsUri = rtrim($link, '/');
-
-        $dispatcher = new Trails_Dispatcher($trailsRoot, $trailsUri, 'pads');
-        $dispatcher->plugin = $this;
-        $dispatcher->dispatch($unconsumedPath);
+        parent::registerSlimRoutes($app, $unconsumed_path ?: 'pads');
     }
 
     public function getMetadata()
@@ -156,16 +139,14 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         $metadata = parent::getMetadata();
         $metadata['pluginname'] = dgettext('studipad', 'EtherpadPlugin');
         $metadata['displayname'] = dgettext('studipad', 'Etherpad');
-        $metadata['description'] = dgettext(
-            'studipad',
+        $metadata['description'] = dgettext('studipad',
             'Gemeinsam Texte erstellen und die Texterstellung koordinieren'
         );
-        $metadata['descriptionlong'] = dgettext(
-            'studipad',
+        $metadata['summary'] = $metadata['description'];
+        $metadata['descriptionlong'] = dgettext('studipad',
             'Mit diesem Plugin können Sie allein oder mit vielen Menschen gleichzeitig Texte bearbeiten. Alle Teilnehmende der Veranstaltung können lesen und schreiben.'
         );
-        $metadata['keywords'] = dgettext(
-            'studipad',
+        $metadata['keywords'] = dgettext('studipad',
             'Echt gleichzeitiges Arbeiten: Mehrere Personen können zur gleichen Zeit bearbeiten, alle sehen die Änderungen sofort.;Versionshistorie: Keine Änderung geht verloren, benutzen Sie das Uhr-Symbol oben.;Zwischenstände speichern: Im Menu links können sie den "aktuellen Inhalt sichern", der dann als PDF-Datei im Dateibereich landet.;Beliebig viele Pads pro Veranstaltung;Weltweiter Zugriff möglich: Im Menü links können Sie das Pad veröffentlichen und die dann angezeigte URL weitergeben.'
         );
         return $metadata;
@@ -180,7 +161,7 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
         if ($courseId === null) {
             $courseId = \Context::getId();
         }
-        $cache = \StudipCacheFactory::getCache();
+        $cache = Studip\Cache\Factory::getCache();
         $cacheKey = self::CACHE_KEY_SUFFIX . $courseId;
         $cache->expire($cacheKey);
     }
@@ -188,8 +169,8 @@ class EtherpadPlugin extends StudIPPlugin implements StandardPlugin
     private function createIconNavigation($isFresh)
     {
         $iconTitle = $isFresh
-            ? dgettext('studipad', 'Etherpad-Plugin mit neuen Inhalten')
-            : dgettext('studipad', 'Etherpad-Plugin');
+            ? $this->_('Etherpad-Plugin mit neuen Inhalten')
+            : $this->_('Etherpad-Plugin');
         $iconNavigation = new \Navigation('Etherpad', \PluginEngine::getURL($this, [], ''));
         $iconNavigation->setImage(
             \Icon::create(

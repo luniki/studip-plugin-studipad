@@ -1,21 +1,28 @@
+<?php
+/**
+ * @var EtherpadPlugin\Group $group
+ * @var PadsController $controller
+ * @var callable $_
+ */
+?>
 <? $pads = $group->getPads(); ?>
 
 <? if (count($pads)) { ?>
 
 <table class="default studipad-pads-index">
     <colgroup>
-        <col width="50%" />
-        <col width="30%" />
-        <col width="10%" />
-        <col width="10%" />
+        <col style="width: 50%" />
+        <col style="width: 30%" />
+        <col style="width: 10%" />
+        <col style="width: 10%" />
     </colgroup>
 
     <thead>
         <tr>
-            <th><?= dgettext('studipad', 'Name des Pads') ?></th>
-            <th><?= dgettext('studipad', 'öffentliche URL') ?></th>
-            <th><?= dgettext('studipad', 'letzte Änderung') ?></th>
-            <th class="actions"><?= $group->canAdmin() ? dgettext('studipad', 'Aktionen') : '' ?></th>
+            <th><?= $_('Name des Pads') ?></th>
+            <th><?= $_('öffentliche URL') ?></th>
+            <th><?= $_('letzte Änderung') ?></th>
+            <th class="actions"><?= $group->canAdmin() ? $_('Aktionen') : '' ?></th>
         </tr>
     </thead>
 
@@ -26,10 +33,10 @@
 
 <? } else { ?>
     <section>
-        <p> <?= dgettext('studipad', 'Diese Gruppe enthält noch keine Pads.') ?> </p>
+        <p> <?= $_('Diese Gruppe enthält noch keine Pads.') ?> </p>
         <?php if ($group->canAdmin()) { ?>
             <?= \Studip\LinkButton::createAdd(
-                dgettext('studipad', 'Neues Pad anlegen'),
+                $_('Neues Pad anlegen'),
                 $controller->url_for('pads/new', ['range' => $group->getRangeId()]),
                 ['data-dialog' => 'reload-on-close;size=auto']
             ) ?>

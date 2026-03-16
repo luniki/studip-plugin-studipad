@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee680a790ca86313ef6ca4b1979d0f98",
+    "content-hash": "2397f49534bd24c544ce16c6e4b3ee4b",
     "packages": [
         {
             "name": "tomnomnom/etherpad-lite-client",
@@ -45,10 +45,13 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform": {
+        "php": "^8.1",
+        "ext-gettext": "*"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

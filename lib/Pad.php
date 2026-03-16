@@ -7,29 +7,14 @@ use Statusgruppen;
 
 class Pad
 {
-    /** @var Client */
-    private $client;
-
-    /** @var Group */
-    private $group;
-
-    /** @var string */
-    private $id;
-
-    /**
-     * @param Client $client
-     * @param Group $group
-     * @param string $id
-     */
-    public function __construct($client, $group, $id)
-    {
+    public function __construct(
+        private readonly Client $client,
+        private readonly Group  $group,
+        private readonly string $id
+    ) {
         if (!self::validateId($id)) {
             throw new \InvalidArgumentException('Invalid pad ID: "' . $id . '".');
         }
-
-        $this->client = $client;
-        $this->id = $id;
-        $this->group = $group;
     }
 
     /**

@@ -2,8 +2,10 @@
     "license": "GPL-2.0+",
     "name": "elan-ev/studip-plugin-studipad",
     "require": {
-        "php": "^7.0",
-        "tomnomnom/etherpad-lite-client": "0.1.2"
+        "php": "^8.1",
+        "tomnomnom/etherpad-lite-client": "0.1.2",
+        "ext-gettext": "*",
+        "ext-mbstring": "*"
     },
     "autoload": {
         "psr-4": {
