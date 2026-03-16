@@ -1,18 +1,25 @@
-<form action="<?= $controller->url_for('settings/store') ?>" method="post" class="default">
-    <?= \CSRFProtection::tokenTag() ?>
+<?php
+/**
+ * @var SettingsController $controller
+ * @var array $settings
+ * @var callable $_
+ */
+?>
+<form action="<?= $controller->store() ?>" method="post" class="default">
+    <?= CSRFProtection::tokenTag() ?>
 
     <fieldset>
-        <label><?= dgettext('studipad', 'Wer darf Gruppen-Pads verwalten?') ?></label>
+        <legend><?= $_('Wer darf Gruppen-Pads verwalten?') ?></legend>
 
         <label>
             <input type="radio" name="settings[statusgruppen_admin_permission]" value="tutor"
                 <? if ($settings['statusgruppen_admin_permission'] === 'tutor') echo 'checked'; ?>>
-            <?= dgettext('studipad', 'Lehrende und Tutor:innen') ?>
+            <?= $_('Lehrende und Tutor:innen') ?>
         </label>
         <label>
             <input type="radio" name="settings[statusgruppen_admin_permission]" value="autor"
                 <? if ($settings['statusgruppen_admin_permission'] === 'autor') echo 'checked'; ?>>
-            <?= dgettext('studipad', 'Alle Mitglieder der Gruppe') ?>
+            <?= $_('Alle Mitglieder der Gruppe') ?>
         </label>
     </fieldset>
 

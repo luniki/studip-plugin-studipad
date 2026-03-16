@@ -1,0 +1,75 @@
+#etherpad-plugin {
+    #content {
+        font-size: initial;
+    }
+
+    table.default {
+        margin: 0;
+        padding: 0;
+    }
+
+    form.studipad-new-pad {
+        margin-top: 3em;
+    }
+
+    .studipad-settings {
+        label.checkbox {
+            font-weight: 400 !important;
+
+            cursor: pointer;
+            display: inline-block;
+            line-height: 1.25;
+            position: relative;
+        }
+
+        label.checkbox input {
+            cursor: pointer;
+        }
+
+        label.checkbox[disabled] {
+            color: var(--dark-gray-color-80);
+            cursor: not-allowed;
+        }
+    }
+
+    .studipad-new-content {
+        color: var(--red);
+    }
+
+    .studipad-pads-index {
+        td > a {
+            display: block;
+        }
+        .studipad-pad-name {
+            padding-right: 1em;
+        }
+    }
+
+    .studipad-badge {
+        display: inline-block;
+        padding: 0.35em 0.65em;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--white);
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+
+    .studipad-bg-attention {
+        background-color: var(--active-color);
+    }
+
+    .studipad-bg-primary {
+        background-color: var(--brand-color-darker);
+    }
+
+    .studipad-bg-secondary {
+        background-color: var(--brand-color-light);
+    }
+}

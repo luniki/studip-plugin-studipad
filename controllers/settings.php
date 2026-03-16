@@ -1,57 +1,41 @@
 <?php
 
-use EtherpadPlugin\Foo;
-
 /**
- * @property \RangeConfig $config
+ * @property EtherpadPlugin $plugin
+ * @property RangeConfig $config
  * @property array<string,string> $settings
  */
 // phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
-class SettingsController extends StudipController
+class SettingsController extends PluginController
 {
-    /** @var \EtherpadPlugin */
-    public $plugin;
-
-    public function __construct(Trails_Dispatcher $dispatcher)
-    {
-        parent::__construct($dispatcher);
-        $this->plugin = $dispatcher->plugin;
-    }
-
     /**
      * @param string   $action
      * @param string[] $args
-     *
-     * @return void|bool
      */
     // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
 
-        if (!\Context::getId()) {
-            throw new \AccessDeniedException();
+        if (!Context::getId()) {
+            throw new AccessDeniedException();
         }
 
-        $this->set_layout($GLOBALS['template_factory']->open(\Request::isXhr() ? 'layouts/dialog' : 'layouts/base'));
+        $this->set_layout($GLOBALS['template_factory']->open(Request::isXhr() ? 'layouts/dialog' : 'layouts/base'));
         $this->setPageTitle();
         PageLayout::setHelpKeyword('Basis.EtherpadPlugin');
-        PageLayout::addStylesheet($this->plugin->getPluginURL() . '/stylesheets/studipad.css');
-        \PageLayout::setBodyElementId('etherpad-plugin');
+        PageLayout::setBodyElementId('etherpad-plugin');
 
-        $this->config = \CourseConfig::get(\Context::getId());
+        $this->config = Context::get()->getConfiguration();
     }
 
-    /**
-     * @return void
-     */
     // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public function index_action()
+    public function index_action(): void
     {
         $this->requireTutor();
 
-        if (\Navigation::hasItem('/course/studipad/settings')) {
-            \Navigation::activateItem('/course/studipad/settings');
+        if (Navigation::hasItem('/course/studipad/settings')) {
+            Navigation::activateItem('/course/studipad/settings');
         }
 
         $this->settings = [
@@ -59,30 +43,26 @@ class SettingsController extends StudipController
         ];
     }
 
-    /**
-     * @return void
-     */
     // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public function store_action()
+    public function store_action(): void
     {
         $this->requireTutor();
-        \CSRFProtection::verifyUnsafeRequest();
+        CSRFProtection::verifyUnsafeRequest();
 
-        if (\Navigation::hasItem('/course/studipad/settings')) {
-            \Navigation::activateItem('/course/studipad/settings');
+        if (Navigation::hasItem('/course/studipad/settings')) {
+            Navigation::activateItem('/course/studipad/settings');
         }
 
-        $settings = \Request::getArray('settings');
+        $settings = Request::getArray('settings');
 
         if (!in_array($settings['statusgruppen_admin_permission'], ['tutor', 'autor'])) {
-            throw new \Trails_Exception(400);
+            throw new Trails_Exception(400);
         }
 
         $this->config->store('STUDIPAD_STATUSGRUPPEN_ADMIN_PERMISSION', $settings['statusgruppen_admin_permission']);
 
-        \PageLayout::postSuccess(
-            dgettext(
-                'studipad',
+        PageLayout::postSuccess(
+            $this->_(
                 'Die veranstaltungsbezogene Berechtigung zur Verwaltung von Gruppen-Pads wurde geändert!'
             )
         );
@@ -91,48 +71,21 @@ class SettingsController extends StudipController
 
     // #########################################################################
 
-    /**
-     * @param string $to
-     * @return string
-     */
-    // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    public function url_for($to = '')
+    private function setPageTitle(): void
     {
-        $args = func_get_args();
+        $title = $this->_('%1$s - Etherpad-Einstellungen');
 
-        // find params
-        $params = [];
-        if (is_array(end($args))) {
-            $params = array_pop($args);
-        }
-
-        // urlencode all but the first argument
-        $args = array_map('urlencode', $args);
-        $args[0] = $to;
-
-        return \PluginEngine::getURL($this->dispatcher->plugin, $params, implode('/', $args));
+        PageLayout::setTitle(sprintf($title, Context::getHeaderLine()));
     }
 
     /**
-     * @return void
+     * @throws AccessDeniedException
      */
-    private function setPageTitle()
+    private function requireTutor(): void
     {
-        $title = dgettext('studipad', '%1$s - Etherpad-Einstellungen');
-
-        PageLayout::setTitle(sprintf($title, \Context::getHeaderLine()));
-    }
-
-    /**
-     * @throws \AccessDeniedException
-     *
-     * @return void
-     */
-    private function requireTutor()
-    {
-        $cid = \Context::getId();
+        $cid = Context::getId();
         if (!$GLOBALS['perm']->have_studip_perm('tutor', $cid)) {
-            throw new \AccessDeniedException();
+            throw new AccessDeniedException();
         }
     }
 }
