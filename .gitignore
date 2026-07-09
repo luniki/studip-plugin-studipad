@@ -1,3 +1,4 @@
-
 /locale/en/LC_MESSAGES/studipad.mo.old
 /locale/en/LC_MESSAGES/studipad.po.old
+/vendor
+/node_modules/
