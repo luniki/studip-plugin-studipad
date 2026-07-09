@@ -13,6 +13,6 @@
         }
     },
     "scripts": {
-        "zip": "zip -r studip-plugin-studipad.zip compileTranslation composer.json composer.lock controllers EtherpadPlugin.class.php extractTranslationStrings images js lib LICENSE locale migrations plugin.manifest README.md screenshot.jpg stylesheets vendor views -x '*/.git/*'"
+        "zip": "zip -r studip-plugin-studipad.zip compileTranslation composer.json composer.lock controllers EtherpadPlugin.php extractTranslationStrings images js lib LICENSE locale migrations plugin.manifest README.md screenshot.jpg stylesheets vendor views -x '*/.git/*'"
     }
 }
